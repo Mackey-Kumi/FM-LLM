@@ -1,0 +1,15 @@
+{
+  "id": "mackeykumi/fm-llm-etth1-full-train-t4x2",
+  "title": "FM-LLM ETTh1 full train T4x2",
+  "code_file": "kaggle_train_full.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "machine_shape": "NvidiaTeslaT4",
+  "dataset_sources": ["mackeykumi/fm-llm-hf-token"],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}

@@ -2,25 +2,31 @@
 
 Reproduction of *FM-LLM: A frequency-enhanced mixture-of-experts framework for
 adapting LLMs to time series forecasting* (Gu et al., Knowledge-Based Systems,
-2026), starting from a small prototype notebook and building toward the full
-paper: Fourier Embedding Module, FAN-MoE decoder with load-balanced routing,
-hybrid time-frequency loss, and evaluation across all 11 benchmark datasets.
+2026): Fourier Embedding Module, FAN-MoE decoder with load-balanced routing,
+hybrid time-frequency loss.
 
-## Environment situation (read this first)
+## Status
 
-This machine has **no NVIDIA GPU** (integrated Intel graphics only) and
-**~12GB free disk**. Two environments are used together:
+ETTh1 (input=672, predict=96) is trained and evaluated end-to-end:
 
-| | This machine (local) | Colab (remote) |
-|---|---|---|
-| Role | Code editing, git, tiny CPU smoke tests | Actual training/eval |
-| Python env | `.venv/` via `uv`, CPU-only torch | GPU torch, installed fresh each session |
-| Storage | Code only | Google Drive (`MyDrive/fm_llm/`) for data/checkpoints/HF cache |
+- Full training run (batch=256, matching the paper's Table 2) on Kaggle's
+  T4x2, 16 epochs, early-stopped at best val_loss=1.0228.
+- Real test-set evaluation: **MSE=0.4911, MAE=0.4729** vs. the paper's
+  0.342/0.380 (Table A.12) — right ballpark for a first pass, no dropout or
+  hyperparameter tuning yet.
 
-See [`colab/README.md`](colab/README.md) for the full VS Code ⇄ Colab GPU
-workflow (SSH tunnel via `colab-ssh`/ngrok, Drive-backed persistent storage).
+Next: add dropout (paper Table 2 specifies 0.2, currently missing), try
+gradient checkpointing (paper reports ~6GB training memory on a single GPU;
+we needed ~12-15GB per GPU on Kaggle's T4x2 — checkpointing might let this
+run on one GPU instead of two), re-measure, and only then extend to the
+remaining 10 benchmark datasets.
 
-## Local setup
+## Environment
+
+This machine has **no NVIDIA GPU**. All real training/eval runs on Kaggle
+(script kernels, pushed via CLI — see [`kaggle/README.md`](kaggle/README.md)
+for the full workflow). This machine is for code editing, git, and tiny CPU
+smoke tests only.
 
 ```powershell
 uv sync          # creates .venv/ and installs CPU-only deps
@@ -30,27 +36,24 @@ uv run python -c "import torch; print(torch.__version__, torch.cuda.is_available
 Select `.venv/Scripts/python.exe` as the VS Code interpreter (already set as
 default in `.vscode/settings.json`).
 
-Copy `.env.example` to `.env` and fill in your Hugging Face token (`.env` is
-gitignored — never commit it).
+Copy `.env.example` to `.env` and fill in `HF_TOKEN` (Hugging Face) and
+`KAGGLE_API_TOKEN` (Kaggle, see `kaggle/README.md`) — `.env` is gitignored,
+never commit it.
 
 ## Project layout
 
 ```
-src/fm_llm/
-  data/       # dataset loading, patch tokenization (Table 1 datasets)
-  models/     # Fourier embedding module, FAN-MoE decoder, LLM backbone wrapper
-  losses/     # hybrid time-frequency loss, sequence-wise balance loss
-  training/   # training loop, autoregressive rollout
-configs/      # per-dataset hyperparameters (Table 2)
-scripts/      # CLI entry points (train, evaluate, download data)
-notebooks/    # 00_prototype_forward_pass.ipynb — the original toy forward-pass demo
-colab/        # Colab GPU bootstrap + VS Code Remote-SSH connection kit
+kaggle/
+  README.md       # full Kaggle CLI workflow (push/poll/pull, one-time setup)
+  datasets/        # private Kaggle datasets we maintain (HF token, checkpoint)
+  experiments/      # one script kernel per experiment, numbered in run order
 tests/
-data/, checkpoints/, outputs/   # gitignored — populated locally or on Drive
+data/, checkpoints/, outputs/   # gitignored — populated locally or pulled from Kaggle
 ```
 
-## Status
-
-Environment is set up and verified (this step). The prototype notebook in
-`notebooks/` is a toy forward-pass demo, not yet the paper's actual
-architecture — that's the next phase of work.
+Every experiment's source lives entirely under `kaggle/experiments/` — there
+is no separate local `src/` package. Each experiment folder is a
+self-contained, faithful port of the paper's equations (Fourier Embedding
+Module Eq. 9-11, FAN-MoE decoder Eq. 13-18, hybrid loss Eq. 19-23); later
+experiments reuse the same architecture code rather than importing from
+earlier ones, since each runs as an independent Kaggle kernel.
