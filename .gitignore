@@ -45,3 +45,6 @@ Thumbs.db
 .vscode/*
 !.vscode/settings.json
 !.vscode/extensions.json
+
+# Internal-use-only planning docs (superpowers skill specs/plans)
+docs/superpowers/
