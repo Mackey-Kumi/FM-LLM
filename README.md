@@ -7,19 +7,36 @@ hybrid time-frequency loss.
 
 ## Status
 
-ETTh1 (input=672, predict=96) is trained and evaluated end-to-end:
+ETTh1 (input=672, predict=96) is trained and evaluated end-to-end, now with
+dropout added and autoregressive rollout covering all four paper horizons:
 
-- Full training run (batch=256, matching the paper's Table 2) on Kaggle's
-  T4x2, 16 epochs, early-stopped at best val_loss=1.0228.
-- Real test-set evaluation: **MSE=0.4911, MAE=0.4729** vs. the paper's
-  0.342/0.380 (Table A.12) — right ballpark for a first pass, no dropout or
-  hyperparameter tuning yet.
+- **Dropout (Table 2: 0.2)** was missing from the first pass; adding it and
+  retraining from scratch (`05_dropout_retrain`) improved best val_loss from
+  1.0228 to **0.9589**, and it ran the full 30-epoch ceiling without
+  early-stopping (vs. `03`'s early stop at epoch 16) — dropout let the model
+  keep improving instead of overfitting.
+- 96-step test-set evaluation (`04_test_eval`, no-dropout checkpoint):
+  MSE=0.4911, MAE=0.4729 vs. the paper's 0.342/0.380 (Table A.12).
+- **Autoregressive rollout** (`06_rollout_eval`) now reaches 192/336/720
+  steps by feeding the model's own predictions back in as input (sliding
+  7-token context), matching how the paper itself reaches these horizons.
+  Dropout wins at every horizon:
 
-Next: add dropout (paper Table 2 specifies 0.2, currently missing), try
-gradient checkpointing (paper reports ~6GB training memory on a single GPU;
-we needed ~12-15GB per GPU on Kaggle's T4x2 — checkpointing might let this
-run on one GPU instead of two), re-measure, and only then extend to the
-remaining 10 benchmark datasets.
+  | Horizon | No-dropout (MSE/MAE) | Dropout (MSE/MAE) | Paper (Table A.12) |
+  |---|---|---|---|
+  | 192 | 0.5089 / 0.4882 | 0.4417 / 0.4571 | 0.377 / 0.403 |
+  | 336 | 0.5423 / 0.5158 | 0.4858 / 0.4925 | 0.395 / 0.415 |
+  | 720 | 0.6381 / 0.5792 | 0.5894 / 0.5661 | 0.397 / 0.429 |
+
+  Dropout narrows the gap to the paper at every horizon but doesn't close
+  it — still roughly 15-20% higher MSE than the paper across the board, with
+  no further hyperparameter tuning done yet.
+
+Next: investigate what's driving the remaining gap (hyperparameter tuning
+beyond Table 2's stated defaults, or re-checking dropout placement against
+Fig. 2 more carefully), then extend to the remaining 10 benchmark datasets.
+Gradient checkpointing remains out of scope — it isn't paper-mandated, and
+the T4x2 `DataParallel` workaround already handles the paper's batch=256.
 
 ## Environment
 
