@@ -1,5 +1,5 @@
 {
-  "id": "mackeykumi/fm-llm-etth1-instnorm-retrain-t4x2",
+  "id": "mackeykumi/fm-llm-etth1-instance-norm-retrain-t4x2",
   "title": "FM-LLM ETTh1 instance-norm retrain T4x2",
   "code_file": "kaggle_train_full.py",
   "language": "python",
