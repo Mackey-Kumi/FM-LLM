@@ -54,6 +54,7 @@ push — the push output tells you the actual URL if so; update `id` to match).
 | `08_rollout_eval_longer` | Does `07`'s marginal val_loss gain translate to a bigger rollout gain? | Yes, more than expected — MSE improves 2.8%/4.5%/8.0% at 192/336/720 over `05`'s checkpoint, growing with horizon. Surfaced that our rollout error still grows much faster across horizons (+26%, 192→720) than the paper's (+5%) even on the best checkpoint. ~40min, three checkpoints |
 | `09_instance_norm_retrain` | Does per-window (instance) normalization on top of dropout fix the horizon-growth problem? | Best val_loss=0.9401, early-stopped faster too (epoch 26 vs. `07`'s 35). ~3h30min — faster **and** better than `07`. Checkpoint saved to `datasets/checkpoint/etth1_96_instnorm_best.pt` |
 | `10_rollout_eval_instnorm` | Does it hold up at the rollout horizons? | Yes, decisively — best result by far. See the four-way table below. ~46min, four checkpoints |
+| `11_app_forecasts` | Precompute forecasts for the GridForecast demo app | Same rollout as `10`, all four checkpoints; saves every 24th window's 720-step forecast to `forecasts.npz` (copy to `app/precomputed/`) and re-prints the full-test MSE/MAE as a cross-check |
 
 | Horizon | no_dropout | dropout | dropout_longer | instnorm | Paper (Table A.12) |
 |---|---|---|---|---|---|

@@ -1,71 +1,87 @@
 # GridForecast App
 
-Electricity Demand Forecasting Application built on FM-LLM (Frequency-Enhanced Mixture-of-Experts for Time Series Forecasting).
+Transformer load & oil-temperature forecasting built on FM-LLM
+(Frequency-Enhanced Mixture-of-Experts for Time Series Forecasting), using
+the ETTh1 power-transformer dataset: 28 days of hourly history in, up to 30
+days of hourly forecasts out.
 
 ## Features
 
-- **Live Forecast Dashboard**: Generate forecasts for 96h, 192h, 336h, 720h horizons
-- **Scenario Simulator**: Modify input channels (temperature, load) and see forecast impact
-- **Backtest & Metrics**: Walk-forward evaluation with comparison to paper benchmarks
-- **Alerts & Monitoring**: Threshold and anomaly detection on forecasts
-- **Model Explorer**: Architecture details and checkpoint comparison
+- **Forecast**: 96h / 192h / 336h / 720h forecasts against actuals, with real dates and units
+- **Scenario Simulator**: scale the last 96h of any channel and see how the forecast responds (live mode)
+- **Backtest & Metrics**: walk-forward evaluation, plus the full-test-set results vs. the paper
+- **Alerts**: forecast breaches of an upper/lower limit (e.g. oil overheating), checked against what actually happened
+- **Model Explorer**: architecture and checkpoint comparison
+
+## How forecasts are served
+
+| Mode | Needs | Speed |
+|------|-------|-------|
+| **Precomputed** | `app/precomputed/forecasts.npz` only | Instant, fully offline |
+| **Live** | checkpoint `.pt` files in `kaggle/datasets/checkpoint/` + `HF_TOKEN` (Llama-3.2-1B) | ~seconds per forecast on CPU; Llama loads on first use |
+
+A window is served from the precomputed file when it's there, and runs live
+otherwise. The Scenario Simulator always runs live. **For a demo, use
+precomputed forecasts** so nothing depends on downloads or the network.
 
 ## Quick Start
 
-### 1. Install Dependencies
+All commands run from the **repo root**.
+
+### 1. Install dependencies
 
 ```bash
-cd app
-uv pip install -r requirements.txt
-# or: pip install -r requirements.txt
+uv pip install -r app/requirements.txt   # or: pip install -r app/requirements.txt
 ```
 
-### 2. Prepare Backbone Cache (One-time, ~10-20 min)
+### 2. Get forecasts to serve (one-time)
 
-This downloads Llama-3.2-1B (requires HF_TOKEN in `.env`) and pre-computes backbone outputs for all test windows.
+**Option A: Kaggle GPU (recommended, ~1h on T4)**: runs every test window for all
+four checkpoints, keeps one window per day (91 windows), and re-prints the full
+test-set MSE/MAE as a check against experiment 10:
 
 ```bash
-python -m app.precache_backbone
+cd kaggle/experiments/11_app_forecasts
+kaggle kernels push -p .
+kaggle kernels status mackeykumi/fm-llm-etth1-app-forecasts   # until COMPLETE
+kaggle kernels output mackeykumi/fm-llm-etth1-app-forecasts -p ./output -o
+mkdir -p ../../../app/precomputed && cp output/forecasts.npz ../../../app/precomputed/
 ```
 
-> **Note**: Requires `HF_TOKEN` in `.env` with access to `meta-llama/Llama-3.2-1B`. The model is gated on Hugging Face.
-
-### 3. Run the Application
+**Option B: locally** (needs the checkpoint `.pt` files + `HF_TOKEN`; slower on CPU):
 
 ```bash
-# Option A: Run both API and UI together
-python -m app.main
+python -m app.precompute_forecasts                      # all checkpoints, every 24th window
+python -m app.precompute_forecasts --checkpoints instnorm --stride 48   # quicker
+```
 
-# Option B: Run separately
-# Terminal 1: API
-python -m uvicorn app.api.main:app --reload --port 8000
+For live mode (scenarios), also copy the checkpoint `.pt` files into
+`kaggle/datasets/checkpoint/` and put `HF_TOKEN=...` in `.env`.
 
-# Terminal 2: UI
+### 3. Run the application
+
+```bash
+python -m app.main          # starts the API, waits until it's healthy, then the UI
+
+# or separately:
+python -m uvicorn app.api.main:app --port 8000
 streamlit run app/ui/main.py
 ```
 
-Then open: **http://localhost:8501**
+Then open **http://localhost:8501**.
 
 ## Project Structure
 
 ```
 app/
-├── main.py                 # Entry point (runs API + UI)
-├── requirements.txt        # Dependencies
-├── README.md              # This file
-├── inference.py           # Core inference engine (FM-LLM + cached backbone)
-├── precache_backbone.py   # Pre-compute backbone outputs
-├── download_model.py      # Download GGUF model (alternative)
-├── test_engine.py         # Quick test script
-├── api/
-│   ├── __init__.py
-│   └── main.py            # FastAPI backend
-├── ui/
-│   ├── __init__.py
-│   └── main.py            # Streamlit UI (5 tabs)
-├── demo_data/             # Cached ETTh1 data for offline demo
-├── cache/                 # Backbone output cache (generated)
-└── models/                # GGUF models (if using llama-cpp)
+├── main.py                  # Entry point (runs API + UI)
+├── inference.py             # Engine: data, model, precomputed + live forecasts
+├── precompute_forecasts.py  # Build app/precomputed/forecasts.npz locally
+├── requirements.txt
+├── api/main.py              # FastAPI backend
+├── ui/main.py               # Streamlit UI (5 tabs)
+├── demo_data/               # ETTh1 CSV (the app reads this, no network needed)
+└── precomputed/             # forecasts.npz (generated)
 ```
 
 ## Architecture
@@ -87,9 +103,9 @@ app/
         ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │                    Inference Engine                             │
-│  FourierEmbeddingModule → Cached Llama Backbone → FANMoEDecoder │
-│                          ↓                                       │
-│              Pre-computed cache (instant)                       │
+│  precomputed forecasts.npz (instant)  OR  live FM-LLM rollout:  │
+│  FourierEmbeddingModule → Llama-3.2-1B → FANMoEDecoder          │
+│                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -97,14 +113,19 @@ app/
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/health` | GET | Service status |
+| `/health` | GET | Status, available checkpoints, live vs. precomputed |
 | `/checkpoints` | GET | Available model checkpoints |
-| `/channels` | GET | Channel names |
-| `/forecast` | POST | Single horizon forecast |
-| `/forecast/all_horizons` | POST | All horizons at once |
-| `/scenario` | POST | Scenario with perturbations |
+| `/channels` | GET | Channel names and descriptions |
+| `/windows` | GET | Forecast windows (and start dates) for a checkpoint |
+| `/results` | GET | Full-test-set results (experiment 10) and paper Table A.12 |
+| `/forecast` | POST | Single-horizon forecast with history, actuals, metrics |
+| `/forecast/all_horizons` | POST | MSE/MAE at every horizon for one window |
+| `/scenario` | POST | Base vs. perturbed forecast (live only) |
 | `/backtest` | POST | Walk-forward backtest |
 | `/demo/window/{idx}` | GET | Raw test window data |
+
+MSE/MAE are reported on the globally normalized scale, the same as the
+paper's Table A.12. Charts and downloads use real units.
 
 ## Model Checkpoints
 
@@ -119,48 +140,26 @@ app/
 
 | Channel | Description |
 |---------|-------------|
-| `OT` | Oil Temperature (target) |
-| `HUFL` | High Useful Load |
-| `HULL` | High Useless Load |
-| `MUFL` | Medium Useful Load |
-| `MULL` | Medium Useless Load |
-| `LUFL` | Low Useful Load |
-| `LULL` | Low Useless Load |
-
-## Performance Notes
-
-- **First run**: Downloads Llama-3.2-1B (~2.5GB) + builds cache (~10-20 min)
-- **Subsequent runs**: Instant inference (<1s per forecast) using cached backbone
-- **Memory**: ~2GB RAM for model + cache
-- **Device**: CPU only (no GPU required)
+| `OT` | Oil temperature (target) |
+| `HUFL` | High useful load |
+| `HULL` | High useless load |
+| `MUFL` | Middle useful load |
+| `MULL` | Middle useless load |
+| `LUFL` | Low useful load |
+| `LULL` | Low useless load |
 
 ## Troubleshooting
 
-### "Gated repo" / 401 Error
-Ensure `.env` contains valid `HF_TOKEN` with access to `meta-llama/Llama-3.2-1B`.
-
-### "No backbone cache found"
-Run `python -m app.precache_backbone` first.
-
-### Slow inference
-Cache not loaded. Check `app/cache/backbone_outputs.pkl` exists.
-
-### Import errors
-Run `uv pip install -r requirements.txt` from `app/` directory.
+- **"Nothing to serve"**: generate `app/precomputed/forecasts.npz` (step 2) or add checkpoints.
+- **"Gated repo" / 401**: `.env` needs an `HF_TOKEN` with access to `meta-llama/Llama-3.2-1B` (live mode only).
+- **Scenario tab says precomputed only**: the checkpoint `.pt` files aren't in `kaggle/datasets/checkpoint/`.
+- **UI says API not running**: the API is still loading; refresh after a few seconds.
 
 ## Development
 
-### Run tests
 ```bash
-python test_engine.py
+python -m pytest tests/test_app.py   # engine + API tests, no GPU/Llama/checkpoints needed
+python test_engine.py                # smoke test against your real forecasts/checkpoints
 ```
 
-### API docs
-Open http://localhost:8000/docs when API is running.
-
-### Add new checkpoints
-Place `.pt` files in `../kaggle/datasets/checkpoint/` and update `CHECKPOINT_SPECS` in `inference.py`.
-
-## License
-
-Part of FM-LLM reproduction project.
+API docs: http://localhost:8000/docs
