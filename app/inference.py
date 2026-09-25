@@ -371,6 +371,60 @@ def _metrics(pred_norm, truth_norm):
 
 
 # ---------------------------------------------------------------------------
+# Early warning: breach detection, naive baselines, and event-based scoring
+# ---------------------------------------------------------------------------
+MODEL_METHOD = "fm_llm"
+BASELINES = {
+    "persistence": "Hold the last observed value",
+    "daily_naive": "Repeat the last 24 hours",
+    "weekly_naive": "Repeat the last 7 days",
+}
+
+
+def baseline_forecast(history: np.ndarray, method: str) -> np.ndarray:
+    """history: (SEQ_LEN, channels) -> (MAX_HORIZON, channels), same scale as the input."""
+    if method == "persistence":
+        return np.repeat(history[-1:], MAX_HORIZON, axis=0)
+    period = {"daily_naive": 24, "weekly_naive": 168}[method]
+    reps = -(-MAX_HORIZON // period)
+    return np.tile(history[-period:], (reps, 1))[:MAX_HORIZON]
+
+
+def assess_breach(values: np.ndarray, limit: float, margin: float = 0.0) -> Dict:
+    """
+    Scan a forecast (or actual) trajectory for hours at or above `limit - margin`.
+    `margin` lets an operator warn early when the forecast gets close to the limit.
+    """
+    above = values >= limit - margin
+    first = int(np.argmax(above)) if above.any() else None
+    return {
+        "breach": bool(above.any()),
+        "first_breach_hour": first,
+        "hours_above": int(above.sum()),
+        "peak": float(values.max()),
+        "peak_hour": int(values.argmax()),
+    }
+
+
+def _score(records: List[Dict], method: str) -> Dict:
+    hits = sum(r["event"] and r["warned"][method] for r in records)
+    misses = sum(r["event"] and not r["warned"][method] for r in records)
+    false_alarms = sum(not r["event"] and r["warned"][method] for r in records)
+    correct_neg = sum(not r["event"] and not r["warned"][method] for r in records)
+    lead = [r["actual_first_hour"] for r in records if r["event"] and r["warned"][method]]
+    return {
+        "hits": hits,
+        "misses": misses,
+        "false_alarms": false_alarms,
+        "correct_negatives": correct_neg,
+        "hit_rate": hits / (hits + misses) if hits + misses else None,
+        "false_alarm_ratio": false_alarms / (hits + false_alarms) if hits + false_alarms else None,
+        "csi": hits / (hits + misses + false_alarms) if hits + misses + false_alarms else None,
+        "mean_lead_hours": float(np.mean(lead)) if lead else None,
+    }
+
+
+# ---------------------------------------------------------------------------
 # Engine
 # ---------------------------------------------------------------------------
 class ForecastEngine:
@@ -552,3 +606,129 @@ class ForecastEngine:
             for h, v in per_h.items()
         }
         return {"results": results, "windows": windows}
+
+    # -- early warning ------------------------------------------------------
+    def _early_warning_methods(self) -> List[str]:
+        return [MODEL_METHOD, *BASELINES]
+
+    def _method_forecast_raw(self, method: str, checkpoint: str, window_idx: int) -> np.ndarray:
+        """(MAX_HORIZON, channels) forecast in real units for the model or a baseline."""
+        if method == MODEL_METHOD:
+            pred_norm, _ = self._predict(checkpoint, window_idx)
+            return self.data.denormalize(pred_norm)
+        history = self.data.test_raw[window_idx: window_idx + SEQ_LEN]
+        return baseline_forecast(history, method)
+
+    def outlook(self, window_idx: int, checkpoint: str = "instnorm", channel: str = "OT",
+                limit: float = 10.0, margin: float = 0.0, outlook_hours: int = 72) -> Dict:
+        """
+        Operator view for one forecast issue time: is `channel` expected to reach
+        `limit` within the next `outlook_hours`, and what does each of the next 30
+        days look like? Also returns what actually happened, for the reveal.
+        """
+        ch = self.channel_names.index(channel)
+        pred_norm, source = self._predict(checkpoint, window_idx)
+        pred = self.data.denormalize(pred_norm)[:, ch]
+        start = window_idx + SEQ_LEN
+        actual = self.data.test_raw[start: start + MAX_HORIZON, ch]
+        current = float(self.data.test_raw[start - 1, ch])
+
+        forecast_check = assess_breach(pred[:outlook_hours], limit, margin)
+        if current >= limit:
+            status = "in_breach"
+        elif forecast_check["breach"]:
+            status = "warning"
+        else:
+            status = "normal"
+
+        days = []
+        for d in range(MAX_HORIZON // 24):
+            peak = float(pred[d * 24:(d + 1) * 24].max())
+            level = "red" if peak >= limit else "amber" if peak >= limit - margin else "green"
+            days.append({
+                "date": str(self.data.test_dates[start + d * 24].date()),
+                "forecast_peak": peak,
+                "actual_peak": float(actual[d * 24:(d + 1) * 24].max()),
+                "level": level,
+            })
+
+        return {
+            "window_idx": window_idx,
+            "issued_at": str(self.data.test_dates[start]),
+            "source": source,
+            "channel": channel,
+            "limit": limit,
+            "margin": margin,
+            "outlook_hours": outlook_hours,
+            "current": current,
+            "status": status,
+            "forecast": forecast_check,
+            "actual": assess_breach(actual[:outlook_hours], limit),
+            "days": days,
+        }
+
+    def warning_evaluation(self, checkpoint: str = "instnorm", channel: str = "OT",
+                           limit: float = 10.0, margin: float = 0.0, outlook_hours: int = 72) -> Dict:
+        """
+        Replay one outlook per precomputed window (one per day) and score each
+        method's "breach within the outlook" warnings against what happened.
+        Windows already in breach at issue time are skipped: warning about a
+        breach that's already visible adds nothing.
+        """
+        windows = sorted(self.precomputed.get(checkpoint, {}))
+        if not windows:
+            raise RuntimeError(
+                f"Warning evaluation replays every daily outlook, so it needs precomputed "
+                f"forecasts for '{checkpoint}' (app/precomputed/forecasts.npz)."
+            )
+        ch = self.channel_names.index(channel)
+        methods = self._early_warning_methods()
+        records, skipped = [], 0
+        for w in windows:
+            start = w + SEQ_LEN
+            if self.data.test_raw[start - 1, ch] >= limit:
+                skipped += 1
+                continue
+            actual = assess_breach(self.data.test_raw[start: start + outlook_hours, ch], limit)
+            warned = {
+                m: assess_breach(self._method_forecast_raw(m, checkpoint, w)[:outlook_hours, ch], limit, margin)["breach"]
+                for m in methods
+            }
+            records.append({
+                "window_idx": w,
+                "issued_at": str(self.data.test_dates[start]),
+                "event": actual["breach"],
+                "actual_first_hour": actual["first_breach_hour"],
+                "warned": warned,
+            })
+        return {
+            "methods": methods,
+            "scores": {m: _score(records, m) for m in methods},
+            "records": records,
+            "skipped_in_breach": skipped,
+            "events": sum(r["event"] for r in records),
+        }
+
+    def accuracy_comparison(self, checkpoint: str = "instnorm", channel: str = "OT",
+                            horizons: Sequence[int] = HORIZONS) -> Dict:
+        """
+        MSE/MAE of the model vs. each naive baseline over the precomputed windows:
+        all channels on the normalized scale, plus `channel`'s MAE in real units.
+        """
+        windows = sorted(self.precomputed.get(checkpoint, {}))
+        if not windows:
+            raise RuntimeError(f"Needs precomputed forecasts for '{checkpoint}'.")
+        ch = self.channel_names.index(channel)
+        out = {}
+        for m in self._early_warning_methods():
+            preds = np.stack([self.data.normalize(self._method_forecast_raw(m, checkpoint, w)) for w in windows])
+            truth = np.stack([self.data.test_norm[w + SEQ_LEN: w + SEQ_LEN + MAX_HORIZON] for w in windows])
+            out[m] = {}
+            for h in horizons:
+                err = preds[:, :h] - truth[:, :h]
+                out[m][h] = {
+                    "mse": float((err ** 2).mean()),
+                    "mae": float(np.abs(err).mean()),
+                    "channel_mae": float(np.abs(err[..., ch]).mean() * self.data.channel_std[ch]),
+                }
+        return {"channel": channel, "num_windows": len(windows), "results": out}

@@ -1,17 +1,29 @@
 # GridForecast App
 
-Transformer load & oil-temperature forecasting built on FM-LLM
-(Frequency-Enhanced Mixture-of-Experts for Time Series Forecasting), using
-the ETTh1 power-transformer dataset: 28 days of hourly history in, up to 30
-days of hourly forecasts out.
+**Transformer overheating early warning** built on FM-LLM
+(Frequency-Enhanced Mixture-of-Experts for Time Series Forecasting). FM-LLM
+reads 28 days of hourly load and oil-temperature data from a power
+transformer (ETTh1) and forecasts up to 30 days ahead. GridForecast turns
+that into operator warnings: *will the oil temperature cross its alarm
+level in the next few days, and how much notice do we get?*
 
 ## Features
 
-- **Forecast**: 96h / 192h / 336h / 720h forecasts against actuals, with real dates and units
-- **Scenario Simulator**: scale the last 96h of any channel and see how the forecast responds (live mode)
-- **Backtest & Metrics**: walk-forward evaluation, plus the full-test-set results vs. the paper
-- **Alerts**: forecast breaches of an upper/lower limit (e.g. oil overheating), checked against what actually happened
-- **Model Explorer**: architecture and checkpoint comparison
+- **Early Warning** (main screen): daily outlook with NORMAL / WARNING status, time to breach,
+  a 30-day risk strip and a suggested operator response. "Reveal what actually happened"
+  shows whether the warning was right.
+- **Warning Performance**: replays one outlook per day across the test period and scores
+  FM-LLM's warnings (hit rate, false alarms, CSI, lead time) against the simple rules an
+  operator could use without a model: hold the last value, repeat yesterday, repeat last week.
+- **Load What-if**: scale recent load and see how the outlook responds (live mode)
+- **Forecast Explorer**: all channels, all horizons, against actuals
+- **Model & Accuracy**: architecture, checkpoint comparison, results vs. the paper, backtest
+
+Alarm level, early-warning margin and outlook length are site settings in
+the sidebar. ETTh1's test period is winter (Oct–Feb), when oil temperature
+peaks around 15 °C, so the demo defaults to a 10 °C alarm level. Summer
+data in the training period passes 40 °C, and a real site would set limits
+seasonally.
 
 ## How forecasts are served
 
@@ -90,14 +102,14 @@ app/
 ┌─────────────────────────────────────────────────────────────────┐
 │                        Streamlit UI                             │
 │  ┌─────────┐ ┌───────────┐ ┌──────────┐ ┌────────┐ ┌────────┐  │
-│  │Forecast │ │ Scenarios │ │ Backtest │ │ Alerts │ │ Model  │  │
+│  │ Warning │ │Performance│ │ What-if  │ │Explore │ │ Model  │  │
 │  └────┬────┘ └─────┬─────┘ └────┬─────┘ └───┬────┘ └───┬────┘  │
 └───────┼─────────────┼─────────────┼───────────┼──────────┼───────┘
         │             │             │           │          │
         ▼             ▼             ▼           ▼          ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │                        FastAPI Backend                          │
-│  /forecast  /forecast/all_horizons  /scenario  /backtest       │
+│  /outlook  /warning/evaluate  /scenario  /forecast  /backtest  │
 └─────────────────────────────────────────────────────────────────┘
         │
         ▼
@@ -122,6 +134,9 @@ app/
 | `/forecast/all_horizons` | POST | MSE/MAE at every horizon for one window |
 | `/scenario` | POST | Base vs. perturbed forecast (live only) |
 | `/backtest` | POST | Walk-forward backtest |
+| `/outlook` | POST | Early-warning status for one issue time |
+| `/warning/evaluate` | POST | Replay daily outlooks, score FM-LLM vs. naive baselines |
+| `/accuracy/compare` | POST | Forecast error of FM-LLM vs. naive baselines |
 | `/demo/window/{idx}` | GET | Raw test window data |
 
 MSE/MAE are reported on the globally normalized scale, the same as the
