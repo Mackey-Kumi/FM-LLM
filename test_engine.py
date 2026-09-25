@@ -1,16 +1,15 @@
-import os
-from dotenv import load_dotenv
-load_dotenv()
+"""Quick smoke test of the GridForecast engine: python test_engine.py"""
 
-import torch
 from app.inference import ForecastEngine
 
-print('Testing ForecastEngine...')
-engine = ForecastEngine(checkpoint_name='instnorm', device='cpu')
-print(f'Available windows: {engine.get_available_windows()}')
-print(f'Channels: {engine.get_channel_names()}')
-result = engine.forecast_window(0, 192)
-print(f'Forecast shape: {result["predictions"].shape}')
-mse = ((result["predictions"] - result["ground_truth"]) ** 2).mean()
-print(f'MSE: {mse:.4f}')
-print('ForecastEngine works!')
+print("Testing ForecastEngine...")
+engine = ForecastEngine(device="cpu")
+print(f"Checkpoints: {engine.available_checkpoints()} (live: {engine.live_checkpoints()})")
+print(f"Channels: {engine.get_channel_names()}")
+
+checkpoint = engine.available_checkpoints()[0]
+window = engine.windows(checkpoint)[0]
+result = engine.forecast(window, 192, checkpoint)
+print(f"Forecast from {result['dates'][0]} ({result['source']}): shape {result['predictions'].shape}")
+print(f"MSE={result['metrics']['mse']:.4f}  MAE={result['metrics']['mae']:.4f} (normalized)")
+print("ForecastEngine works!")
