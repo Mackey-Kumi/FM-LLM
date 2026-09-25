@@ -152,3 +152,72 @@ def test_kaggle_app_forecasts_kernel_imports_without_gpu():
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     assert hasattr(module, "autoregressive_rollout") and hasattr(module, "instance_normalize")
+
+
+def test_baseline_forecasts():
+    history = np.arange(inference.SEQ_LEN, dtype=np.float32)[:, None].repeat(2, axis=1)
+    persistence = inference.baseline_forecast(history, "persistence")
+    assert persistence.shape == (inference.MAX_HORIZON, 2) and (persistence == inference.SEQ_LEN - 1).all()
+    daily = inference.baseline_forecast(history, "daily_naive")
+    np.testing.assert_array_equal(daily[:24], history[-24:])
+    np.testing.assert_array_equal(daily[24:48], history[-24:])
+    weekly = inference.baseline_forecast(history, "weekly_naive")
+    np.testing.assert_array_equal(weekly[168:336], history[-168:])
+    assert weekly.shape == (inference.MAX_HORIZON, 2)
+
+
+def test_assess_breach_with_and_without_margin():
+    values = np.array([1.0, 2.0, 4.5, 6.0, 3.0])
+    assert inference.assess_breach(values, limit=5.0) == {
+        "breach": True, "first_breach_hour": 3, "hours_above": 1, "peak": 6.0, "peak_hour": 3,
+    }
+    assert inference.assess_breach(values, limit=5.0, margin=1.0)["first_breach_hour"] == 2
+    assert inference.assess_breach(values, limit=7.0)["first_breach_hour"] is None
+
+
+def test_perfect_forecast_catches_every_breach_with_no_false_alarms(perfect_engine, data):
+    ev = perfect_engine.warning_evaluation("instnorm", "OT", limit=10.0, margin=0.0, outlook_hours=72)
+    s = ev["scores"]["fm_llm"]
+    assert ev["events"] > 0
+    assert s["hits"] == ev["events"] and s["misses"] == 0 and s["false_alarms"] == 0
+    assert s["hit_rate"] == 1.0 and s["csi"] == 1.0
+    assert set(ev["scores"]) == {"fm_llm", "persistence", "daily_naive", "weekly_naive"}
+    # In-breach days are excluded, and every scored day starts below the limit.
+    ot = data.channel_names.index("OT")
+    for r in ev["records"]:
+        assert data.test_raw[r["window_idx"] + inference.SEQ_LEN - 1, ot] < 10.0
+    assert len(ev["records"]) + ev["skipped_in_breach"] == len(perfect_engine.windows("instnorm"))
+
+
+def test_outlook_status_and_daily_strip(perfect_engine, data):
+    ot = data.channel_names.index("OT")
+    for w in perfect_engine.windows("instnorm"):
+        o = perfect_engine.outlook(w, "instnorm", "OT", limit=10.0, margin=0.0, outlook_hours=72)
+        current = data.test_raw[w + inference.SEQ_LEN - 1, ot]
+        expected = "in_breach" if current >= 10.0 else ("warning" if o["actual"]["breach"] else "normal")
+        assert o["status"] == expected  # perfect forecast: forecast breach == actual breach
+        assert len(o["days"]) == 30 and o["days"][0]["date"] == o["issued_at"][:10]
+
+
+def test_accuracy_comparison_perfect_model_beats_baselines(perfect_engine):
+    acc = perfect_engine.accuracy_comparison("instnorm", "OT", horizons=(96, 720))
+    assert acc["results"]["fm_llm"][720]["mse"] == pytest.approx(0.0, abs=1e-10)
+    for b in inference.BASELINES:
+        assert acc["results"][b][720]["channel_mae"] > 0
+
+
+def test_warning_api_endpoints(perfect_engine, monkeypatch):
+    monkeypatch.setattr(api_main, "engine", perfect_engine)
+    client = TestClient(api_main.app)
+    params = {"checkpoint": "instnorm", "channel": "OT", "limit": 10.0, "margin": 1.0, "outlook_hours": 72}
+
+    r = client.post("/warning/evaluate", json=params)
+    assert r.status_code == 200 and r.json()["labels"]["fm_llm"] == "FM-LLM (instnorm)"
+
+    r = client.post("/outlook", json={**params, "window_idx": 240})
+    assert r.status_code == 200 and r.json()["status"] in {"normal", "warning", "in_breach"}
+
+    r = client.post("/accuracy/compare", json={"checkpoint": "instnorm", "channel": "OT"})
+    assert r.status_code == 200 and set(r.json()["results"]["fm_llm"]) == {"96", "192", "336", "720"}
+
+    assert client.post("/outlook", json={**params, "window_idx": 0, "channel": "XX"}).status_code == 400

@@ -15,10 +15,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from ..inference import (
+    BASELINES,
     CHANNEL_DESCRIPTIONS,
     CHECKPOINT_DESCRIPTIONS,
     CHECKPOINT_SPECS,
     HORIZONS,
+    MODEL_METHOD,
     PAPER_RESULTS,
     REPORTED_RESULTS,
     SEQ_LEN,
@@ -42,7 +44,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="GridForecast API",
-    description="Transformer load & oil-temperature forecasting with FM-LLM",
+    description="Transformer overheating early warning with FM-LLM",
     version="0.2.0",
     lifespan=lifespan,
 )
@@ -80,6 +82,24 @@ class BacktestRequest(BaseModel):
     horizons: List[int] = Field(default=list(HORIZONS))
 
 
+class WarningRequest(BaseModel):
+    checkpoint: str = Field("instnorm")
+    channel: str = Field("OT", description="Channel to monitor")
+    limit: float = Field(10.0, description="Alarm level, in the channel's real units")
+    margin: float = Field(0.0, ge=0, description="Warn when the forecast gets within this of the limit")
+    outlook_hours: int = Field(72, ge=1, le=720, description="How far ahead a warning looks")
+
+
+class OutlookRequest(WarningRequest):
+    window_idx: int = Field(..., ge=0, description="Forecast issue time (test window index)")
+
+
+class AccuracyRequest(BaseModel):
+    checkpoint: str = Field("instnorm")
+    channel: str = Field("OT")
+    horizons: List[int] = Field(default=list(HORIZONS))
+
+
 def _engine() -> ForecastEngine:
     if engine is None:
         raise HTTPException(status_code=503, detail="Engine not initialized")
@@ -97,6 +117,11 @@ def _check_checkpoint(eng: ForecastEngine, checkpoint: str):
 def _check_window(eng: ForecastEngine, window_idx: int):
     if not 0 <= window_idx < eng.data.num_windows:
         raise HTTPException(status_code=400, detail=f"window_idx must be < {eng.data.num_windows}")
+
+
+def _check_channel(eng: ForecastEngine, channel: str):
+    if channel not in eng.get_channel_names():
+        raise HTTPException(status_code=400, detail=f"Invalid channel: {channel}")
 
 
 def _check_horizon(horizon: int):
@@ -228,6 +253,48 @@ def backtest(request: BacktestRequest):
         _check_horizon(h)
     out = _run(eng.backtest, request.checkpoint, request.num_windows, tuple(request.horizons))
     return {"results": {str(h): r for h, r in out["results"].items()}, "windows": out["windows"]}
+
+
+@app.post("/outlook")
+def outlook(request: OutlookRequest):
+    """Early-warning status for one forecast issue time."""
+    eng = _engine()
+    _check_checkpoint(eng, request.checkpoint)
+    _check_window(eng, request.window_idx)
+    _check_channel(eng, request.channel)
+    return _run(
+        eng.outlook, request.window_idx, request.checkpoint, request.channel,
+        request.limit, request.margin, request.outlook_hours,
+    )
+
+
+@app.post("/warning/evaluate")
+def warning_evaluate(request: WarningRequest):
+    """Replay every daily outlook and score FM-LLM's warnings vs. naive baselines."""
+    eng = _engine()
+    _check_checkpoint(eng, request.checkpoint)
+    _check_channel(eng, request.channel)
+    out = _run(
+        eng.warning_evaluation, request.checkpoint, request.channel,
+        request.limit, request.margin, request.outlook_hours,
+    )
+    return {**out, "labels": {MODEL_METHOD: f"FM-LLM ({request.checkpoint})", **BASELINES}}
+
+
+@app.post("/accuracy/compare")
+def accuracy_compare(request: AccuracyRequest):
+    """Forecast error of FM-LLM vs. naive baselines over the precomputed windows."""
+    eng = _engine()
+    _check_checkpoint(eng, request.checkpoint)
+    _check_channel(eng, request.channel)
+    for h in request.horizons:
+        _check_horizon(h)
+    out = _run(eng.accuracy_comparison, request.checkpoint, request.channel, tuple(request.horizons))
+    return {
+        **out,
+        "results": {m: {str(h): v for h, v in r.items()} for m, r in out["results"].items()},
+        "labels": {MODEL_METHOD: f"FM-LLM ({request.checkpoint})", **BASELINES},
+    }
 
 
 @app.get("/demo/window/{window_idx}")
