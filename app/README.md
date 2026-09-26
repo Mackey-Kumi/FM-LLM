@@ -2,8 +2,8 @@
 
 **Transformer overheating early warning** built on FM-LLM
 (Frequency-Enhanced Mixture-of-Experts for Time Series Forecasting). FM-LLM
-reads 28 days of hourly load and oil-temperature data from a power
-transformer (ETTh1) and forecasts up to 30 days ahead. GridForecast turns
+reads 28 days of hourly data from a power transformer (ETTh1), each signal
+from its own history, and forecasts up to 30 days ahead. GridForecast turns
 that into operator warnings: *will the oil temperature cross its alarm
 level in the next few days, and how much notice do we get?*
 
@@ -15,7 +15,9 @@ level in the next few days, and how much notice do we get?*
 - **Warning Performance**: replays one outlook per day across the test period and scores
   FM-LLM's warnings (hit rate, false alarms, CSI, lead time) against the simple rules an
   operator could use without a model: hold the last value, repeat yesterday, repeat last week.
-- **Load What-if**: scale recent load and see how the outlook responds (live mode)
+- **What-if**: scale the monitored signal's last 4 days and see how the outlook responds (live mode).
+  FM-LLM forecasts each channel from its own history only (channel independence), so load
+  changes don't affect the oil-temperature forecast.
 - **Forecast Explorer**: all channels, all horizons, against actuals
 - **Model & Accuracy**: architecture, checkpoint comparison, results vs. the paper, backtest
 

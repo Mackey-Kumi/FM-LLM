@@ -23,7 +23,6 @@ st.set_page_config(
 API_BASE = "http://localhost:8000"
 HORIZONS = (96, 192, 336, 720)
 OUTLOOKS = (24, 48, 72, 168)
-LOAD_CHANNELS = ("HUFL", "HULL", "MUFL", "MULL", "LUFL", "LULL")
 COLORS = px.colors.qualitative.Plotly
 LEVEL_COLORS = {"green": "#2ca02c", "amber": "#ff9f1c", "red": "#d62728"}
 UNITS = {"OT": "°C"}
@@ -337,15 +336,15 @@ with st.sidebar:
 # ---------------------------------------------------------------------------
 st.markdown('<div class="main-header">⚡ GridForecast</div>', unsafe_allow_html=True)
 st.markdown(
-    '<div class="sub-header">Early warning of transformer overheating: FM-LLM reads 28 days of hourly load '
-    'and oil-temperature data and warns operators before the oil temperature crosses its alarm level.</div>',
+    '<div class="sub-header">Early warning of transformer overheating: FM-LLM reads the last 28 days of hourly '
+    'oil temperature and warns operators before it crosses its alarm level.</div>',
     unsafe_allow_html=True,
 )
 
 tab_warn, tab_perf, tab_whatif, tab_explore, tab_model = st.tabs([
     "🚨 Early Warning",
     "📈 Warning Performance",
-    "🔮 Load What-if",
+    "🔮 What-if",
     "📊 Forecast Explorer",
     "🔬 Model & Accuracy",
 ])
@@ -479,27 +478,26 @@ with tab_perf:
             st.caption(f"Over the same {acc['num_windows']} daily outlooks. MSE is on the normalized scale "
                        "used by the paper.")
 
-# Tab: Load What-if
+# Tab: What-if
 with tab_whatif:
-    st.header("Load what-if")
+    st.header("What-if")
     st.markdown(
-        f"How does the {monitored} outlook respond if recent load had been different? Scale the load "
-        "channels over the **last 4 days** (96h) and compare against the base outlook."
+        f"How would the outlook change if {monitored} had run hotter or cooler over the **last 4 days** (96h)? "
+        f"Scale that recent history and compare the model's new outlook with the base one."
     )
-    st.caption("FM-LLM learned statistical patterns, not transformer physics, so treat this as a sensitivity "
-               "check of the model rather than a physical simulation.")
+    st.caption(
+        f"FM-LLM forecasts each signal independently from its own history (channel independence, from PatchTST), "
+        f"so the {monitored} forecast depends only on past {monitored}: changing the load channels would not move it. "
+        "The model learned statistical patterns, not transformer physics, so this is a sensitivity check of the model."
+    )
     if not ckpt["live"]:
         st.info("What-ifs run the model live, which needs the checkpoint files and Llama-3.2-1B access "
                 "(HF_TOKEN). This checkpoint is serving precomputed forecasts only.")
     else:
         col1, col2 = st.columns([1, 2])
         with col1:
-            perturbations = {}
-            for ch in [c for c in LOAD_CHANNELS if c in channels]:
-                pct = st.slider(f"{ch} — {channel_desc.get(ch, ch)}", -50, 50, 0, step=5,
-                                format="%d%%", key=f"pert_{ch}")
-                if pct:
-                    perturbations[ch] = pct / 100
+            pct = st.slider(f"Last 4 days of {monitored}", -50, 50, 0, step=5, format="%d%%", key="pert_monitored")
+            perturbations = {monitored: pct / 100} if pct else {}
             run = st.button("🔮 Run what-if", type="primary", use_container_width=True)
         with col2:
             if run and not perturbations:
