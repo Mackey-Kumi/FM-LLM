@@ -303,6 +303,18 @@ window_info = fetch_windows(selected_checkpoint)
 windows = window_info["windows"]
 start_dates = dict(zip(windows, window_info["start_dates"]))
 
+# Default to the precomputed daily outlooks; any other hour runs Llama live on this machine.
+any_hour = False
+if ckpt["live"] and window_info["precomputed"]:
+    with st.sidebar:
+        any_hour = st.toggle(
+            "Any hour (runs Llama live)", value=False,
+            help="Off: the daily 00:00 outlooks precomputed on Kaggle (instant). On: any hour, computed "
+                 "live on this computer (downloads Llama-3.2-1B once; each new forecast takes a while on CPU).",
+        )
+if window_info["precomputed"] and not any_hour:
+    windows = window_info["precomputed"]
+
 # Open on a day where the model warned correctly at least a day ahead: the most useful demo moment.
 default_window = windows[0]
 if evaluation:
