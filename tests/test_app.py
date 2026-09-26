@@ -221,3 +221,12 @@ def test_warning_api_endpoints(perfect_engine, monkeypatch):
     assert r.status_code == 200 and set(r.json()["results"]["fm_llm"]) == {"96", "192", "336", "720"}
 
     assert client.post("/outlook", json={**params, "window_idx": 0, "channel": "XX"}).status_code == 400
+
+
+def test_channels_are_forecast_independently(live_engine):
+    """Channel independence (PatchTST): changing load history must not move the OT forecast."""
+    out = live_engine.scenario_forecast(3, 96, "instnorm", {"HUFL": 0.5, "MUFL": -0.3})
+    ot = out["channels"].index("OT")
+    hufl = out["channels"].index("HUFL")
+    np.testing.assert_array_equal(np.asarray(out["predictions"])[:, ot], np.asarray(out["base"])[:, ot])
+    assert not np.allclose(np.asarray(out["predictions"])[:, hufl], np.asarray(out["base"])[:, hufl])
