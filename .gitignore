@@ -48,3 +48,6 @@ Thumbs.db
 
 # Internal-use-only planning docs (superpowers skill specs/plans)
 docs/superpowers/
+
+# Built by scripts/build_kaggle_bundle.py (code copy + OpenAQ data)
+kaggle/datasets/accra_aq/

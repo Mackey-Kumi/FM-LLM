@@ -1,11 +1,22 @@
-# FM-LLM Reproduction
+# FM-LLM: reproduction and Accra air-quality forecasting
 
-Reproduction of *FM-LLM: A frequency-enhanced mixture-of-experts framework for
-adapting LLMs to time series forecasting* (Gu et al., Knowledge-Based Systems,
-2026): Fourier Embedding Module, FAN-MoE decoder with load-balanced routing,
-hybrid time-frequency loss.
+Final-year project (Mackey Junior Kumi & Arnold Kyei Baffour), in two phases:
 
-## Status
+1. **Reproduction** of *FM-LLM: A frequency-enhanced mixture-of-experts framework for
+   adapting LLMs to time series forecasting* (Gu et al., Knowledge-Based Systems,
+   2026): Fourier Embedding Module, FAN-MoE decoder with load-balanced routing,
+   hybrid time-frequency loss. Done on ETTh1 (below).
+2. **Application: PM2.5 early warning for Accra.** We train FM-LLM on hourly
+   readings from Accra's live low-cost air sensors (OpenAQ) to warn people 1–2
+   days ahead, with honest likelihoods, scored sensor by sensor. Work in progress
+   (experiment 12 on).
+
+This repo holds the research, data and model training only. The web and mobile
+apps live in Arnold's separate app repo and only read the forecasts this repo
+produces. The September 2026 GridForecast demo (ETTh1) was removed and is kept
+under the git tag `gridforecast-demo`.
+
+## Status: phase 1 (ETTh1 reproduction)
 
 ETTh1 (input=672, predict=96) is trained and evaluated end-to-end. Four
 checkpoints have been compared so far — no-dropout, dropout, dropout with a
@@ -44,13 +55,26 @@ last one is decisively the best:
   flatter across horizons than we do, so some residual error-accumulation
   gap remains at the longest horizon.
 
-Next: investigate what's still driving the residual 720-horizon gap (the
-FAN single-layer ambiguity in Eq. 8, or hyperparameter tuning beyond
-Table 2's stated defaults — FAN's `p_ratio` split is our own invented value
-and a good first candidate), then extend to the remaining 10 benchmark
-datasets. Gradient checkpointing remains out of scope — it isn't
-paper-mandated, and the T4x2 `DataParallel` workaround already handles the
-paper's batch=256.
+Open questions from phase 1: what still drives the residual 720-horizon gap
+(the FAN single-layer ambiguity in Eq. 8, or hyperparameters beyond Table 2's
+defaults; FAN's `p_ratio` split is our own invented value). The app needs
+1–2 day horizons, where we're closest to the paper, so this is no longer on
+the critical path.
+
+## Status: phase 2 (Accra PM2.5)
+
+```powershell
+python scripts/fetch_openaq.py          # hourly PM2.5 for every live Accra sensor -> data/raw/openaq_accra/ (needs OPENAQ_API_KEY)
+python scripts/build_kaggle_bundle.py   # fmllm + data -> kaggle/datasets/accra_aq/ (the dataset experiment 12 attaches)
+python kaggle/experiments/12_aq_first_train/kaggle_train_aq.py --smoke   # CPU check of the whole pipeline
+```
+
+Experiment 12 trains with the ETTh1 recipe (dropout, instance norm, batch 256
+on T4x2). It splits by time: train to Sep 2025, validate Oct–Nov 2025, and test on
+the Dec 2025 – Feb 2026 Harmattan. It reports MAE at 24 h and 48 h and warning
+scores per sensor, against simple rules (same as the last hour / last 24 h /
+last week). Design constraints from the September meeting are in
+`docs/meeting_notes/`.
 
 ## Environment
 
@@ -74,17 +98,21 @@ never commit it.
 ## Project layout
 
 ```
+fmllm/            # shared package (phase 2): model, losses, forecast + baselines, warning scores, data windows
+scripts/          # fetch_openaq.py, build_kaggle_bundle.py
 kaggle/
   README.md       # full Kaggle CLI workflow (push/poll/pull, one-time setup)
-  datasets/        # private Kaggle datasets we maintain (HF token, checkpoint)
+  datasets/        # private Kaggle datasets we maintain (HF token, checkpoints, accra_aq bundle)
   experiments/      # one script kernel per experiment, numbered in run order
-tests/
+tests/            # CPU-only; no GPU, Llama download or data needed
+docs/             # meeting notes, handoff
 data/, checkpoints/, outputs/   # gitignored — populated locally or pulled from Kaggle
 ```
 
-Every experiment's source lives entirely under `kaggle/experiments/` — there
-is no separate local `src/` package. Each experiment folder is a
-self-contained, faithful port of the paper's equations (Fourier Embedding
-Module Eq. 9-11, FAN-MoE decoder Eq. 13-18, hybrid loss Eq. 19-23); later
-experiments reuse the same architecture code rather than importing from
-earlier ones, since each runs as an independent Kaggle kernel.
+Experiments 01–10 (phase 1) are self-contained: each kernel carries its own
+copy of the architecture, a faithful port of the paper's equations (Fourier
+Embedding Module Eq. 9-11, FAN-MoE decoder Eq. 13-18, hybrid loss Eq. 19-23).
+From experiment 12 on, kernels import the shared `fmllm` package instead,
+shipped to Kaggle inside the `fm-llm-accra-aq` dataset. `fmllm` matches
+experiment 09's code exactly (checked by `tests/test_fmllm.py`), and the ETTh1
+checkpoints load into it.
