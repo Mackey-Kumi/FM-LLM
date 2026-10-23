@@ -4,6 +4,7 @@
 !.env.example
 kaggle/datasets/hf_token/hf_token.txt
 kaggle/experiments/*/output/
+kaggle/experiments/*/output_smoke/
 
 # Python
 __pycache__/

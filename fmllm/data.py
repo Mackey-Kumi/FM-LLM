@@ -7,7 +7,7 @@ are filled by linear interpolation; windows that still contain a gap are
 skipped rather than guessed at.
 
 Pipeline, in the order experiment 12 calls it:
-    raw   = load_hourly(csv)                 # readings as a table, NaN where missing
+    raw   = load_hourly(csv)                 # readings as a table, NaN where missing (incl. zero-runs)
     wide  = fill_short_gaps(raw, max_gap)    # short holes filled
     scale = train_scale(wide, train_end)     # per-sensor mean/std, training period only
     ds    = SensorWindows(wide, ..., observed=raw)   # (history, future) samples for one split
@@ -22,7 +22,32 @@ import torch
 PM25_VALID_RANGE = (0.0, 1000.0)  # µg/m³; outside this is a sensor fault, not air
 
 
-def load_hourly(csv_path, min_coverage: float = 0.0, valid_range=PM25_VALID_RANGE) -> pd.DataFrame:
+def drop_zero_runs(wide: pd.DataFrame, min_run: int = 3) -> pd.DataFrame:
+    """
+    Treat runs of exact-zero readings as missing. Some sensors keep reporting
+    0 µg/m³ while broken (sensor 10330993: a 1,648-hour run, through the
+    2025-26 Harmattan). Real air is never exactly 0 for hours on end; 93% of all
+    zeros in the Accra data come in runs of 6 h or more.
+
+    Args:
+        wide: hourly table (rows = hours, columns = sensors), NaN = missing.
+        min_run: runs of at least this many consecutive exact zeros are removed.
+            Shorter runs (isolated zeros) are kept.
+
+    Returns:
+        A copy of `wide` with those runs set to NaN.
+    """
+    out = wide.copy()
+    for col in out:
+        zero = out[col].eq(0)
+        run_id = (zero != zero.shift()).cumsum()
+        run_len = zero.groupby(run_id).transform("sum")
+        out.loc[zero & (run_len >= min_run), col] = np.nan
+    return out
+
+
+def load_hourly(csv_path, min_coverage: float = 0.0, valid_range=PM25_VALID_RANGE,
+                zero_run_hours: Optional[int] = 3) -> pd.DataFrame:
     """
     Read the CSV written by scripts/fetch_openaq.py into one table: one row per
     hour, one column per sensor.
@@ -39,6 +64,8 @@ def load_hourly(csv_path, min_coverage: float = 0.0, valid_range=PM25_VALID_RANG
             0 keeps everything.
         valid_range: (low, high) in µg/m³. Readings outside it are sensor faults and
             become missing.
+        zero_run_hours: runs of this many or more consecutive exact-zero readings are
+            sensor faults and become missing (see drop_zero_runs). None = keep zeros.
 
     Returns:
         DataFrame indexed by hour (continuous, every hour from the first reading to the
@@ -53,7 +80,8 @@ def load_hourly(csv_path, min_coverage: float = 0.0, valid_range=PM25_VALID_RANG
     df.loc[bad, "pm25"] = np.nan
     wide = df.pivot_table(index="hour", columns="sensor_id", values="pm25", aggfunc="mean")
     full = pd.date_range(wide.index.min(), wide.index.max(), freq="h")
-    return wide.reindex(full).rename_axis("hour")
+    wide = wide.reindex(full).rename_axis("hour")
+    return drop_zero_runs(wide, zero_run_hours) if zero_run_hours else wide
 
 
 def fill_short_gaps(wide: pd.DataFrame, max_gap: int = 3) -> pd.DataFrame:
@@ -137,6 +165,8 @@ class SensorWindows(torch.utils.data.Dataset):
             "is a real reading" table of the same shape. None = don't check.
         real_future_hours: how many hours at the start of the future must be real
             readings. None = the whole future (pred_len).
+        issue_hours: keep only forecasts issued at these clock hours (UTC = Ghana time),
+            e.g. (0, 6, 12, 18). Applied before `stride`. None = any hour.
 
     Attributes:
         items: list of (sensor column index, start index) for every sample.
@@ -147,7 +177,7 @@ class SensorWindows(torch.utils.data.Dataset):
     def __init__(self, wide: pd.DataFrame, seq_len: int, pred_len: int, start: Optional[str] = None,
                  end: Optional[str] = None, stride: int = 1, sensors: Optional[Sequence] = None,
                  scale: Optional[Dict] = None, observed: Optional[pd.DataFrame] = None,
-                 real_future_hours: Optional[int] = None):
+                 real_future_hours: Optional[int] = None, issue_hours: Optional[Sequence[int]] = None):
         self.seq_len, self.pred_len = seq_len, pred_len
         self.sensors = list(sensors) if sensors is not None else list(wide.columns)
         self.values = wide[self.sensors].to_numpy(dtype="float32")
@@ -171,6 +201,8 @@ class SensorWindows(torch.utils.data.Dataset):
                 fut = starts + seq_len
                 n_real = pred_len if real_future_hours is None else real_future_hours
                 starts = starts[(fake_before[fut + n_real] - fake_before[fut]) == 0]
+            if issue_hours is not None and len(starts):
+                starts = starts[np.isin(self.index[starts + seq_len].hour, list(issue_hours))]
             for s in starts[::stride]:
                 self.items.append((j, int(s)))
 

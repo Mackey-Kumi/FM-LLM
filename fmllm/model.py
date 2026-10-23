@@ -471,6 +471,24 @@ class FMLLM(nn.Module):
         self.llama_backbone = backbone
         self.decoder = FANMoEDecoder(c.llm_dim, c.hidden_dim, c.patch_len, c.num_shared, c.num_routed,
                                      c.top_k, c.dropout, c.p_ratio)
+        # A plain attribute, not read from the decoder's parameters: nn.DataParallel's
+        # per-GPU copies have no registered parameters, so looking one up there fails.
+        self.decoder_dtype = torch.float32
+
+    def set_decoder_dtype(self, dtype):
+        """
+        Cast the decoder to a number format (we use bfloat16 on GPU, as in the ETTh1
+        experiments) and remember it, so the backbone output is cast to match.
+
+        Args:
+            dtype: e.g. torch.bfloat16 or torch.float32.
+
+        Returns:
+            self, for chaining.
+        """
+        self.decoder.to(dtype)
+        self.decoder_dtype = dtype
+        return self
 
     def trainable_parameters(self):
         """Returns: list of the parameters the optimizer updates (embedding module + decoder, not the backbone)."""
@@ -491,8 +509,7 @@ class FMLLM(nn.Module):
         """
         embeds = self.embedding_module(tokens)
         llm_out = self.llama_backbone(embeds)
-        dtype = next(self.decoder.parameters()).dtype   # the decoder runs in bfloat16 on GPU
-        forecast, top_indices, scores = self.decoder(llm_out.to(dtype))
+        forecast, top_indices, scores = self.decoder(llm_out.to(self.decoder_dtype))
         return forecast[:, :, -1, :], top_indices, scores
 
     def forward(self, history):

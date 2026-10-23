@@ -14,7 +14,12 @@ Split by time, so nothing from the future leaks into training:
   test    Dec 2025 - Feb 2026     (the 2025-26 Harmattan: the season the app is for)
 Errors are reported per sensor in µg/m³, against the simple rules (same as the
 last hour / last 24 h / last week), plus warning scores per sensor
-(September meeting, point 3).
+(September meeting, point 3) for the events in EVENTS (main one: Ghana's
+24-hour PM2.5 standard, 35 µg/m³, GS 1236:2019).
+
+Data cleaning (fmllm.data.load_hourly): readings outside 0-1000 µg/m³ and runs
+of 3+ hours of exact zeros (a fault: broken sensors keep sending 0) are
+treated as missing.
 
 Runs on Kaggle with the `fm-llm-accra-aq` dataset attached (built by
 scripts/build_kaggle_bundle.py: the fmllm package + the OpenAQ CSVs) and the
@@ -104,15 +109,24 @@ import torch
 import torch.nn as nn
 
 from fmllm.data import SensorWindows, fill_short_gaps, load_hourly, train_scale
-from fmllm.events import assess_exceedance, score, score_by
+from fmllm.events import event_occurs, score, score_by
 from fmllm.forecast import BASELINES, baseline_forecast, forecast
 from fmllm.losses import hybrid_loss, sequence_balance_loss
 from fmllm.model import FMLLM, LlamaBackbone, ModelConfig, TinyBackbone, save_checkpoint
 
 TRAIN_END, VAL_END, TEST_END = "2025-10-01", "2025-12-01", "2026-03-01"
 HORIZONS = (24, 48)
-WARN_LIMIT = 35.5   # µg/m³, US AQI "unhealthy for sensitive groups" starts here. Placeholder: to be agreed.
-WARN_HOURS = 24     # warning = "some hour in the next 24 h will reach WARN_LIMIT"
+# Warning events: name -> (statistic over the next `hours`, hours, limit in µg/m³).
+#   ghana_24h_mean      Ghana's ambient standard, GS 1236:2019 Table 2: PM2.5 35 µg/m³, 24-hour average. Main event.
+#   unhealthy_24h_mean  US AQI "unhealthy" tier (24-hour average 55.5): rarer, more serious days.
+#   any_hour_35.5       the run-1 definition (any single hour >= 35.5), kept only for comparison:
+#                       it happened in 93% of forecasts, so it can't separate good from lazy forecasters.
+EVENTS = {
+    "ghana_24h_mean": ("mean", 24, 35.0),
+    "unhealthy_24h_mean": ("mean", 24, 55.5),
+    "any_hour_35.5": ("max", 24, 35.5),
+}
+TEST_ISSUE_HOURS = (0, 6, 12, 18)   # test forecasts issued at fixed clock hours (Ghana time = UTC)
 MAX_GAP = 12        # history: interpolate gaps up to 12 h (longer gaps -> window skipped).
                     # The scored part of the future (first 48 h) must be real readings only.
 TRAIN_STRIDE, EVAL_STRIDE = 1, 6   # all training windows (far less data than ETTh1); every 6th for eval
@@ -155,7 +169,7 @@ def main():
         --smoke: run on CPU with a tiny stand-in for Llama and only a few batches,
             to check the code runs end to end. The numbers it prints mean nothing.
 
-    Writes (to /kaggle/working on Kaggle, ./output locally):
+    Writes (to /kaggle/working on Kaggle, ./output locally, ./output_smoke for --smoke):
         aq_pm25_best.pt, test_mae_per_sensor.csv, test_results.json
     """
     ap = argparse.ArgumentParser()
@@ -163,7 +177,9 @@ def main():
     args = ap.parse_args()
     torch.manual_seed(0)
 
-    out_dir = Path("/kaggle/working") if Path("/kaggle/working").exists() else HERE / "output"
+    # smoke runs get their own folder, so cleaning up after one never touches real results in output/
+    out_dir = (Path("/kaggle/working") if Path("/kaggle/working").exists()
+               else HERE / ("output_smoke" if args.smoke else "output"))
     out_dir.mkdir(parents=True, exist_ok=True)
 
     # 1. data
@@ -189,7 +205,7 @@ def main():
                   real_future_hours=max(HORIZONS))
     train_ds = SensorWindows(wide, end=TRAIN_END, stride=TRAIN_STRIDE, **common)
     val_ds = SensorWindows(wide, start=TRAIN_END, end=VAL_END, stride=EVAL_STRIDE, **common)
-    test_ds = SensorWindows(wide, start=VAL_END, end=TEST_END, stride=EVAL_STRIDE, **common)
+    test_ds = SensorWindows(wide, start=VAL_END, end=TEST_END, issue_hours=TEST_ISSUE_HOURS, **common)
     print(f"windows  train={len(train_ds)}  val={len(val_ds)}  test={len(test_ds)}")
     print(f"sensors  train={len({j for j, _ in train_ds.items})}  test={len({j for j, _ in test_ds.items})}")
     empty = [n for n, d in (("train", train_ds), ("val", val_ds), ("test", test_ds)) if len(d) == 0]
@@ -201,7 +217,7 @@ def main():
     # 4. training
     model = FMLLM(config, backbone).to(device)
     if device.type == "cuda":
-        model.decoder.to(torch.bfloat16)
+        model.set_decoder_dtype(torch.bfloat16)
     net = nn.DataParallel(model, device_ids=list(range(num_gpus))) if num_gpus > 1 else model
     optimizer = torch.optim.Adam(model.trainable_parameters(), lr=LR)
     print(f"trainable parameters: {sum(p.numel() for p in model.trainable_parameters()):,}")
@@ -272,13 +288,17 @@ def scale_to_json(scale):
 @torch.no_grad()
 def evaluate(model, ds, device, out_dir, max_batches=None):
     """
-    Score the model against the simple rules on every test window, per sensor.
+    Score the model against the simple rules on every test forecast, per sensor.
 
-    For each window, four forecasts are compared with what happened: FM-LLM,
-    same-as-last-hour, same-as-yesterday and same-as-last-week. Accuracy is the
-    mean absolute error in µg/m³ over the first 24 h and 48 h. A warning is
-    "some hour in the next WARN_HOURS reaches WARN_LIMIT", counted as a hit,
-    miss, false alarm or correct "no warning".
+    Each test forecast is issued at one of TEST_ISSUE_HOURS. Four forecasts are
+    compared with what happened: FM-LLM, same-as-last-hour, same-as-yesterday
+    and same-as-last-week.
+      Accuracy: mean absolute error in µg/m³ over the first 24 h and 48 h.
+      Warnings: for each event in EVENTS, "did it happen" vs "did this method
+        forecast it", counted as hit / miss / false alarm / correct negative.
+    Warnings are scored twice: over all forecasts ("all", 4 a day, whose
+    24-hour periods overlap) and over one forecast per day ("daily", issued at
+    00:00), where each day counts once.
 
     Args:
         model: trained FMLLM (its output is scaled; we convert back to µg/m³ here).
@@ -289,13 +309,17 @@ def evaluate(model, ds, device, out_dir, max_batches=None):
 
     Writes:
         test_mae_per_sensor.csv: one row per sensor, MAE at each horizon for each method.
-        test_results.json: overall MAE per method, warning scores overall and per sensor,
-            the number of windows, and the warning settings used.
+        test_results.json: overall MAE per method; for every event and scope (all/daily),
+            the base rate (share of forecasts where the event happened) and warning scores
+            overall and per sensor; the event definitions used.
     """
+    import pandas as pd
+
     model.eval()
     loader = torch.utils.data.DataLoader(ds, batch_size=64, shuffle=False)
     horizon = max(HORIZONS)
     rows, records = [], []
+    i0 = 0  # index of the batch's first sample, to look up issue times
     for b, (hist, fut, js, starts) in enumerate(loader):
         if max_batches and b >= max_batches:
             break
@@ -303,40 +327,59 @@ def evaluate(model, ds, device, out_dir, max_batches=None):
         for k in range(len(js)):
             j, s = int(js[k]), int(starts[k])
             sensor = ds.sensors[j]
+            daily = ds.issue_time(i0 + k).hour == 0
             mean, std = ds.scale.get(sensor, (0.0, 1.0))
             raw_hist = ds.values[s: s + ds.seq_len, j]
             truth = ds.values[s + ds.seq_len: s + ds.seq_len + horizon, j]
             methods = {"fm_llm": pred[k] * std + mean}
             methods.update({m: baseline_forecast(raw_hist[:, None], m, horizon)[:, 0] for m in BASELINES})
-            event = assess_exceedance(truth[:WARN_HOURS], WARN_LIMIT)
+            happened = {e: event_occurs(truth, *spec) for e, spec in EVENTS.items()}
             for m, p in methods.items():
                 rows.append({"sensor": str(sensor), "method": m,
                              **{f"mae_{h}h": float(np.abs(p[:h] - truth[:h]).mean()) for h in HORIZONS}})
-                records.append({"location": str(sensor), "method": m, "event": event["exceeds"],
-                                "first_hour": event["first_hour"],
-                                "warned": assess_exceedance(p[:WARN_HOURS], WARN_LIMIT)["exceeds"]})
+                for e, spec in EVENTS.items():
+                    records.append({"location": str(sensor), "method": m, "event_name": e, "daily": daily,
+                                    "event": happened[e]["exceeds"], "first_hour": happened[e]["first_hour"],
+                                    "warned": event_occurs(p, *spec)["exceeds"]})
+        i0 += len(js)
 
-    import pandas as pd
     df = pd.DataFrame(rows)
     per_sensor = df.groupby(["sensor", "method"]).mean().unstack("method")
     overall = df.drop(columns="sensor").groupby("method").mean()
     methods = list(overall.index)
-    warn = {m: score(r for r in records if r["method"] == m) for m in methods}
-    warn_by_sensor = {m: score_by(r for r in records if r["method"] == m) for m in methods}
     per_sensor.to_csv(out_dir / "test_mae_per_sensor.csv")
-    json.dump({"mae_overall": overall.to_dict(), "warnings": warn, "warnings_by_sensor": warn_by_sensor,
-               "n_windows": len(ds), "warn_limit": WARN_LIMIT, "warn_hours": WARN_HOURS},
+
+    warnings = {}
+    for e in EVENTS:
+        warnings[e] = {}
+        for scope in ("all", "daily"):
+            sel = [r for r in records if r["event_name"] == e and (scope == "all" or r["daily"])]
+            one_method = [r for r in sel if r["method"] == methods[0]]
+            warnings[e][scope] = {
+                "n": len(one_method),
+                "base_rate": float(np.mean([r["event"] for r in one_method])) if one_method else None,
+                "scores": {m: score(r for r in sel if r["method"] == m) for m in methods},
+                "scores_by_sensor": {m: score_by(r for r in sel if r["method"] == m) for m in methods},
+            }
+    json.dump({"mae_overall": overall.to_dict(), "warnings": warnings, "n_windows": len(ds),
+               "events": {e: {"stat": st, "hours": h, "limit": lim} for e, (st, h, lim) in EVENTS.items()},
+               "issue_hours": TEST_ISSUE_HOURS},
               open(out_dir / "test_results.json", "w"), indent=1, default=str)
 
-    print("\nTEST (Dec 2025 - Feb 2026), MAE in µg/m³, averaged over windows:")
+    print("\nTEST (Dec 2025 - Feb 2026), MAE in µg/m³, averaged over forecasts:")
     print(overall.round(2).to_string())
     for h in HORIZONS:
         wins = (per_sensor[f"mae_{h}h"].idxmin(axis=1) == "fm_llm").sum()
         print(f"  {h}h: FM-LLM is the best method at {wins}/{len(per_sensor)} sensors")
-    print(f"\nWarnings ('≥ {WARN_LIMIT} µg/m³ within {WARN_HOURS} h'):")
-    for m in methods:
-        s = warn[m]
-        print(f"  {m:14s} hit rate={s['hit_rate']}  false-alarm ratio={s['false_alarm_ratio']}  CSI={s['csi']}")
+    for e, (st, h, lim) in EVENTS.items():
+        for scope in ("all", "daily"):
+            w = warnings[e][scope]
+            br = f"{w['base_rate']:.0%}" if w["base_rate"] is not None else "n/a"
+            print(f"\nWarnings: {e} ({st} of next {h} h >= {lim}), {scope}: n={w['n']}, happened in {br}")
+            for m in methods:
+                sc = w["scores"][m]
+                print(f"  {m:14s} hits={sc['hits']:4d} misses={sc['misses']:4d} false_alarms={sc['false_alarms']:4d}"
+                      f"  hit_rate={sc['hit_rate']}  FAR={sc['false_alarm_ratio']}  CSI={sc['csi']}")
 
 
 if __name__ == "__main__":

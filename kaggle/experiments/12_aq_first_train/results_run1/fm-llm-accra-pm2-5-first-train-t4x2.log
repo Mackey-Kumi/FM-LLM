@@ -1,0 +1,89 @@
+[{"stream_name":"stdout","time":13.977781229,"data":"65 sensors, 28689 hours (2023-07-15 12:00:00 -\u003e 2026-10-22 20:00:00)\n"}
+,{"stream_name":"stderr","time":66.755691348,"data":"\rLoading weights:   0%|          | 0/146 [00:00\u003c?, ?it/s]\rLoading weights: 100%|██████████| 146/146 [00:00\u003c00:00, 2746.56it/s]\n"}
+,{"stream_name":"stdout","time":68.050659818,"data":"windows  train=27489  val=418  test=1681\n"}
+,{"stream_name":"stdout","time":68.051767005,"data":"sensors  train=24  test=18\n"}
+,{"stream_name":"stdout","time":68.120728686,"data":"trainable parameters: 5,989,632\n"}
+,{"stream_name":"stdout","time":109.48100545,"data":"  epoch 1 batch 20/108 loss=1.1406\n"}
+,{"stream_name":"stdout","time":149.664790436,"data":"  epoch 1 batch 40/108 loss=1.0003\n"}
+,{"stream_name":"stdout","time":191.95938816,"data":"  epoch 1 batch 60/108 loss=0.9452\n"}
+,{"stream_name":"stdout","time":234.346700888,"data":"  epoch 1 batch 80/108 loss=0.9507\n"}
+,{"stream_name":"stdout","time":276.321669009,"data":"  epoch 1 batch 100/108 loss=0.8947\n"}
+,{"stream_name":"stdout","time":293.997566121,"data":"Epoch 1  train=1.0540  val=1.4323  time=3.8min\n"}
+,{"stream_name":"stdout","time":294.028893682,"data":"  -\u003e saved best checkpoint (val=1.4323)\n"}
+,{"stream_name":"stdout","time":336.265167808,"data":"  epoch 2 batch 20/108 loss=0.8699\n"}
+,{"stream_name":"stdout","time":378.392320996,"data":"  epoch 2 batch 40/108 loss=0.9091\n"}
+,{"stream_name":"stdout","time":420.704613071,"data":"  epoch 2 batch 60/108 loss=0.8509\n"}
+,{"stream_name":"stdout","time":463.028979256,"data":"  epoch 2 batch 80/108 loss=0.8977\n"}
+,{"stream_name":"stdout","time":505.208051189,"data":"  epoch 2 batch 100/108 loss=0.8292\n"}
+,{"stream_name":"stdout","time":522.793118881,"data":"Epoch 2  train=0.8764  val=1.3238  time=3.8min\n"}
+,{"stream_name":"stdout","time":522.813913428,"data":"  -\u003e saved best checkpoint (val=1.3238)\n"}
+,{"stream_name":"stdout","time":565.12331039,"data":"  epoch 3 batch 20/108 loss=0.8078\n"}
+,{"stream_name":"stdout","time":607.407338981,"data":"  epoch 3 batch 40/108 loss=0.8030\n"}
+,{"stream_name":"stdout","time":649.655976914,"data":"  epoch 3 batch 60/108 loss=0.8500\n"}
+,{"stream_name":"stdout","time":691.802229251,"data":"  epoch 3 batch 80/108 loss=0.8531\n"}
+,{"stream_name":"stdout","time":734.064526762,"data":"  epoch 3 batch 100/108 loss=0.7525\n"}
+,{"stream_name":"stdout","time":751.698915068,"data":"Epoch 3  train=0.8383  val=1.2824  time=3.8min\n"}
+,{"stream_name":"stdout","time":751.717808561,"data":"  -\u003e saved best checkpoint (val=1.2824)\n"}
+,{"stream_name":"stdout","time":794.001946112,"data":"  epoch 4 batch 20/108 loss=0.8530\n"}
+,{"stream_name":"stdout","time":836.215749092,"data":"  epoch 4 batch 40/108 loss=0.8315\n"}
+,{"stream_name":"stdout","time":878.532776214,"data":"  epoch 4 batch 60/108 loss=0.8225\n"}
+,{"stream_name":"stdout","time":920.770225683,"data":"  epoch 4 batch 80/108 loss=0.7977\n"}
+,{"stream_name":"stdout","time":963.010467637,"data":"  epoch 4 batch 100/108 loss=0.8242\n"}
+,{"stream_name":"stdout","time":980.647498016,"data":"Epoch 4  train=0.8140  val=1.2613  time=3.8min\n"}
+,{"stream_name":"stdout","time":980.666737512,"data":"  -\u003e saved best checkpoint (val=1.2613)\n"}
+,{"stream_name":"stdout","time":1023.014009654,"data":"  epoch 5 batch 20/108 loss=0.8533\n"}
+,{"stream_name":"stdout","time":1065.393735373,"data":"  epoch 5 batch 40/108 loss=0.7228\n"}
+,{"stream_name":"stdout","time":1107.632048851,"data":"  epoch 5 batch 60/108 loss=0.7445\n"}
+,{"stream_name":"stdout","time":1149.901175656,"data":"  epoch 5 batch 80/108 loss=0.8256\n"}
+,{"stream_name":"stdout","time":1192.169750887,"data":"  epoch 5 batch 100/108 loss=0.7196\n"}
+,{"stream_name":"stdout","time":1209.836180877,"data":"Epoch 5  train=0.8033  val=1.2612  time=3.8min\n"}
+,{"stream_name":"stdout","time":1209.855510125,"data":"  -\u003e saved best checkpoint (val=1.2612)\n"}
+,{"stream_name":"stdout","time":1252.035374278,"data":"  epoch 6 batch 20/108 loss=0.7997\n"}
+,{"stream_name":"stdout","time":1294.277514329,"data":"  epoch 6 batch 40/108 loss=0.7866\n"}
+,{"stream_name":"stdout","time":1336.613074789,"data":"  epoch 6 batch 60/108 loss=0.7638\n"}
+,{"stream_name":"stdout","time":1378.755362472,"data":"  epoch 6 batch 80/108 loss=0.8487\n"}
+,{"stream_name":"stdout","time":1420.961437961,"data":"  epoch 6 batch 100/108 loss=0.7900\n"}
+,{"stream_name":"stdout","time":1438.606200713,"data":"Epoch 6  train=0.7953  val=1.2498  time=3.8min\n"}
+,{"stream_name":"stdout","time":1438.625710008,"data":"  -\u003e saved best checkpoint (val=1.2498)\n"}
+,{"stream_name":"stdout","time":1480.844755007,"data":"  epoch 7 batch 20/108 loss=0.7976\n"}
+,{"stream_name":"stdout","time":1523.147502048,"data":"  epoch 7 batch 40/108 loss=0.8237\n"}
+,{"stream_name":"stdout","time":1565.458538546,"data":"  epoch 7 batch 60/108 loss=0.8006\n"}
+,{"stream_name":"stdout","time":1607.713668613,"data":"  epoch 7 batch 80/108 loss=0.8427\n"}
+,{"stream_name":"stdout","time":1649.980778282,"data":"  epoch 7 batch 100/108 loss=0.7983\n"}
+,{"stream_name":"stdout","time":1667.576768056,"data":"Epoch 7  train=0.7868  val=1.2620  time=3.8min\n"}
+,{"stream_name":"stdout","time":1709.854747641,"data":"  epoch 8 batch 20/108 loss=0.7958\n"}
+,{"stream_name":"stdout","time":1752.19070355,"data":"  epoch 8 batch 40/108 loss=0.7986\n"}
+,{"stream_name":"stdout","time":1794.534522962,"data":"  epoch 8 batch 60/108 loss=0.7639\n"}
+,{"stream_name":"stdout","time":1836.913032499,"data":"  epoch 8 batch 80/108 loss=0.7602\n"}
+,{"stream_name":"stdout","time":1879.216816973,"data":"  epoch 8 batch 100/108 loss=0.7752\n"}
+,{"stream_name":"stdout","time":1896.831905779,"data":"Epoch 8  train=0.7793  val=1.2516  time=3.8min\n"}
+,{"stream_name":"stdout","time":1939.156485473,"data":"  epoch 9 batch 20/108 loss=0.7775\n"}
+,{"stream_name":"stdout","time":1981.507946451,"data":"  epoch 9 batch 40/108 loss=0.8064\n"}
+,{"stream_name":"stdout","time":2023.857000581,"data":"  epoch 9 batch 60/108 loss=0.7425\n"}
+,{"stream_name":"stdout","time":2065.996217019,"data":"  epoch 9 batch 80/108 loss=0.7519\n"}
+,{"stream_name":"stdout","time":2108.406470217,"data":"  epoch 9 batch 100/108 loss=0.8002\n"}
+,{"stream_name":"stdout","time":2126.019994461,"data":"Epoch 9  train=0.7725  val=1.2589  time=3.8min\n"}
+,{"stream_name":"stdout","time":2126.020052522,"data":"Early stopping\n"}
+,{"stream_name":"stdout","time":2136.241749805,"data":"\n"}
+,{"stream_name":"stdout","time":2136.241789566,"data":"TEST (Dec 2025 - Feb 2026), MAE in µg/m³, averaged over windows:\n"}
+,{"stream_name":"stdout","time":2136.24642825,"data":"              mae_24h  mae_48h\n"}
+,{"stream_name":"stdout","time":2136.246448046,"data":"method                        \n"}
+,{"stream_name":"stdout","time":2136.246453767,"data":"daily_naive     10.32    10.64\n"}
+,{"stream_name":"stdout","time":2136.246458675,"data":"fm_llm           8.29     8.54\n"}
+,{"stream_name":"stdout","time":2136.246463001,"data":"persistence     12.79    13.11\n"}
+,{"stream_name":"stdout","time":2136.246467184,"data":"weekly_naive    12.47    12.40\n"}
+,{"stream_name":"stdout","time":2136.251041451,"data":"  24h: FM-LLM is the best method at 16/18 sensors\n"}
+,{"stream_name":"stdout","time":2136.251955161,"data":"  48h: FM-LLM is the best method at 16/18 sensors\n"}
+,{"stream_name":"stdout","time":2136.251985386,"data":"\n"}
+,{"stream_name":"stdout","time":2136.251990482,"data":"Warnings ('≥ 35.5 µg/m³ within 24 h'):\n"}
+,{"stream_name":"stdout","time":2136.251995017,"data":"  daily_naive    hit rate=0.94801026957638  false-alarm ratio=0.051989730423620026  CSI=0.9011592434411226\n"}
+,{"stream_name":"stdout","time":2136.252218527,"data":"  fm_llm         hit rate=0.8523748395378691  false-alarm ratio=0.01775147928994083  CSI=0.8394437420986094\n"}
+,{"stream_name":"stdout","time":2136.252230754,"data":"  persistence    hit rate=0.39537869062901154  false-alarm ratio=0.00964630225080386  CSI=0.3938618925831202\n"}
+,{"stream_name":"stdout","time":2136.252234763,"data":"  weekly_naive   hit rate=0.9165596919127086  false-alarm ratio=0.05804749340369393  CSI=0.8675577156743621\n"}
+,{"stream_name":"stderr","time":2142.481254168,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":2142.481291871,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":2142.741648064,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":2142.741687145,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":2143.533842258,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":2144.606977321,"data":"[NbConvertApp] Writing 341241 bytes to __results__.html\n"}
+]

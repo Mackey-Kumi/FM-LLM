@@ -155,3 +155,30 @@ def test_scores_overall_and_per_location():
     assert s["csi"] == pytest.approx(1 / 3) and s["mean_lead_hours"] == 6
     per = score_by(recs)
     assert per["A"]["hit_rate"] == 1.0 and per["B"]["hit_rate"] == 0.0
+
+
+def test_forward_works_without_registered_parameters(model):
+    """nn.DataParallel's per-GPU copies expose no parameters; forward must not depend on them."""
+    x = torch.randn(2, 1, 96)
+    expected, _, _ = model(x)
+    model.decoder.parameters = lambda *a, **k: iter(())   # what a replica looks like
+    model.embedding_module.parameters = lambda *a, **k: iter(())
+    got, _, _ = model(x)
+    torch.testing.assert_close(got, expected)
+
+
+def test_set_decoder_dtype(model):
+    model.set_decoder_dtype(torch.bfloat16)
+    assert model.decoder_dtype == torch.bfloat16
+    assert next(model.decoder.parameters()).dtype == torch.bfloat16
+    pred, _, _ = model(torch.randn(2, 1, 96))
+    assert pred.dtype == torch.float32 and torch.isfinite(pred).all()
+
+
+def test_event_occurs_mean_vs_max():
+    from fmllm.events import event_occurs
+    v = np.array([10.0] * 23 + [100.0])            # one spike in an otherwise clean day
+    assert event_occurs(v, "max", 24, 35.5)["exceeds"]
+    assert not event_occurs(v, "mean", 24, 35.5)["exceeds"]   # mean = 13.75
+    assert event_occurs(v, "mean", 24, 35.5)["value"] == pytest.approx(13.75)
+    assert event_occurs(v, "max", 24, 35.5)["first_hour"] == 23

@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from fmllm.data import SensorWindows, fill_short_gaps, load_hourly, train_scale, window_starts
+from fmllm.data import SensorWindows, drop_zero_runs, fill_short_gaps, load_hourly, train_scale, window_starts
 
 
 def test_load_hourly_pivots_reindexes_and_drops_bad_values(tmp_path):
@@ -62,3 +62,20 @@ def test_future_must_be_real_readings():
         assert not (s + 8 <= 20 < s + 12)  # no filled hour in any target
     assert any(s <= 5 < s + 8 for _, s in ds.items)  # filled hours are fine in the history
     assert len(SensorWindows(filled, 8, 4)) > len(ds)
+
+
+def test_drop_zero_runs_removes_long_runs_only():
+    w = pd.DataFrame({"a": [5.0, 0, 7, 0, 0, 0, 0, 9, 0, 0]})
+    out = drop_zero_runs(w, min_run=3)["a"].tolist()
+    assert out[1] == 0                      # isolated zero kept
+    assert all(np.isnan(out[3:7]))          # 4-hour run removed
+    assert out[8:] == [0, 0]                # 2-hour run kept
+    assert out[7] == 9
+
+
+def test_issue_hours_filter():
+    idx = pd.date_range("2026-01-01", periods=72, freq="h")
+    wide = pd.DataFrame({"a": np.arange(72.0)}, index=idx)
+    ds = SensorWindows(wide, seq_len=8, pred_len=4, issue_hours=(0, 12))
+    assert len(ds) > 0
+    assert {ds.issue_time(i).hour for i in range(len(ds))} == {0, 12}

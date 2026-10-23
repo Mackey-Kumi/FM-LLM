@@ -104,3 +104,33 @@ def score_by(records: Iterable[Dict], key: str = "location") -> Dict[str, Dict]:
     for r in records:
         groups[r[key]].append(r)
     return {k: score(v) for k, v in sorted(groups.items())}
+
+
+def event_occurs(values: np.ndarray, stat: str, hours: int, limit: float) -> Dict:
+    """
+    Did (or will) a warning event happen? Two kinds of event:
+        "mean": the AVERAGE over the first `hours` hours reaches `limit`. This is how
+            air-quality standards are defined (e.g. a 24-hour mean PM2.5 standard).
+        "max": ANY single hour in the first `hours` reaches `limit` (much easier to
+            trigger; kept for comparison).
+
+    Args:
+        values: (hours_available,) one sensor's values in µg/m³, hour 0 = first forecast hour.
+        stat: "mean" or "max".
+        hours: how many hours ahead the event covers, e.g. 24.
+        limit: level in µg/m³.
+
+    Returns:
+        dict with
+            exceeds: bool, did the event happen,
+            value: the average (for "mean") or the peak (for "max") over the period,
+            first_hour: for "max", the first hour reaching the limit (None otherwise or if none).
+    """
+    window = values[:hours]
+    if stat == "mean":
+        m = float(np.nanmean(window))
+        return {"exceeds": m >= limit, "value": m, "first_hour": None}
+    if stat == "max":
+        r = assess_exceedance(window, limit)
+        return {"exceeds": r["exceeds"], "value": r["peak"], "first_hour": r["first_hour"]}
+    raise ValueError(f"stat must be 'mean' or 'max', not {stat!r}")
