@@ -56,6 +56,7 @@ push — the push output tells you the actual URL if so; update `id` to match).
 | `10_rollout_eval_instnorm` | Does it hold up at the rollout horizons? | Yes, decisively — best result by far. See the four-way table below. ~46min, four checkpoints |
 | `11_app_forecasts` | Precompute forecasts for the GridForecast demo app | Removed with the demo app; kept under the git tag `gridforecast-demo` |
 | `12_aq_first_train` | First FM-LLM training on Accra PM2.5 (OpenAQ), ETTh1 recipe; tested on the 2025-26 Harmattan | Run 2 (zero-fault rule, 24-h mean events): MAE 8.33 / 8.56 µg/m³ at 24 / 48 h vs 10.35 / 10.69 for same-as-yesterday; best method at 14/14 sensors. Ghana 24-h standard (35 µg/m³) warnings, one per day: CSI 0.59 vs 0.56. Underestimates peaks. ~72 min on T4x2. Results in `results_run1/`, `results_run2/` |
+| `13_aq_eval_bootstrap` | Re-score experiment 12 run 2's checkpoint (no training); per-forecast table + bootstrap CIs (resampling test days) | Reproduces run 2 exactly. MAE gain over same-as-yesterday −2.02 µg/m³ at 24 h (95% CI −2.62 to −1.52): significant. Ghana-event CSI vs same-as-yesterday +0.032 (CI −0.041 to +0.103): not significant; significantly better than last-hour and last-week. ~70 s on one T4. Results in `results/` |
 
 | Horizon | no_dropout | dropout | dropout_longer | instnorm | Paper (Table A.12) |
 |---|---|---|---|---|---|

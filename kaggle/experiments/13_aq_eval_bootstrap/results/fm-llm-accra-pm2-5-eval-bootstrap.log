@@ -1,0 +1,118 @@
+[{"stream_name":"stderr","time":53.127596703,"data":"\rLoading weights:   0%|          | 0/146 [00:00\u003c?, ?it/s]\rLoading weights: 100%|██████████| 146/146 [00:00\u003c00:00, 2763.25it/s]\n"}
+,{"stream_name":"stdout","time":54.513902157,"data":"model: /kaggle/input/notebooks/mackeykumi/fm-llm-accra-pm2-5-first-train-t4x2/aq_pm25_best.pt\n"}
+,{"stream_name":"stdout","time":57.049603575,"data":"test forecasts: 1625  sensors: 14\n"}
+,{"stream_name":"stdout","time":68.056434394,"data":"\n"}
+,{"stream_name":"stdout","time":68.056471601,"data":"TEST: MAE in µg/m³, averaged over forecasts:\n"}
+,{"stream_name":"stdout","time":68.061947109,"data":"              mae_24h  mae_48h\n"}
+,{"stream_name":"stdout","time":68.061963652,"data":"daily_naive     10.35    10.69\n"}
+,{"stream_name":"stdout","time":68.061968227,"data":"fm_llm           8.33     8.56\n"}
+,{"stream_name":"stdout","time":68.061974338,"data":"persistence     13.53    13.94\n"}
+,{"stream_name":"stdout","time":68.061982567,"data":"weekly_naive    12.26    12.22\n"}
+,{"stream_name":"stdout","time":68.06584203,"data":"  mae_24h: FM-LLM is the best method at 14/14 sensors\n"}
+,{"stream_name":"stdout","time":68.067115645,"data":"  mae_48h: FM-LLM is the best method at 14/14 sensors\n"}
+,{"stream_name":"stdout","time":68.067128996,"data":"\n"}
+,{"stream_name":"stdout","time":68.067134333,"data":"Warnings: ghana_24h_mean (mean of next 24 h \u003e= 35.0), all: n=1625, happened in 42%\n"}
+,{"stream_name":"stdout","time":68.067140067,"data":"  daily_naive    hits= 474 misses= 214 false_alarms= 176  hit_rate=0.688953488372093  FAR=0.27076923076923076  CSI=0.5486111111111112\n"}
+,{"stream_name":"stdout","time":68.0671457,"data":"  fm_llm         hits= 476 misses= 212 false_alarms= 155  hit_rate=0.6918604651162791  FAR=0.24564183835182252  CSI=0.564650059311981\n"}
+,{"stream_name":"stdout","time":68.067162223,"data":"  persistence    hits= 422 misses= 266 false_alarms= 234  hit_rate=0.6133720930232558  FAR=0.3567073170731707  CSI=0.45770065075921906\n"}
+,{"stream_name":"stdout","time":68.067168555,"data":"  weekly_naive   hits= 384 misses= 304 false_alarms= 224  hit_rate=0.5581395348837209  FAR=0.3684210526315789  CSI=0.42105263157894735\n"}
+,{"stream_name":"stdout","time":68.067191899,"data":"\n"}
+,{"stream_name":"stdout","time":68.067196511,"data":"Warnings: ghana_24h_mean (mean of next 24 h \u003e= 35.0), daily: n=418, happened in 42%\n"}
+,{"stream_name":"stdout","time":68.067201407,"data":"  daily_naive    hits= 123 misses=  54 false_alarms=  44  hit_rate=0.6949152542372882  FAR=0.2634730538922156  CSI=0.5565610859728507\n"}
+,{"stream_name":"stdout","time":68.067975891,"data":"  fm_llm         hits= 130 misses=  47 false_alarms=  44  hit_rate=0.7344632768361582  FAR=0.25287356321839083  CSI=0.5882352941176471\n"}
+,{"stream_name":"stdout","time":68.067989118,"data":"  persistence    hits= 112 misses=  65 false_alarms=  62  hit_rate=0.632768361581921  FAR=0.3563218390804598  CSI=0.4686192468619247\n"}
+,{"stream_name":"stdout","time":68.067994473,"data":"  weekly_naive   hits= 100 misses=  77 false_alarms=  60  hit_rate=0.5649717514124294  FAR=0.375  CSI=0.4219409282700422\n"}
+,{"stream_name":"stdout","time":68.067999124,"data":"\n"}
+,{"stream_name":"stdout","time":68.068002853,"data":"Warnings: unhealthy_24h_mean (mean of next 24 h \u003e= 55.5), all: n=1625, happened in 1%\n"}
+,{"stream_name":"stdout","time":68.068007168,"data":"  daily_naive    hits=   0 misses=  23 false_alarms=  15  hit_rate=0.0  FAR=1.0  CSI=0.0\n"}
+,{"stream_name":"stdout","time":68.06801125,"data":"  fm_llm         hits=   0 misses=  23 false_alarms=   4  hit_rate=0.0  FAR=1.0  CSI=0.0\n"}
+,{"stream_name":"stdout","time":68.068016025,"data":"  persistence    hits=   4 misses=  19 false_alarms= 108  hit_rate=0.17391304347826086  FAR=0.9642857142857143  CSI=0.030534351145038167\n"}
+,{"stream_name":"stdout","time":68.068033038,"data":"  weekly_naive   hits=   0 misses=  23 false_alarms=  20  hit_rate=0.0  FAR=1.0  CSI=0.0\n"}
+,{"stream_name":"stdout","time":68.068037594,"data":"\n"}
+,{"stream_name":"stdout","time":68.068041292,"data":"Warnings: unhealthy_24h_mean (mean of next 24 h \u003e= 55.5), daily: n=418, happened in 1%\n"}
+,{"stream_name":"stdout","time":68.068045455,"data":"  daily_naive    hits=   0 misses=   4 false_alarms=   3  hit_rate=0.0  FAR=1.0  CSI=0.0\n"}
+,{"stream_name":"stdout","time":68.068049443,"data":"  fm_llm         hits=   0 misses=   4 false_alarms=   1  hit_rate=0.0  FAR=1.0  CSI=0.0\n"}
+,{"stream_name":"stdout","time":68.068053604,"data":"  persistence    hits=   1 misses=   3 false_alarms=  26  hit_rate=0.25  FAR=0.9629629629629629  CSI=0.03333333333333333\n"}
+,{"stream_name":"stdout","time":68.068059659,"data":"  weekly_naive   hits=   0 misses=   4 false_alarms=   3  hit_rate=0.0  FAR=1.0  CSI=0.0\n"}
+,{"stream_name":"stdout","time":68.068067832,"data":"\n"}
+,{"stream_name":"stdout","time":68.068070312,"data":"Warnings: any_hour_35.5 (max of next 24 h \u003e= 35.5), all: n=1625, happened in 93%\n"}
+,{"stream_name":"stdout","time":68.068072972,"data":"  daily_naive    hits=1425 misses=  81 false_alarms=  79  hit_rate=0.9462151394422311  FAR=0.052526595744680854  CSI=0.8990536277602523\n"}
+,{"stream_name":"stdout","time":68.068075743,"data":"  fm_llm         hits=1273 misses= 233 false_alarms=  19  hit_rate=0.8452855245683931  FAR=0.014705882352941176  CSI=0.8347540983606557\n"}
+,{"stream_name":"stdout","time":68.068078534,"data":"  persistence    hits= 628 misses= 878 false_alarms=   6  hit_rate=0.4169986719787517  FAR=0.00946372239747634  CSI=0.41534391534391535\n"}
+,{"stream_name":"stdout","time":68.068081264,"data":"  weekly_naive   hits=1395 misses= 111 false_alarms=  85  hit_rate=0.9262948207171314  FAR=0.057432432432432436  CSI=0.8768070395977373\n"}
+,{"stream_name":"stdout","time":68.068083972,"data":"\n"}
+,{"stream_name":"stdout","time":68.068086836,"data":"Warnings: any_hour_35.5 (max of next 24 h \u003e= 35.5), daily: n=418, happened in 93%\n"}
+,{"stream_name":"stdout","time":68.068089713,"data":"  daily_naive    hits= 373 misses=  17 false_alarms=  20  hit_rate=0.9564102564102565  FAR=0.05089058524173028  CSI=0.9097560975609756\n"}
+,{"stream_name":"stdout","time":68.068092808,"data":"  fm_llm         hits= 336 misses=  54 false_alarms=   5  hit_rate=0.8615384615384616  FAR=0.01466275659824047  CSI=0.850632911392405\n"}
+,{"stream_name":"stdout","time":68.068096104,"data":"  persistence    hits= 164 misses= 226 false_alarms=   6  hit_rate=0.4205128205128205  FAR=0.03529411764705882  CSI=0.41414141414141414\n"}
+,{"stream_name":"stdout","time":68.068117307,"data":"  weekly_naive   hits= 360 misses=  30 false_alarms=  20  hit_rate=0.9230769230769231  FAR=0.05263157894736842  CSI=0.8780487804878049\n"}
+,{"stream_name":"stdout","time":68.06812319,"data":"\n"}
+,{"stream_name":"stdout","time":68.068127512,"data":"BOOTSTRAP (resampling test days; diff = FM-LLM minus method, 95% interval):\n"}
+,{"stream_name":"stdout","time":68.078226829,"data":"                     metric scope       method  estimate   diff  diff_low  diff_high  ref_better\n"}
+,{"stream_name":"stdout","time":68.078239691,"data":"                    mae_24h   all  daily_naive    10.352 -2.022    -2.623     -1.522       1.000\n"}
+,{"stream_name":"stdout","time":68.078244517,"data":"                    mae_24h   all  persistence    13.530 -5.200    -6.026     -4.390       1.000\n"}
+,{"stream_name":"stdout","time":68.078250765,"data":"                    mae_24h   all weekly_naive    12.265 -3.934    -4.834     -3.111       1.000\n"}
+,{"stream_name":"stdout","time":68.078285884,"data":"                    mae_48h   all  daily_naive    10.687 -2.124    -2.738     -1.608       1.000\n"}
+,{"stream_name":"stdout","time":68.07829111,"data":"                    mae_48h   all  persistence    13.937 -5.375    -6.264     -4.584       1.000\n"}
+,{"stream_name":"stdout","time":68.078295388,"data":"                    mae_48h   all weekly_naive    12.223 -3.660    -4.422     -2.943       1.000\n"}
+,{"stream_name":"stdout","time":68.078299872,"data":"         ghana_24h_mean:csi   all  daily_naive     0.549  0.016    -0.021      0.053       0.785\n"}
+,{"stream_name":"stdout","time":68.078304339,"data":"         ghana_24h_mean:csi   all  persistence     0.458  0.107     0.062      0.153       1.000\n"}
+,{"stream_name":"stdout","time":68.078309157,"data":"         ghana_24h_mean:csi   all weekly_naive     0.421  0.144     0.066      0.226       1.000\n"}
+,{"stream_name":"stdout","time":68.078313932,"data":"    ghana_24h_mean:hit_rate   all  daily_naive     0.689  0.003    -0.042      0.049       0.531\n"}
+,{"stream_name":"stdout","time":68.078319008,"data":"    ghana_24h_mean:hit_rate   all  persistence     0.613  0.078     0.024      0.140       0.998\n"}
+,{"stream_name":"stdout","time":68.078323263,"data":"    ghana_24h_mean:hit_rate   all weekly_naive     0.558  0.134     0.025      0.249       0.994\n"}
+,{"stream_name":"stdout","time":68.078327292,"data":"         ghana_24h_mean:far   all  daily_naive     0.271 -0.025    -0.065      0.015       0.890\n"}
+,{"stream_name":"stdout","time":68.07833169,"data":"         ghana_24h_mean:far   all  persistence     0.357 -0.111    -0.152     -0.070       1.000\n"}
+,{"stream_name":"stdout","time":68.078335716,"data":"         ghana_24h_mean:far   all weekly_naive     0.368 -0.123    -0.193     -0.053       0.998\n"}
+,{"stream_name":"stdout","time":68.07833978,"data":"         ghana_24h_mean:csi daily  daily_naive     0.557  0.032    -0.041      0.103       0.812\n"}
+,{"stream_name":"stdout","time":68.078343926,"data":"         ghana_24h_mean:csi daily  persistence     0.469  0.120     0.028      0.200       0.994\n"}
+,{"stream_name":"stdout","time":68.078353737,"data":"         ghana_24h_mean:csi daily weekly_naive     0.422  0.166     0.080      0.260       1.000\n"}
+,{"stream_name":"stdout","time":68.078357305,"data":"    ghana_24h_mean:hit_rate daily  daily_naive     0.695  0.040    -0.032      0.119       0.824\n"}
+,{"stream_name":"stdout","time":68.07835998,"data":"    ghana_24h_mean:hit_rate daily  persistence     0.633  0.102    -0.012      0.210       0.958\n"}
+,{"stream_name":"stdout","time":68.078363295,"data":"    ghana_24h_mean:hit_rate daily weekly_naive     0.565  0.169     0.050      0.294       0.996\n"}
+,{"stream_name":"stdout","time":68.078365962,"data":"         ghana_24h_mean:far daily  daily_naive     0.263 -0.011    -0.080      0.059       0.612\n"}
+,{"stream_name":"stdout","time":68.078368557,"data":"         ghana_24h_mean:far daily  persistence     0.356 -0.103    -0.179     -0.019       0.992\n"}
+,{"stream_name":"stdout","time":68.078371875,"data":"         ghana_24h_mean:far daily weekly_naive     0.375 -0.122    -0.200     -0.042       0.998\n"}
+,{"stream_name":"stdout","time":68.078375864,"data":"     unhealthy_24h_mean:csi   all  daily_naive     0.000  0.000     0.000      0.000       0.000\n"}
+,{"stream_name":"stdout","time":68.078379635,"data":"     unhealthy_24h_mean:csi   all  persistence     0.031 -0.031    -0.061     -0.007       0.000\n"}
+,{"stream_name":"stdout","time":68.078382268,"data":"     unhealthy_24h_mean:csi   all weekly_naive     0.000  0.000     0.000      0.000       0.000\n"}
+,{"stream_name":"stdout","time":68.078407162,"data":"unhealthy_24h_mean:hit_rate   all  daily_naive     0.000  0.000     0.000      0.000       0.000\n"}
+,{"stream_name":"stdout","time":68.078412417,"data":"unhealthy_24h_mean:hit_rate   all  persistence     0.174 -0.174    -0.333     -0.059       0.000\n"}
+,{"stream_name":"stdout","time":68.078417038,"data":"unhealthy_24h_mean:hit_rate   all weekly_naive     0.000  0.000     0.000      0.000       0.000\n"}
+,{"stream_name":"stdout","time":68.078421829,"data":"     unhealthy_24h_mean:far   all  daily_naive     1.000  0.000     0.000      0.000       0.000\n"}
+,{"stream_name":"stdout","time":68.078426823,"data":"     unhealthy_24h_mean:far   all  persistence     0.964  0.036     0.008      0.075       0.000\n"}
+,{"stream_name":"stdout","time":68.078430929,"data":"     unhealthy_24h_mean:far   all weekly_naive     1.000  0.000     0.000      0.000       0.000\n"}
+,{"stream_name":"stdout","time":68.078434991,"data":"     unhealthy_24h_mean:csi daily  daily_naive     0.000  0.000     0.000      0.000       0.000\n"}
+,{"stream_name":"stdout","time":68.078439014,"data":"     unhealthy_24h_mean:csi daily  persistence     0.033 -0.033    -0.120      0.000       0.000\n"}
+,{"stream_name":"stdout","time":68.078443131,"data":"     unhealthy_24h_mean:csi daily weekly_naive     0.000  0.000     0.000      0.000       0.000\n"}
+,{"stream_name":"stdout","time":68.078447208,"data":"unhealthy_24h_mean:hit_rate daily  daily_naive     0.000  0.000     0.000      0.000       0.000\n"}
+,{"stream_name":"stdout","time":68.078451321,"data":"unhealthy_24h_mean:hit_rate daily  persistence     0.250 -0.250    -1.000      0.000       0.000\n"}
+,{"stream_name":"stdout","time":68.078455353,"data":"unhealthy_24h_mean:hit_rate daily weekly_naive     0.000  0.000     0.000      0.000       0.000\n"}
+,{"stream_name":"stdout","time":68.078459375,"data":"     unhealthy_24h_mean:far daily  daily_naive     1.000  0.000     0.000      0.000       0.000\n"}
+,{"stream_name":"stdout","time":68.078463426,"data":"     unhealthy_24h_mean:far daily  persistence     0.963  0.037     0.000      0.125       0.000\n"}
+,{"stream_name":"stdout","time":68.07846816,"data":"     unhealthy_24h_mean:far daily weekly_naive     1.000  0.000     0.000      0.000       0.000\n"}
+,{"stream_name":"stdout","time":68.07847419,"data":"          any_hour_35.5:csi   all  daily_naive     0.899 -0.064    -0.097     -0.032       0.000\n"}
+,{"stream_name":"stdout","time":68.078481512,"data":"          any_hour_35.5:csi   all  persistence     0.415  0.419     0.379      0.455       1.000\n"}
+,{"stream_name":"stdout","time":68.078484223,"data":"          any_hour_35.5:csi   all weekly_naive     0.877 -0.042    -0.086      0.001       0.030\n"}
+,{"stream_name":"stdout","time":68.078486814,"data":"     any_hour_35.5:hit_rate   all  daily_naive     0.946 -0.101    -0.129     -0.072       0.000\n"}
+,{"stream_name":"stdout","time":68.07848986,"data":"     any_hour_35.5:hit_rate   all  persistence     0.417  0.428     0.388      0.464       1.000\n"}
+,{"stream_name":"stdout","time":68.078509829,"data":"     any_hour_35.5:hit_rate   all weekly_naive     0.926 -0.081    -0.124     -0.040       0.000\n"}
+,{"stream_name":"stdout","time":68.078515,"data":"          any_hour_35.5:far   all  daily_naive     0.053 -0.038    -0.058     -0.019       1.000\n"}
+,{"stream_name":"stdout","time":68.078519453,"data":"          any_hour_35.5:far   all  persistence     0.009  0.005    -0.005      0.016       0.162\n"}
+,{"stream_name":"stdout","time":68.078524452,"data":"          any_hour_35.5:far   all weekly_naive     0.057 -0.043    -0.064     -0.022       1.000\n"}
+,{"stream_name":"stdout","time":68.078529154,"data":"          any_hour_35.5:csi daily  daily_naive     0.910 -0.059    -0.106     -0.013       0.004\n"}
+,{"stream_name":"stdout","time":68.078537184,"data":"          any_hour_35.5:csi daily  persistence     0.414  0.436     0.369      0.504       1.000\n"}
+,{"stream_name":"stdout","time":68.078541571,"data":"          any_hour_35.5:csi daily weekly_naive     0.878 -0.027    -0.085      0.029       0.160\n"}
+,{"stream_name":"stdout","time":68.078545917,"data":"     any_hour_35.5:hit_rate daily  daily_naive     0.956 -0.095    -0.136     -0.056       0.000\n"}
+,{"stream_name":"stdout","time":68.078550011,"data":"     any_hour_35.5:hit_rate daily  persistence     0.421  0.441     0.372      0.512       1.000\n"}
+,{"stream_name":"stdout","time":68.078554176,"data":"     any_hour_35.5:hit_rate daily weekly_naive     0.923 -0.062    -0.115     -0.010       0.006\n"}
+,{"stream_name":"stdout","time":68.078558238,"data":"          any_hour_35.5:far daily  daily_naive     0.051 -0.036    -0.062     -0.013       1.000\n"}
+,{"stream_name":"stdout","time":68.078562338,"data":"          any_hour_35.5:far daily  persistence     0.035 -0.021    -0.062      0.015       0.807\n"}
+,{"stream_name":"stdout","time":68.078566408,"data":"          any_hour_35.5:far daily weekly_naive     0.053 -0.038    -0.066     -0.012       1.000\n"}
+,{"stream_name":"stderr","time":74.191881542,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":74.191907782,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":74.449127458,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":74.449151822,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":75.225034161,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":76.232046987,"data":"[NbConvertApp] Writing 300080 bytes to __results__.html\n"}
+]

@@ -1,0 +1,15 @@
+{
+  "id": "mackeykumi/fm-llm-accra-pm2-5-eval-bootstrap",
+  "title": "FM-LLM Accra PM2.5 eval bootstrap",
+  "code_file": "kaggle_eval_aq.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "machine_shape": "NvidiaTeslaT4",
+  "dataset_sources": ["mackeykumi/fm-llm-hf-token", "mackeykumi/fm-llm-accra-aq"],
+  "competition_sources": [],
+  "kernel_sources": ["mackeykumi/fm-llm-accra-pm2-5-first-train-t4x2"],
+  "model_sources": []
+}
