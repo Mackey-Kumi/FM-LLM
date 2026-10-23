@@ -23,6 +23,8 @@ def hybrid_loss(pred, target, alpha=1.0, beta=1.0):
     Returns:
         Scalar tensor: alpha * frequency_error + beta * time_error.
     """
+    # L, T, P below are the symbols of the paper's Eq. 19-23, kept so the code reads against the paper.
+    # pylint: disable=invalid-name
     pred = pred.float()
     target = target.float()
     L = pred.shape[-1]
@@ -50,6 +52,8 @@ def sequence_balance_loss(scores, top_indices, num_routed, top_k, gamma=1e-4):
     Returns:
         Scalar tensor: gamma * sum over experts of (how often it was chosen x its average score).
     """
+    # T, P are the symbols of the paper's Eq. 22-23.
+    # pylint: disable=invalid-name
     T = top_indices.shape[:-1].numel()
     one_hot = F.one_hot(top_indices, num_classes=num_routed).sum(dim=-2)
     f = one_hot.reshape(-1, num_routed).sum(dim=0).float() * (num_routed / (top_k * T))

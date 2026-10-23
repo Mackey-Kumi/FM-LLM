@@ -28,8 +28,8 @@ from pathlib import Path
 from typing import Optional
 
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
+from torch import nn
 
 
 @dataclass
@@ -337,7 +337,7 @@ def hf_token() -> Optional[str]:
         dataset, else None.
     """
     try:
-        from dotenv import load_dotenv
+        from dotenv import load_dotenv  # pylint: disable=import-outside-toplevel  # optional, local runs only
         load_dotenv()
     except ImportError:
         pass
@@ -345,7 +345,7 @@ def hf_token() -> Optional[str]:
         return os.environ["HF_TOKEN"]
     for path in HF_TOKEN_FILES:
         if os.path.exists(path):
-            return Path(path).read_text().strip()
+            return Path(path).read_text(encoding="utf-8").strip()
     return None
 
 
@@ -360,6 +360,7 @@ class LlamaBackbone(nn.Module):
 
     def __init__(self, device="cpu"):
         super().__init__()
+        # pylint: disable-next=import-outside-toplevel  # heavy; tests and CPU smoke runs never load it
         from transformers import LlamaModel
 
         self.dtype = torch.bfloat16 if str(device).startswith("cuda") else torch.float32

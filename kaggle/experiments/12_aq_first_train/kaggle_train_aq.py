@@ -29,9 +29,9 @@ batches on CPU with a tiny stand-in for Llama, to check the plumbing.
 
 import argparse
 import json
-import os
 import sys
 import time
+import zipfile
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -61,7 +61,6 @@ def unpack_zips(inputs, work):
         inputs: /kaggle/input.
         work: folder to unpack into (writable, e.g. /kaggle/working/bundle).
     """
-    import zipfile
     for z in [*inputs.rglob("fmllm.zip"), *inputs.rglob("data.zip")]:
         with zipfile.ZipFile(z) as f:
             prefixed = all(n.startswith(z.stem + "/") for n in f.namelist())
@@ -104,15 +103,19 @@ def find_bundle(inputs=Path("/kaggle/input"), work=Path("/kaggle/working/bundle"
 
 BUNDLE = find_bundle()
 
+# Imported only now: fmllm can be imported only after find_bundle() has put it on sys.path.
+# pylint: disable=wrong-import-position,wrong-import-order
 import numpy as np
+import pandas as pd
 import torch
-import torch.nn as nn
+from torch import nn
 
 from fmllm.data import SensorWindows, fill_short_gaps, load_hourly, train_scale
 from fmllm.events import event_occurs, score, score_by
 from fmllm.forecast import BASELINES, baseline_forecast, forecast
 from fmllm.losses import hybrid_loss, sequence_balance_loss
 from fmllm.model import FMLLM, LlamaBackbone, ModelConfig, TinyBackbone, save_checkpoint
+# pylint: enable=wrong-import-position,wrong-import-order
 
 TRAIN_END, VAL_END, TEST_END = "2025-10-01", "2025-12-01", "2026-03-01"
 HORIZONS = (24, 48)
@@ -201,8 +204,8 @@ def main():
 
     # 3. windows for each split
     pred_len = config.patch_len
-    common = dict(seq_len=config.seq_len, pred_len=pred_len, scale=scale, observed=raw,
-                  real_future_hours=max(HORIZONS))
+    common = {"seq_len": config.seq_len, "pred_len": pred_len, "scale": scale, "observed": raw,
+              "real_future_hours": max(HORIZONS)}
     train_ds = SensorWindows(wide, end=TRAIN_END, stride=TRAIN_STRIDE, **common)
     val_ds = SensorWindows(wide, start=TRAIN_END, end=VAL_END, stride=EVAL_STRIDE, **common)
     test_ds = SensorWindows(wide, start=VAL_END, end=TEST_END, issue_hours=TEST_ISSUE_HOURS, **common)
@@ -222,7 +225,7 @@ def main():
     optimizer = torch.optim.Adam(model.trainable_parameters(), lr=LR)
     print(f"trainable parameters: {sum(p.numel() for p in model.trainable_parameters()):,}")
 
-    loader_kw = dict(batch_size=BATCH_SIZE if not args.smoke else 16, num_workers=0)
+    loader_kw = {"batch_size": BATCH_SIZE if not args.smoke else 16, "num_workers": 0}
     train_loader = torch.utils.data.DataLoader(train_ds, shuffle=True, **loader_kw)
     val_loader = torch.utils.data.DataLoader(val_ds, shuffle=False, **loader_kw)
     max_batches = 3 if args.smoke else None
@@ -313,19 +316,16 @@ def evaluate(model, ds, device, out_dir, max_batches=None):
             the base rate (share of forecasts where the event happened) and warning scores
             overall and per sensor; the event definitions used.
     """
-    import pandas as pd
-
     model.eval()
     loader = torch.utils.data.DataLoader(ds, batch_size=64, shuffle=False)
     horizon = max(HORIZONS)
     rows, records = [], []
     i0 = 0  # index of the batch's first sample, to look up issue times
-    for b, (hist, fut, js, starts) in enumerate(loader):
+    for b, (hist, _, js, starts) in enumerate(loader):  # truth comes unscaled from ds.values below
         if max_batches and b >= max_batches:
             break
         pred = forecast(model, hist.to(device), horizon).float().cpu().numpy()[:, 0]
-        for k in range(len(js)):
-            j, s = int(js[k]), int(starts[k])
+        for k, (j, s) in enumerate(zip(js.tolist(), starts.tolist())):
             sensor = ds.sensors[j]
             daily = ds.issue_time(i0 + k).hour == 0
             mean, std = ds.scale.get(sensor, (0.0, 1.0))
@@ -361,10 +361,11 @@ def evaluate(model, ds, device, out_dir, max_batches=None):
                 "scores": {m: score(r for r in sel if r["method"] == m) for m in methods},
                 "scores_by_sensor": {m: score_by(r for r in sel if r["method"] == m) for m in methods},
             }
-    json.dump({"mae_overall": overall.to_dict(), "warnings": warnings, "n_windows": len(ds),
+    results = {"mae_overall": overall.to_dict(), "warnings": warnings, "n_windows": len(ds),
                "events": {e: {"stat": st, "hours": h, "limit": lim} for e, (st, h, lim) in EVENTS.items()},
-               "issue_hours": TEST_ISSUE_HOURS},
-              open(out_dir / "test_results.json", "w"), indent=1, default=str)
+               "issue_hours": TEST_ISSUE_HOURS}
+    with open(out_dir / "test_results.json", "w", encoding="utf-8") as f:
+        json.dump(results, f, indent=1, default=str)
 
     print("\nTEST (Dec 2025 - Feb 2026), MAE in µg/m³, averaged over forecasts:")
     print(overall.round(2).to_string())

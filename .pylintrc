@@ -1,0 +1,6 @@
+# Pylint settings for this repo: run with `uv run --with pylint pylint fmllm kaggle/experiments/12_aq_first_train`.
+# Deliberate exceptions are disabled inline, next to the code, with the reason.
+
+[FORMAT]
+# The codebase is written to ~120 columns (docstrings with shapes and units run long).
+max-line-length=120
