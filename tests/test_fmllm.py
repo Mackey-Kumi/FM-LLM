@@ -182,3 +182,31 @@ def test_event_occurs_mean_vs_max():
     assert not event_occurs(v, "mean", 24, 35.5)["exceeds"]   # mean = 13.75
     assert event_occurs(v, "mean", 24, 35.5)["value"] == pytest.approx(13.75)
     assert event_occurs(v, "max", 24, 35.5)["first_hour"] == 23
+
+
+def test_ensemble_varies_with_dropout_and_restores_eval(model):
+    from fmllm.forecast import forecast_ensemble
+    x = torch.randn(3, 2, 96)
+    ens = forecast_ensemble(model, x, horizon=24, n_samples=5, chunk=4)
+    assert ens.shape == (5, 3, 2, 24)
+    assert not torch.allclose(ens[0], ens[1])                       # dropout makes members differ
+    assert not any(m.training for m in model.modules())              # back to plain eval afterwards
+    torch.testing.assert_close(forecast(model, x, 24), forecast(model, x, 24))  # deterministic again
+
+
+def test_ensemble_without_dropout_equals_plain_forecast():
+    from fmllm.forecast import forecast_ensemble
+    c = small_config(dropout=0.0)
+    m = FMLLM(c, FakeBackbone(c.llm_dim)).eval()
+    x = torch.randn(2, 1, 96)
+    ens = forecast_ensemble(m, x, horizon=24, n_samples=3)
+    for k in range(3):
+        torch.testing.assert_close(ens[k], forecast(m, x, 24))
+
+
+def test_summarize_ensemble_probability():
+    from fmllm.forecast import summarize_ensemble
+    samples = np.stack([np.full(48, v) for v in (20.0, 30.0, 40.0, 50.0)])  # 4 members, flat forecasts
+    s = summarize_ensemble(samples, limit=35, hours=24)
+    assert s["prob_exceed"] == 0.5
+    assert s["low"].shape == (48,) and (s["low"] <= s["median"]).all() and (s["median"] <= s["high"]).all()
