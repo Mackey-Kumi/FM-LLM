@@ -146,9 +146,10 @@ class SensorWindows(torch.utils.data.Dataset):
     timeline this split owns. The history may reach back before `start` into an
     earlier split (as in the ETTh1 experiments), but never forward in time.
 
-    If `observed` is given, the first `real_future_hours` of every future (the
-    part we score) must be real readings: filled hours may appear in the history
-    and in the unscored tail of the future, never in what we score.
+    If `observed` is given, at least `min_real_fraction` of the first
+    `real_future_hours` of every future (the part we score) must be real readings,
+    and evaluation scores only those real hours (see `truth`). Filled hours may
+    appear in the history, which the model reads, but never count as an answer.
 
     Args:
         wide: gap-filled hourly table (rows = hours, columns = sensors), i.e. the output
@@ -163,21 +164,27 @@ class SensorWindows(torch.utils.data.Dataset):
             (value - mean) / std. None = no scaling.
         observed: the table BEFORE gap filling (output of load_hourly), or a boolean
             "is a real reading" table of the same shape. None = don't check.
-        real_future_hours: how many hours at the start of the future must be real
-            readings. None = the whole future (pred_len).
+        real_future_hours: how many hours at the start of the future are scored.
+            None = the whole future (pred_len).
+        min_real_fraction: share of those scored hours that must be real readings.
+            1.0 = all of them (the rule of experiments 12-13); 0.75 = the rule for
+            sensors that skip hours (experiment 14 on).
         issue_hours: keep only forecasts issued at these clock hours (UTC = Ghana time),
             e.g. (0, 6, 12, 18). Applied before `stride`. None = any hour.
 
     Attributes:
         items: list of (sensor column index, start index) for every sample.
         values: (hours, sensors) float32 array of the gap-filled data, unscaled (µg/m³).
+        truth: same shape, the REAL readings only (NaN where nothing was measured).
+            Equals `values` when `observed` isn't given.
         sensors: the sensor ids, in column order.
     """
 
     def __init__(self, wide: pd.DataFrame, seq_len: int, pred_len: int, start: Optional[str] = None,
                  end: Optional[str] = None, stride: int = 1, sensors: Optional[Sequence] = None,
                  scale: Optional[Dict] = None, observed: Optional[pd.DataFrame] = None,
-                 real_future_hours: Optional[int] = None, issue_hours: Optional[Sequence[int]] = None):
+                 real_future_hours: Optional[int] = None, issue_hours: Optional[Sequence[int]] = None,
+                 min_real_fraction: float = 1.0):
         self.seq_len, self.pred_len = seq_len, pred_len
         self.sensors = list(sensors) if sensors is not None else list(wide.columns)
         self.values = wide[self.sensors].to_numpy(dtype="float32")
@@ -187,9 +194,11 @@ class SensorWindows(torch.utils.data.Dataset):
         hi = len(wide) if end is None else int(wide.index.searchsorted(pd.Timestamp(end)))
 
         real = None  # (hours, sensors) bool: True where there was an actual reading
+        self.truth = self.values
         if observed is not None:
             obs = observed[self.sensors]
             real = obs.to_numpy() if (obs.dtypes == bool).all() else obs.notna().to_numpy()
+            self.truth = np.where(real, self.values, np.nan).astype("float32")
 
         self.items: List[Tuple[int, int]] = []
         for j in range(len(self.sensors)):
@@ -199,8 +208,9 @@ class SensorWindows(torch.utils.data.Dataset):
             if real is not None and len(starts):
                 fake_before = np.concatenate([[0], np.cumsum(~real[:, j])])  # same counting trick as window_starts
                 fut = starts + seq_len
-                n_real = pred_len if real_future_hours is None else real_future_hours
-                starts = starts[(fake_before[fut + n_real] - fake_before[fut]) == 0]
+                n_scored = pred_len if real_future_hours is None else real_future_hours
+                n_fake = fake_before[fut + n_scored] - fake_before[fut]
+                starts = starts[n_scored - n_fake >= np.ceil(min_real_fraction * n_scored)]
             if issue_hours is not None and len(starts):
                 starts = starts[np.isin(self.index[starts + seq_len].hour, list(issue_hours))]
             for s in starts[::stride]:

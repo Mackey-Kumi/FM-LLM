@@ -82,3 +82,53 @@ def build_splits(csv_path, config: ModelConfig, split: Optional[Dict] = None, ma
         test=SensorWindows(wide, start=split["val_end"], end=split["test_end"],
                            issue_hours=TEST_ISSUE_HOURS, **common),
     )
+
+
+# Held-out period AFTER the test set: never used for training, tuning or testing.
+POST_TEST = {"start": "2026-03-01", "end": None}   # None = up to the end of the downloaded data
+MIN_REAL_FRACTION = 0.75   # "Option A": >= 75% of the scored hours real; only real hours are scored
+
+
+def new_sensor_ids(raw: pd.DataFrame, train_end: Optional[str] = None):
+    """
+    Sensors the model never saw in training: no readings before the end of the training period.
+
+    Args:
+        raw: hourly readings (columns = sensor ids).
+        train_end: first hour after training. None = SPLIT["train_end"].
+
+    Returns:
+        Set of sensor ids.
+    """
+    before = raw.loc[: pd.Timestamp(train_end or SPLIT["train_end"]) - pd.Timedelta(hours=1)]
+    return {c for c in raw.columns if before[c].notna().sum() == 0}
+
+
+def build_period(csv_path, config: ModelConfig, start: str, end: Optional[str] = None,
+                 max_gap: int = MAX_GAP, min_real_fraction: float = MIN_REAL_FRACTION) -> AQSplits:
+    """
+    Forecast windows for any period, with the training data rules (gap filling,
+    scaling from the training period) and the Option A scoring rule: at least
+    `min_real_fraction` of the scored hours must be real, and only those are scored.
+    Used for the post-test evaluation, and to re-score the test period the same way.
+
+    Args:
+        csv_path: pm25_hourly.csv.
+        config: model config (window sizes).
+        start: first hour a scored future may begin, e.g. "2026-03-01".
+        end: hour the futures must end before. None = end of the data.
+        max_gap: longest history gap (hours) that is interpolated.
+        min_real_fraction: share of the scored hours that must be real (1.0 = the strict
+            rule of experiments 12-13).
+
+    Returns:
+        AQSplits whose `test` holds this period's windows (train and val are empty
+        placeholders: the same dataset, not used).
+    """
+    raw = load_hourly(csv_path)
+    wide = fill_short_gaps(raw, max_gap=max_gap)
+    scale = train_scale(wide, SPLIT["train_end"])
+    period = SensorWindows(wide, seq_len=config.seq_len, pred_len=config.patch_len, start=start, end=end,
+                           issue_hours=TEST_ISSUE_HOURS, scale=scale, observed=raw,
+                           real_future_hours=max(HORIZONS), min_real_fraction=min_real_fraction)
+    return AQSplits(raw=raw, wide=wide, scale=scale, train=period, val=period, test=period)

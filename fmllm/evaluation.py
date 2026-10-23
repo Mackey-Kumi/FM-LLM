@@ -30,7 +30,7 @@ SCOPES = ("all", "daily")   # all = every test forecast (4 a day); daily = the 0
 
 @torch.no_grad()
 def collect_records(model, ds, device, events: Dict, horizons: Sequence[int] = (24, 48),
-                    max_batches: Optional[int] = None) -> pd.DataFrame:
+                    max_batches: Optional[int] = None, min_real_hours: int = 18) -> pd.DataFrame:
     """
     Forecast every test window with the model and each simple rule, and record how each did.
 
@@ -42,13 +42,19 @@ def collect_records(model, ds, device, events: Dict, horizons: Sequence[int] = (
         events: {name: (stat, hours, limit)}, e.g. fmllm.aq.EVENTS.
         horizons: hours ahead to score the error at, e.g. (24, 48).
         max_batches: stop after this many batches (smoke runs). None = all.
+        min_real_hours: an event is only scored if at least this many of its hours have
+            real readings (18 of 24 by default); otherwise its e__event is NaN.
+
+    Only REAL readings are scored (ds.truth): errors are averaged over the hours that
+    were actually measured, never against gap-filled values.
 
     Returns:
         DataFrame, one row per (forecast, method), with columns
             sensor, issue_time, day (issue date), daily (issued at 00:00), method,
-            mae_{h}h for each horizon (µg/m³),
-            and for each event e: e__event (did it happen), e__warned (did this method
-            forecast it), e__first_hour (first hour reaching the limit, "max" events only).
+            mae_{h}h for each horizon (µg/m³, over the real hours; NaN if none),
+            and for each event e: e__event (1.0 happened / 0.0 didn't / NaN too few real
+            hours to tell), e__warned (did this method forecast it), e__first_hour (first
+            hour reaching the limit, "max" events only).
     """
     model.eval()
     loader = torch.utils.data.DataLoader(ds, batch_size=64, shuffle=False)
@@ -64,14 +70,18 @@ def collect_records(model, ds, device, events: Dict, horizons: Sequence[int] = (
             issued = ds.issue_time(i0 + k)
             mean, std = ds.scale.get(sensor, (0.0, 1.0))
             raw_hist = ds.values[s: s + ds.seq_len, j]
-            truth = ds.values[s + ds.seq_len: s + ds.seq_len + horizon, j]
+            truth = getattr(ds, "truth", ds.values)[s + ds.seq_len: s + ds.seq_len + horizon, j]
             methods = {MODEL: pred[k] * std + mean}
             methods.update({m: baseline_forecast(raw_hist[:, None], m, horizon)[:, 0] for m in BASELINES})
-            happened = {e: event_occurs(truth, *spec) for e, spec in events.items()}
+            happened = {}
+            for e, (st, hrs, lim) in events.items():
+                enough = np.isfinite(truth[:hrs]).sum() >= min(min_real_hours, hrs)
+                r = event_occurs(truth, st, hrs, lim) if enough else {"exceeds": np.nan, "first_hour": None}
+                happened[e] = {"exceeds": float(r["exceeds"]) if enough else np.nan, "first_hour": r["first_hour"]}
             for m, p in methods.items():
                 row = {"sensor": str(sensor), "issue_time": issued, "day": issued.normalize(),
                        "daily": issued.hour == 0, "method": m}
-                row.update({f"mae_{h}h": float(np.abs(p[:h] - truth[:h]).mean()) for h in horizons})
+                row.update({f"mae_{h}h": _nanmean(np.abs(p[:h] - truth[:h])) for h in horizons})
                 for e, spec in events.items():
                     row[f"{e}__event"] = happened[e]["exceeds"]
                     row[f"{e}__warned"] = event_occurs(p, *spec)["exceeds"]
@@ -81,6 +91,18 @@ def collect_records(model, ds, device, events: Dict, horizons: Sequence[int] = (
     return pd.DataFrame(rows)
 
 
+def _nanmean(x: np.ndarray) -> float:
+    """
+    Args:
+        x: values, NaN = no real reading.
+
+    Returns:
+        Mean of the finite values, or NaN if there are none (without a warning).
+    """
+    finite = x[np.isfinite(x)]
+    return float(finite.mean()) if len(finite) else float("nan")
+
+
 def _event_records(df: pd.DataFrame, event: str):
     """
     Args:
@@ -88,8 +110,10 @@ def _event_records(df: pd.DataFrame, event: str):
         event: event name.
 
     Returns:
-        List of dicts in the format fmllm.events.score expects.
+        List of dicts in the format fmllm.events.score expects (rows whose event
+        couldn't be judged, NaN, are left out).
     """
+    df = df[df[f"{event}__event"].notna()]
     return [{"location": s, "event": bool(ev), "warned": bool(w), "first_hour": fh}
             for s, ev, w, fh in zip(df["sensor"], df[f"{event}__event"], df[f"{event}__warned"],
                                     df[f"{event}__first_hour"])]
@@ -120,10 +144,11 @@ def summarize(df: pd.DataFrame, events: Dict):
         warnings[e] = {}
         for scope in SCOPES:
             sel = df if scope == "all" else df[df["daily"]]
+            sel = sel[sel[f"{e}__event"].notna()]
             ref = sel[sel["method"] == methods[0]]
             warnings[e][scope] = {
                 "n": len(ref),
-                "base_rate": float(ref[f"{e}__event"].mean()) if len(ref) else None,
+                "base_rate": float(ref[f"{e}__event"].astype(float).mean()) if len(ref) else None,
                 "scores": {m: score(_event_records(sel[sel["method"] == m], e)) for m in methods},
                 "scores_by_sensor": {m: score_by(_event_records(sel[sel["method"] == m], e)) for m in methods},
             }
@@ -186,12 +211,13 @@ def bootstrap(df: pd.DataFrame, events: Dict, n_boot: int = 2000, level: float =
     for col in [c for c in df.columns if c.startswith("mae_")]:
         def mae(sub, col=col):
             """Mean error of `col` in `sub`: (point estimate, one value per resample)."""
-            s, n = per_day(sub, col), per_day(sub.assign(one=1), "one")
+            s, n = per_day(sub, col), per_day(sub.assign(one=sub[col].notna().astype(float)), "one")
             return ratio(s.sum(), n.sum()), ratio(counts @ s, counts @ n)
         specs[f"{col}@all"] = ("all", "lower", mae)
     for e in events:
         def parts(sub, e=e):
             """Per-day hits, misses and false alarms of event `e` in `sub`."""
+            sub = sub[sub[f"{e}__event"].notna()]          # skip days with too few real readings
             ev, w = sub[f"{e}__event"].astype(bool), sub[f"{e}__warned"].astype(bool)
             return (per_day(sub.assign(x=ev & w), "x"), per_day(sub.assign(x=ev & ~w), "x"),
                     per_day(sub.assign(x=~ev & w), "x"))

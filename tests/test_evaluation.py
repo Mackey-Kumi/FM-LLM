@@ -77,3 +77,35 @@ def test_collect_records_one_row_per_forecast_and_method():
     assert len(df) == 4 * len(ds)                            # fm_llm + 3 simple rules
     assert {"mae_24h", "mae_48h", "high__event", "high__warned"} <= set(df.columns)
     assert df[df.method == "persistence"].daily.sum() == sum(ds.issue_time(i).hour == 0 for i in range(len(ds)))
+
+
+def test_collect_records_scores_only_real_hours_and_skips_thin_events():
+    torch.manual_seed(0)
+    idx = pd.date_range("2026-01-01", periods=24 * 12, freq="h")
+    raw = pd.DataFrame({"s1": 20 + 10 * np.sin(np.arange(len(idx)) / 4)}, index=idx)
+    raw.iloc[-48:-38, 0] = np.nan                         # 10 missing hours in the last futures
+    from fmllm.data import fill_short_gaps
+    wide = fill_short_gaps(raw, max_gap=12)
+    config = ModelConfig(patch_len=48, seq_len=96, mlp_dim=16, llm_dim=32, hidden_dim=16)
+    model = FMLLM(config, TinyBackbone(config.llm_dim))
+    ds = SensorWindows(wide, seq_len=96, pred_len=48, observed=raw, real_future_hours=48, min_real_fraction=0.75)
+    df = collect_records(model, ds, "cpu", EVENTS, horizons=(24, 48), min_real_hours=18)
+    persist = df[df.method == "persistence"]
+    assert persist.mae_24h.notna().all()
+    assert persist["high__event"].isna().any()            # some 24-h days had < 18 real hours: not judged
+    summary, _ = summarize(df, EVENTS)                    # and summarize copes with them
+    assert summary["warnings"]["high"]["all"]["n"] == int(persist["high__event"].notna().sum())
+
+
+def test_new_code_reproduces_experiment_13_numbers():
+    """Experiment 13's saved forecasts (all-real rule) must give exactly its published scores."""
+    import pathlib
+    path = pathlib.Path(__file__).resolve().parents[1] / "kaggle/experiments/13_aq_eval_bootstrap/results/test_forecasts.csv"
+    if not path.exists():
+        pytest.skip("experiment 13 results not present")
+    from fmllm.aq import EVENTS as AQ_EVENTS
+    df = pd.read_csv(path, parse_dates=["issue_time", "day"])
+    summary, _ = summarize(df, AQ_EVENTS)
+    assert summary["mae_overall"]["mae_24h"]["fm_llm"] == pytest.approx(8.331, abs=1e-3)
+    s = summary["warnings"]["ghana_24h_mean"]["daily"]["scores"]["fm_llm"]
+    assert (s["hits"], s["misses"], s["false_alarms"]) == (130, 47, 44)

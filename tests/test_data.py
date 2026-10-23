@@ -79,3 +79,14 @@ def test_issue_hours_filter():
     ds = SensorWindows(wide, seq_len=8, pred_len=4, issue_hours=(0, 12))
     assert len(ds) > 0
     assert {ds.issue_time(i).hour for i in range(len(ds))} == {0, 12}
+
+
+def test_min_real_fraction_accepts_scattered_gaps_and_truth_keeps_them_missing():
+    idx = pd.date_range("2026-01-01", periods=40, freq="h")
+    raw = pd.DataFrame({"a": np.arange(40.0)}, index=idx)
+    raw.iloc[[30, 33], 0] = np.nan                      # 2 missing hours inside some futures
+    filled = fill_short_gaps(raw, max_gap=3)
+    strict = SensorWindows(filled, seq_len=8, pred_len=8, observed=raw)
+    loose = SensorWindows(filled, seq_len=8, pred_len=8, observed=raw, min_real_fraction=0.75)
+    assert len(loose) > len(strict)                      # 6 of 8 real is accepted at 75%
+    assert np.isnan(loose.truth[30, 0]) and loose.values[30, 0] == 30.0   # model reads the fill, scoring sees the gap
