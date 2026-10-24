@@ -1,0 +1,358 @@
+{
+ "issued_at": "2026-02-16T00:00:00Z",
+ "sensors": [
+  {
+   "id": "6530278",
+   "name": "Physics Department-UG-Accra/CAOA-UESD",
+   "today": {
+    "mean_24h": 24.9,
+    "level": "moderate",
+    "prob_unhealthy": 0.0,
+    "actual_mean_24h": 20.3,
+    "actual_level": "moderate"
+   },
+   "tomorrow": {
+    "mean_24h": 23.7,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "7897442",
+   "name": "Afri-SET",
+   "today": {
+    "mean_24h": 23.2,
+    "level": "moderate",
+    "prob_unhealthy": 0.0,
+    "actual_mean_24h": 18.9,
+    "actual_level": "moderate"
+   },
+   "tomorrow": {
+    "mean_24h": 21.9,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "7897457",
+   "name": "Afri-SET",
+   "today": {
+    "mean_24h": 22.9,
+    "level": "moderate",
+    "prob_unhealthy": 0.0,
+    "actual_mean_24h": 18.3,
+    "actual_level": "moderate"
+   },
+   "tomorrow": {
+    "mean_24h": 21.6,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "7897459",
+   "name": "Afri-SET",
+   "today": {
+    "mean_24h": 29.7,
+    "level": "moderate",
+    "prob_unhealthy": 0.0,
+    "actual_mean_24h": 24.9,
+    "actual_level": "moderate"
+   },
+   "tomorrow": {
+    "mean_24h": 28.1,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10330992",
+   "name": "Makola",
+   "today": {
+    "mean_24h": 28.8,
+    "level": "moderate",
+    "prob_unhealthy": 0.0,
+    "actual_mean_24h": null,
+    "actual_level": null
+   },
+   "tomorrow": {
+    "mean_24h": 31.0,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10330994",
+   "name": "Tetteh Quarshie Interchange",
+   "today": {
+    "mean_24h": 16.7,
+    "level": "moderate",
+    "prob_unhealthy": 0.0,
+    "actual_mean_24h": null,
+    "actual_level": null
+   },
+   "tomorrow": {
+    "mean_24h": 17.2,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10330995",
+   "name": "Nima Market",
+   "today": {
+    "mean_24h": 24.4,
+    "level": "moderate",
+    "prob_unhealthy": 0.0,
+    "actual_mean_24h": null,
+    "actual_level": null
+   },
+   "tomorrow": {
+    "mean_24h": 24.9,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10330996",
+   "name": "37 Lorry Station",
+   "today": {
+    "mean_24h": 22.6,
+    "level": "moderate",
+    "prob_unhealthy": 0.0,
+    "actual_mean_24h": 20.7,
+    "actual_level": "moderate"
+   },
+   "tomorrow": {
+    "mean_24h": 22.6,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10330997",
+   "name": "Ashaley Botwe School Junction",
+   "today": {
+    "mean_24h": 17.5,
+    "level": "moderate",
+    "prob_unhealthy": 0.0,
+    "actual_mean_24h": 15.3,
+    "actual_level": "moderate"
+   },
+   "tomorrow": {
+    "mean_24h": 17.7,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10330998",
+   "name": "Kaneshie Market",
+   "today": {
+    "mean_24h": 20.6,
+    "level": "moderate",
+    "prob_unhealthy": 0.0,
+    "actual_mean_24h": null,
+    "actual_level": null
+   },
+   "tomorrow": {
+    "mean_24h": 21.6,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10330999",
+   "name": "West Hills Mall",
+   "today": {
+    "mean_24h": 17.1,
+    "level": "moderate",
+    "prob_unhealthy": 0.0,
+    "actual_mean_24h": 19.0,
+    "actual_level": "moderate"
+   },
+   "tomorrow": {
+    "mean_24h": 17.7,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10331000",
+   "name": "Kwashieman Presby Church",
+   "today": {
+    "mean_24h": 14.7,
+    "level": "good",
+    "prob_unhealthy": 0.0,
+    "actual_mean_24h": 25.9,
+    "actual_level": "moderate"
+   },
+   "tomorrow": {
+    "mean_24h": 15.0,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10331001",
+   "name": "Agbogbloshie",
+   "today": {
+    "mean_24h": 36.2,
+    "level": "unhealthy",
+    "prob_unhealthy": 0.73,
+    "actual_mean_24h": null,
+    "actual_level": null
+   },
+   "tomorrow": {
+    "mean_24h": 36.3,
+    "level": "unhealthy",
+    "prob_unhealthy": 0.77
+   }
+  },
+  {
+   "id": "10331002",
+   "name": "Osu Oxford Street",
+   "today": {
+    "mean_24h": 14.8,
+    "level": "good",
+    "prob_unhealthy": 0.0,
+    "actual_mean_24h": null,
+    "actual_level": null
+   },
+   "tomorrow": {
+    "mean_24h": 15.1,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10331003",
+   "name": "Madina Zongo Junction",
+   "today": {
+    "mean_24h": 27.9,
+    "level": "moderate",
+    "prob_unhealthy": 0.0,
+    "actual_mean_24h": null,
+    "actual_level": null
+   },
+   "tomorrow": {
+    "mean_24h": 27.5,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10331004",
+   "name": "Graphic Road",
+   "today": {
+    "mean_24h": 31.9,
+    "level": "moderate",
+    "prob_unhealthy": 0.0,
+    "actual_mean_24h": null,
+    "actual_level": null
+   },
+   "tomorrow": {
+    "mean_24h": 31.6,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10331005",
+   "name": "Lapaz Intersection",
+   "today": {
+    "mean_24h": 19.1,
+    "level": "moderate",
+    "prob_unhealthy": 0.0,
+    "actual_mean_24h": 17.5,
+    "actual_level": "moderate"
+   },
+   "tomorrow": {
+    "mean_24h": 18.1,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10826686",
+   "name": "Amasaman",
+   "today": {
+    "mean_24h": 26.2,
+    "level": "moderate",
+    "prob_unhealthy": 0.0,
+    "actual_mean_24h": null,
+    "actual_level": null
+   },
+   "tomorrow": {
+    "mean_24h": 25.7,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "13503584",
+   "name": "Tema Community 7, Royal School",
+   "today": {
+    "mean_24h": 32.7,
+    "level": "moderate",
+    "prob_unhealthy": 0.07,
+    "actual_mean_24h": 18.7,
+    "actual_level": "moderate"
+   },
+   "tomorrow": {
+    "mean_24h": 32.3,
+    "level": "moderate",
+    "prob_unhealthy": 0.13
+   }
+  },
+  {
+   "id": "13511932",
+   "name": "Satet International School, Tema Manhean",
+   "today": {
+    "mean_24h": 37.6,
+    "level": "unhealthy",
+    "prob_unhealthy": 0.9,
+    "actual_mean_24h": 41.2,
+    "actual_level": "unhealthy"
+   },
+   "tomorrow": {
+    "mean_24h": 38.8,
+    "level": "unhealthy",
+    "prob_unhealthy": 0.97
+   }
+  },
+  {
+   "id": "13511942",
+   "name": "Tema Port",
+   "today": {
+    "mean_24h": 19.7,
+    "level": "moderate",
+    "prob_unhealthy": 0.0,
+    "actual_mean_24h": 18.9,
+    "actual_level": "moderate"
+   },
+   "tomorrow": {
+    "mean_24h": 20.6,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "13519203",
+   "name": "Divine healer's Church, Bethlehem",
+   "today": {
+    "mean_24h": 42.5,
+    "level": "unhealthy",
+    "prob_unhealthy": 1.0,
+    "actual_mean_24h": 34.5,
+    "actual_level": "moderate"
+   },
+   "tomorrow": {
+    "mean_24h": 42.1,
+    "level": "unhealthy",
+    "prob_unhealthy": 1.0
+   }
+  }
+ ],
+ "mode": "replay"
+}

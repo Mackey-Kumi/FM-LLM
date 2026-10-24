@@ -1,0 +1,717 @@
+[
+ {
+  "id": "6530278",
+  "name": "Physics Department-UG-Accra/CAOA-UESD",
+  "lat": 5.651,
+  "lon": -0.186,
+  "last_reading": {
+   "time": "2026-10-22T20:00:00Z",
+   "pm25": 23.7
+  },
+  "forecast_available": false
+ },
+ {
+  "id": "7897442",
+  "name": "Afri-SET",
+  "lat": 5.65384,
+  "lon": -0.18587,
+  "last_reading": {
+   "time": "2026-10-15T13:00:00Z",
+   "pm25": 10.5
+  },
+  "forecast_available": false
+ },
+ {
+  "id": "7897459",
+  "name": "Afri-SET",
+  "lat": 5.65384,
+  "lon": -0.18587,
+  "last_reading": {
+   "time": "2026-10-15T13:00:00Z",
+   "pm25": 12.6
+  },
+  "forecast_available": false
+ },
+ {
+  "id": "7897457",
+  "name": "Afri-SET",
+  "lat": 5.65384,
+  "lon": -0.18587,
+  "last_reading": {
+   "time": "2026-10-15T12:00:00Z",
+   "pm25": 12.7
+  },
+  "forecast_available": false
+ },
+ {
+  "id": "10330991",
+  "name": "Dansoman Roundabout",
+  "lat": 5.55851,
+  "lon": -0.26448,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 11.5
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "10331000",
+  "name": "Kwashieman Presby Church",
+  "lat": 5.59389,
+  "lon": -0.26877,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 18.6
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "10330999",
+  "name": "West Hills Mall",
+  "lat": 5.54579,
+  "lon": -0.34229,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 7.1
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "10330997",
+  "name": "Ashaley Botwe School Junction",
+  "lat": 5.67614,
+  "lon": -0.12412,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 8.9
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "10330996",
+  "name": "37 Lorry Station",
+  "lat": 5.58892,
+  "lon": -0.17964,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 14.4
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "10331004",
+  "name": "Graphic Road",
+  "lat": 5.55895,
+  "lon": -0.22526,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 50.0
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "10331005",
+  "name": "Lapaz Intersection",
+  "lat": 5.60724,
+  "lon": -0.24896,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 15.4
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "10331003",
+  "name": "Madina Zongo Junction",
+  "lat": 5.6779,
+  "lon": -0.17295,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 17.2
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "10331001",
+  "name": "Agbogbloshie",
+  "lat": 5.55147,
+  "lon": -0.21927,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 46.8
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "10330992",
+  "name": "Makola",
+  "lat": 5.54848,
+  "lon": -0.2072,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 8.5
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "10331002",
+  "name": "Osu Oxford Street",
+  "lat": 5.55969,
+  "lon": -0.18202,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 9.7
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "10330995",
+  "name": "Nima Market",
+  "lat": 5.58212,
+  "lon": -0.19863,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 18.9
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "10330998",
+  "name": "Kaneshie Market",
+  "lat": 5.56608,
+  "lon": -0.23548,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 12.4
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "10330993",
+  "name": "Kwame Nkrumah Circle",
+  "lat": 5.56936,
+  "lon": -0.21404,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 10.2
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "10330994",
+  "name": "Tetteh Quarshie Interchange",
+  "lat": 5.61919,
+  "lon": -0.17626,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 8.8
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "10826686",
+  "name": "Amasaman",
+  "lat": 5.7031,
+  "lon": -0.29954,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 6.0
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "13503584",
+  "name": "Tema Community 7, Royal School",
+  "lat": 5.66435,
+  "lon": -0.00901,
+  "last_reading": {
+   "time": "2026-10-22T20:00:00Z",
+   "pm25": 14.8
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "13511932",
+  "name": "Satet International School, Tema Manhean",
+  "lat": 5.66026,
+  "lon": 0.02748,
+  "last_reading": {
+   "time": "2026-10-22T20:00:00Z",
+   "pm25": 16.1
+  },
+  "forecast_available": false
+ },
+ {
+  "id": "13511942",
+  "name": "Tema Port",
+  "lat": 5.63471,
+  "lon": 0.00888,
+  "last_reading": {
+   "time": "2026-10-22T20:00:00Z",
+   "pm25": 4.6
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "13519203",
+  "name": "Divine healer's Church, Bethlehem",
+  "lat": 5.70458,
+  "lon": -0.01028,
+  "last_reading": {
+   "time": "2026-10-22T20:00:00Z",
+   "pm25": 30.6
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "14359598",
+  "name": "Ashiaman Market Area",
+  "lat": 5.68844,
+  "lon": -0.02933,
+  "last_reading": {
+   "time": "2026-10-22T08:00:00Z",
+   "pm25": 4.5
+  },
+  "forecast_available": false
+ },
+ {
+  "id": "15872035",
+  "name": "Lartebiokorshie Cluster of Schools",
+  "lat": 5.55418,
+  "lon": -0.23912,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 5.2
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15872036",
+  "name": "Dzorwulu Fidelity Bank",
+  "lat": 5.61045,
+  "lon": -0.20476,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 10.9
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15872033",
+  "name": "Mataheko PIWC",
+  "lat": 5.57248,
+  "lon": -0.25041,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 9.9
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15872034",
+  "name": "Okponglo Junction",
+  "lat": 5.64055,
+  "lon": -0.17837,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 15.8
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15905125",
+  "name": "Tipper Junction Road, Oyarifa",
+  "lat": 5.74927,
+  "lon": -0.17099,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 11.5
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15905128",
+  "name": "FOTS International School, Amrahia",
+  "lat": 5.77016,
+  "lon": -0.13301,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 17.8
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15905127",
+  "name": "Aviation Road, Adenta",
+  "lat": 5.68842,
+  "lon": -0.14808,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 13.9
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15905124",
+  "name": "Jungle Avenue, A & C Mall",
+  "lat": 5.64213,
+  "lon": -0.15173,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 14.4
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15905129",
+  "name": "Adenta Commandos Last Stop",
+  "lat": 5.73265,
+  "lon": -0.14471,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 12.3
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15905126",
+  "name": "Otinibi Last Stop",
+  "lat": 5.7905,
+  "lon": -0.14913,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 18.1
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15905131",
+  "name": "Pantang Hospital",
+  "lat": 5.71444,
+  "lon": -0.18743,
+  "last_reading": {
+   "time": "2026-09-27T00:00:00Z",
+   "pm25": 14.5
+  },
+  "forecast_available": false
+ },
+ {
+  "id": "15913720",
+  "name": "Darkuman Christian Complex School",
+  "lat": 5.59022,
+  "lon": -0.25668,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 32.1
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15913719",
+  "name": "Dansoman Keep Fit Area",
+  "lat": 5.5565,
+  "lon": -0.27591,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 7.4
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15913721",
+  "name": "Dansoman Market",
+  "lat": 5.54243,
+  "lon": -0.26477,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 11.0
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15913722",
+  "name": "Dr. Busia Street, Sakaman",
+  "lat": 5.57394,
+  "lon": -0.26578,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 8.2
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15914832",
+  "name": "Abeka Total Filling Station",
+  "lat": 5.59794,
+  "lon": -0.23359,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 16.9
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15914830",
+  "name": "Achimota New Station",
+  "lat": 5.62081,
+  "lon": -0.22561,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 19.4
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15914831",
+  "name": "Kotobabi Lorry Station",
+  "lat": 5.59593,
+  "lon": -0.20919,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 16.4
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15915116",
+  "name": "Tesano Police Station",
+  "lat": 5.60523,
+  "lon": -0.22563,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 16.9
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15915117",
+  "name": "Dome Road, Christian Village",
+  "lat": 5.63676,
+  "lon": -0.21662,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 14.6
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15916831",
+  "name": "Alajo Market",
+  "lat": 5.59122,
+  "lon": -0.21689,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 49.9
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15963363",
+  "name": "Mallam Market",
+  "lat": 5.57345,
+  "lon": -0.27891,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 243.0
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15963359",
+  "name": "Mallam Atta Market",
+  "lat": 5.57956,
+  "lon": -0.20733,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 9.1
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15963361",
+  "name": "Flagstaff House Basic School",
+  "lat": 5.58262,
+  "lon": -0.18587,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 9.9
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15963357",
+  "name": "Mamobi General Hospital",
+  "lat": 5.59187,
+  "lon": -0.19959,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 9.8
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15963358",
+  "name": "Kawukudi Community Youth Center",
+  "lat": 5.59304,
+  "lon": -0.1862,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 6.6
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15977313",
+  "name": "La Palm Royal Beach Hotel, Labadi",
+  "lat": 5.56331,
+  "lon": -0.14292,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 8.1
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15977584",
+  "name": "Krispat Hearing Center, Pig Farm",
+  "lat": 5.59983,
+  "lon": -0.19711,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 19.3
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15977583",
+  "name": "Burma Hills, Tse Addo",
+  "lat": 5.60653,
+  "lon": -0.13944,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 7.1
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15998897",
+  "name": "Black Star Square",
+  "lat": 5.54955,
+  "lon": -0.19032,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 17.6
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15998898",
+  "name": "Ridge Hospital",
+  "lat": 5.56217,
+  "lon": -0.19886,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 7.7
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "15998899",
+  "name": "+233, North Ridge",
+  "lat": 5.57375,
+  "lon": -0.19544,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 6.0
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "16062454",
+  "name": "Asylum Down",
+  "lat": 5.56618,
+  "lon": -0.2057,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 8.1
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "16062453",
+  "name": "Cantonments",
+  "lat": 5.58186,
+  "lon": -0.16675,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 7.5
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "16062452",
+  "name": "TED Academy, Banana Inn",
+  "lat": 5.54201,
+  "lon": -0.25384,
+  "last_reading": {
+   "time": "2026-10-22T18:00:00Z",
+   "pm25": 9.6
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "16204170",
+  "name": "Accra New Town",
+  "lat": 5.58782,
+  "lon": -0.20746,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 13.2
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "16644413",
+  "name": "Mpoase Latter Day Saints Church",
+  "lat": 5.52641,
+  "lon": -0.27068,
+  "last_reading": {
+   "time": "2026-10-22T17:00:00Z",
+   "pm25": 14.0
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "17291613",
+  "name": "Tema Community 3",
+  "lat": 5.62096,
+  "lon": -0.02378,
+  "last_reading": {
+   "time": "2026-10-22T20:00:00Z",
+   "pm25": 2.0
+  },
+  "forecast_available": true
+ },
+ {
+  "id": "17637901",
+  "name": "GAYO-119",
+  "lat": 5.65143,
+  "lon": -0.18566,
+  "last_reading": {
+   "time": "2026-10-04T22:00:00Z",
+   "pm25": 11.0
+  },
+  "forecast_available": false
+ },
+ {
+  "id": "17637900",
+  "name": "GAYO-120",
+  "lat": 5.65143,
+  "lon": -0.18565,
+  "last_reading": {
+   "time": "2026-10-04T22:00:00Z",
+   "pm25": 4.0
+  },
+  "forecast_available": false
+ }
+]

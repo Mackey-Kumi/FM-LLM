@@ -1,0 +1,7 @@
+{
+ "status": "ok",
+ "model": "fm-llm-aq-run2",
+ "last_update": "2026-10-22T21:00:00Z",
+ "sensors_forecast": 56,
+ "likelihood_status": "uncalibrated"
+}

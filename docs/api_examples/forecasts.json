@@ -1,0 +1,789 @@
+{
+ "issued_at": "2026-10-22T21:00:00Z",
+ "sensors": [
+  {
+   "id": "10330991",
+   "name": "Dansoman Roundabout",
+   "today": {
+    "mean_24h": 15.8,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 15.9,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10330992",
+   "name": "Makola",
+   "today": {
+    "mean_24h": 23.4,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 25.0,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10330993",
+   "name": "Kwame Nkrumah Circle",
+   "today": {
+    "mean_24h": 19.8,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 20.6,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10330994",
+   "name": "Tetteh Quarshie Interchange",
+   "today": {
+    "mean_24h": 13.6,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 13.5,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10330995",
+   "name": "Nima Market",
+   "today": {
+    "mean_24h": 20.0,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 20.4,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10330996",
+   "name": "37 Lorry Station",
+   "today": {
+    "mean_24h": 15.9,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 16.1,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10330997",
+   "name": "Ashaley Botwe School Junction",
+   "today": {
+    "mean_24h": 11.6,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 11.6,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10330998",
+   "name": "Kaneshie Market",
+   "today": {
+    "mean_24h": 18.3,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 18.8,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10330999",
+   "name": "West Hills Mall",
+   "today": {
+    "mean_24h": 14.3,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 14.7,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10331000",
+   "name": "Kwashieman Presby Church",
+   "today": {
+    "mean_24h": 15.3,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 15.3,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10331001",
+   "name": "Agbogbloshie",
+   "today": {
+    "mean_24h": 41.2,
+    "level": "unhealthy",
+    "prob_unhealthy": 1.0
+   },
+   "tomorrow": {
+    "mean_24h": 39.6,
+    "level": "unhealthy",
+    "prob_unhealthy": 1.0
+   }
+  },
+  {
+   "id": "10331002",
+   "name": "Osu Oxford Street",
+   "today": {
+    "mean_24h": 15.1,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 15.2,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10331003",
+   "name": "Madina Zongo Junction",
+   "today": {
+    "mean_24h": 26.6,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 27.3,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10331004",
+   "name": "Graphic Road",
+   "today": {
+    "mean_24h": 29.6,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 27.8,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10331005",
+   "name": "Lapaz Intersection",
+   "today": {
+    "mean_24h": 16.3,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 16.6,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "10826686",
+   "name": "Amasaman",
+   "today": {
+    "mean_24h": 9.2,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 9.5,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "13503584",
+   "name": "Tema Community 7, Royal School",
+   "today": {
+    "mean_24h": 22.0,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 23.0,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "13511942",
+   "name": "Tema Port",
+   "today": {
+    "mean_24h": 17.9,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 19.5,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "13519203",
+   "name": "Divine healer's Church, Bethlehem",
+   "today": {
+    "mean_24h": 26.9,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 27.3,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15872033",
+   "name": "Mataheko PIWC",
+   "today": {
+    "mean_24h": 14.2,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 14.4,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15872034",
+   "name": "Okponglo Junction",
+   "today": {
+    "mean_24h": 17.4,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 17.2,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15872035",
+   "name": "Lartebiokorshie Cluster of Schools",
+   "today": {
+    "mean_24h": 10.5,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 10.9,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15872036",
+   "name": "Dzorwulu Fidelity Bank",
+   "today": {
+    "mean_24h": 15.7,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 15.8,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15905124",
+   "name": "Jungle Avenue, A & C Mall",
+   "today": {
+    "mean_24h": 17.5,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 17.4,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15905125",
+   "name": "Tipper Junction Road, Oyarifa",
+   "today": {
+    "mean_24h": 16.1,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 16.2,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15905126",
+   "name": "Otinibi Last Stop",
+   "today": {
+    "mean_24h": 25.9,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 25.0,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15905127",
+   "name": "Aviation Road, Adenta",
+   "today": {
+    "mean_24h": 19.8,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 19.3,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15905128",
+   "name": "FOTS International School, Amrahia",
+   "today": {
+    "mean_24h": 19.4,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 18.9,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15905129",
+   "name": "Adenta Commandos Last Stop",
+   "today": {
+    "mean_24h": 17.5,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 17.4,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15913719",
+   "name": "Dansoman Keep Fit Area",
+   "today": {
+    "mean_24h": 14.6,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 14.7,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15913720",
+   "name": "Darkuman Christian Complex School",
+   "today": {
+    "mean_24h": 19.8,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 18.5,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15913721",
+   "name": "Dansoman Market",
+   "today": {
+    "mean_24h": 14.1,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 14.0,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15913722",
+   "name": "Dr. Busia Street, Sakaman",
+   "today": {
+    "mean_24h": 13.2,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 13.7,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15914830",
+   "name": "Achimota New Station",
+   "today": {
+    "mean_24h": 18.7,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 18.3,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15914831",
+   "name": "Kotobabi Lorry Station",
+   "today": {
+    "mean_24h": 19.3,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 19.1,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15914832",
+   "name": "Abeka Total Filling Station",
+   "today": {
+    "mean_24h": 20.9,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 20.2,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15915116",
+   "name": "Tesano Police Station",
+   "today": {
+    "mean_24h": 19.3,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 20.0,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15915117",
+   "name": "Dome Road, Christian Village",
+   "today": {
+    "mean_24h": 17.5,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 17.7,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15916831",
+   "name": "Alajo Market",
+   "today": {
+    "mean_24h": 26.9,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 25.8,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15963357",
+   "name": "Mamobi General Hospital",
+   "today": {
+    "mean_24h": 15.3,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 15.8,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15963358",
+   "name": "Kawukudi Community Youth Center",
+   "today": {
+    "mean_24h": 15.6,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 16.3,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15963359",
+   "name": "Mallam Atta Market",
+   "today": {
+    "mean_24h": 17.6,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 18.6,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15963361",
+   "name": "Flagstaff House Basic School",
+   "today": {
+    "mean_24h": 13.8,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 14.1,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15963363",
+   "name": "Mallam Market",
+   "today": {
+    "mean_24h": 18.7,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 17.2,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15977313",
+   "name": "La Palm Royal Beach Hotel, Labadi",
+   "today": {
+    "mean_24h": 15.5,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 15.9,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15977583",
+   "name": "Burma Hills, Tse Addo",
+   "today": {
+    "mean_24h": 12.7,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 12.8,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15977584",
+   "name": "Krispat Hearing Center, Pig Farm",
+   "today": {
+    "mean_24h": 18.5,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 18.5,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15998897",
+   "name": "Black Star Square",
+   "today": {
+    "mean_24h": 20.3,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 19.8,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15998898",
+   "name": "Ridge Hospital",
+   "today": {
+    "mean_24h": 15.1,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 16.1,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "15998899",
+   "name": "+233, North Ridge",
+   "today": {
+    "mean_24h": 14.6,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 15.2,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "16062452",
+   "name": "TED Academy, Banana Inn",
+   "today": {
+    "mean_24h": 16.1,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 16.4,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "16062453",
+   "name": "Cantonments",
+   "today": {
+    "mean_24h": 12.5,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 12.6,
+    "level": "good",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "16062454",
+   "name": "Asylum Down",
+   "today": {
+    "mean_24h": 16.8,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 17.8,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "16204170",
+   "name": "Accra New Town",
+   "today": {
+    "mean_24h": 16.9,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 17.0,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "16644413",
+   "name": "Mpoase Latter Day Saints Church",
+   "today": {
+    "mean_24h": 21.2,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 22.0,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  },
+  {
+   "id": "17291613",
+   "name": "Tema Community 3",
+   "today": {
+    "mean_24h": 20.1,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   },
+   "tomorrow": {
+    "mean_24h": 21.6,
+    "level": "moderate",
+    "prob_unhealthy": 0.0
+   }
+  }
+ ]
+}

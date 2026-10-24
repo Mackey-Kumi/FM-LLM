@@ -4,7 +4,7 @@ The forecast service runs FM-LLM on Accra's live PM2.5 sensors every hour and se
 
 ## Basics
 - JSON over HTTPS, GET only, no auth. CORS open (call it from the browser).
-- Base URL: Hugging Face Space, link coming by Wed 28 Oct. Until then, build against the example JSON I'll send.
+- Base URL: Hugging Face Space, link coming by Wed 28 Oct. Until then, build against the example responses in `api_examples/` (made by the real model on real data; see its README).
 - Times: ISO 8601 UTC, which is also Ghana time, e.g. `2026-10-30T14:00:00Z`
 - PM2.5 in µg/m³, 1 decimal. Probabilities 0–1, 2 decimals. `null` = not available.
 - New forecasts every hour at ~:05. Polling every 15 min is enough.
@@ -43,7 +43,8 @@ While `likelihood_status` is `"uncalibrated"`, hide the probabilities or mark th
               "today":    {"mean_24h": 24.8, "level": "moderate", "prob_unhealthy": 0.08},
               "tomorrow": {"mean_24h": 31.2, "level": "moderate", "prob_unhealthy": 0.31}}]}
 ```
-`prob_unhealthy` = chance the day's average reaches 35.
+- `today` = the next 24 hours from the forecast start; `tomorrow` = the 24 hours after that (rolling, not calendar days).
+- `prob_unhealthy` = chance that period's average reaches 35.
 
 ### GET /v1/forecasts/{sensor_id} (detail screen)
 ```json
@@ -70,7 +71,7 @@ The demo is in the clean season, so live air will mostly be `good`. Replay shows
               "today": {"mean_24h": 41.3, "level": "unhealthy", "prob_unhealthy": 0.74,
                         "actual_mean_24h": 44.0, "actual_level": "unhealthy"}}]}
 ```
-I'll send 3 highlight dates (clean / borderline / bad) for the demo.
+Demo dates (examples in `api_examples/`): **2026-02-16** clean, **2026-02-26** borderline, **2026-01-29** worst Harmattan day.
 
 ## Decided
 - Hosting: Hugging Face Space (free, no GPU needed). Backup: my laptop with cached forecasts. The Space sleeps when idle and takes ~2 min to wake; I'll wake it before the demo.
@@ -78,6 +79,5 @@ I'll send 3 highlight dates (clean / borderline / bad) for the demo.
 - Changes to this contract: we agree first, then bump to /v2.
 
 ## Coming from me
-1. Example JSON for every endpoint (real data): next.
-2. Live URL: by Wed 28 Oct.
-3. Replay highlight dates.
+1. Live URL: by Wed 28 Oct.
+2. Calibrated probabilities: until then `likelihood_status` stays `"uncalibrated"` and the example probabilities are placeholders.
