@@ -109,3 +109,19 @@ def test_new_code_reproduces_experiment_13_numbers():
     assert summary["mae_overall"]["mae_24h"]["fm_llm"] == pytest.approx(8.331, abs=1e-3)
     s = summary["warnings"]["ghana_24h_mean"]["daily"]["scores"]["fm_llm"]
     assert (s["hits"], s["misses"], s["false_alarms"]) == (130, 47, 44)
+
+
+def test_collect_ensemble_shapes_and_units():
+    from fmllm.evaluation import collect_ensemble
+    torch.manual_seed(0)
+    idx = pd.date_range("2026-01-01", periods=24 * 12, freq="h")
+    raw = pd.DataFrame({"s1": 30 + 10 * np.sin(np.arange(len(idx)) / 4)}, index=idx)
+    config = ModelConfig(patch_len=48, seq_len=96, mlp_dim=16, llm_dim=32, hidden_dim=16)
+    model = FMLLM(config, TinyBackbone(config.llm_dim))
+    ds = SensorWindows(raw, seq_len=96, pred_len=48, observed=raw, issue_hours=(0,), scale={"s1": (30.0, 7.0)})
+    a = collect_ensemble(model, ds, "cpu", horizon=48, n_samples=5, batch_size=4)
+    n = len(ds)
+    assert a["point"].shape == (n, 48) and a["day_means"].shape == (n, 5, 2) and a["truth"].shape == (n, 48)
+    assert (a["q10"] <= a["median"]).all() and (a["median"] <= a["q90"]).all()
+    assert np.allclose(a["truth"][0], raw["s1"].values[96:144], atol=1e-4)   # truth in µg/m³, unscaled
+    assert not any(m.training for m in model.modules())                       # dropout off again afterwards

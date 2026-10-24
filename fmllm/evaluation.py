@@ -22,7 +22,7 @@ import pandas as pd
 import torch
 
 from .events import event_occurs, score, score_by
-from .forecast import BASELINES, baseline_forecast, forecast
+from .forecast import BASELINES, baseline_forecast, forecast, forecast_ensemble
 
 MODEL = "fm_llm"
 SCOPES = ("all", "daily")   # all = every test forecast (4 a day); daily = the 00:00 forecast only
@@ -323,3 +323,57 @@ def print_summary(summary: Dict, per_sensor: pd.DataFrame, boot: pd.DataFrame, e
         show[c] = show[c].round(3)
     print(show[["metric", "scope", "method", "estimate", "diff", "diff_low", "diff_high", "ref_better"]]
           .to_string(index=False))
+
+
+@torch.no_grad()
+def collect_ensemble(model, ds, device, horizon: int = 48, n_samples: int = 30, day: int = 24,
+                     batch_size: int = 32, max_batches: Optional[int] = None):
+    """
+    Run the plain forecast and a dropout ensemble on every window of `ds`, keeping
+    what calibration needs (see fmllm.calibration). Everything is in µg/m³.
+
+    Args:
+        model: trained FMLLM.
+        ds: SensorWindows (built with `observed`, so ds.truth holds the real readings).
+        device: torch device the model is on.
+        horizon: hours forecast.
+        n_samples: ensemble size.
+        day: hours per outlook period ("today" = 0..day, "tomorrow" = day..2*day).
+        batch_size: windows per batch (each becomes n_samples model inputs).
+        max_batches: stop early (smoke runs). None = all.
+
+    Returns:
+        dict of numpy arrays, N = number of windows scored:
+            sensor (N,) str, issue_time (N,) datetime64, forecast_start (N,) datetime64,
+            point (N, horizon): plain forecast (dropout off),
+            median, q10, q90 (N, horizon): ensemble percentiles per hour,
+            day_means (N, n_samples, 2): each member's average over "today" and "tomorrow",
+            truth (N, horizon): real readings, NaN where nothing was measured.
+    """
+    loader = torch.utils.data.DataLoader(ds, batch_size=batch_size, shuffle=False)
+    out = {k: [] for k in ("sensor", "issue_time", "point", "median", "q10", "q90", "day_means", "truth")}
+    truth_all = getattr(ds, "truth", ds.values)
+    i0 = 0
+    for b, (hist, _, js, starts) in enumerate(loader):
+        if max_batches and b >= max_batches:
+            break
+        x = hist.to(device)
+        model.eval()
+        point = forecast(model, x, horizon).float().cpu().numpy()[:, 0]
+        ens = forecast_ensemble(model, x, horizon, n_samples=n_samples)[:, :, 0].float().cpu().numpy()  # (S, B, H)
+        for k, (j, s) in enumerate(zip(js.tolist(), starts.tolist())):
+            mean, std = ds.scale.get(ds.sensors[j], (0.0, 1.0))
+            members = ens[:, k] * std + mean
+            out["sensor"].append(str(ds.sensors[j]))
+            out["issue_time"].append(ds.issue_time(i0 + k))
+            out["point"].append(point[k] * std + mean)
+            out["median"].append(np.median(members, axis=0))
+            out["q10"].append(np.quantile(members, 0.1, axis=0))
+            out["q90"].append(np.quantile(members, 0.9, axis=0))
+            out["day_means"].append(np.stack([members[:, :day].mean(1), members[:, day:2 * day].mean(1)], axis=1))
+            out["truth"].append(truth_all[s + ds.seq_len: s + ds.seq_len + horizon, j])
+        i0 += len(js)
+    arrays = {k: np.asarray(v) for k, v in out.items()}
+    arrays["issue_time"] = np.asarray(out["issue_time"], dtype="datetime64[h]")
+    arrays["forecast_start"] = arrays["issue_time"]   # windows start at the issue hour in evaluation
+    return arrays

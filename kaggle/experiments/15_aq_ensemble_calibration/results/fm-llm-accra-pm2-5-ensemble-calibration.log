@@ -1,0 +1,12 @@
+[{"stream_name":"stderr","time":59.207108895,"data":"\rLoading weights:   0%|          | 0/146 [00:00\u003c?, ?it/s]\rLoading weights: 100%|██████████| 146/146 [00:00\u003c00:00, 2818.19it/s]\n"}
+,{"stream_name":"stdout","time":61.137768096,"data":"model: /kaggle/input/notebooks/mackeykumi/fm-llm-accra-pm2-5-first-train-t4x2/aq_pm25_best.pt\n"}
+,{"stream_name":"stdout","time":297.009603805,"data":"val: 1160 forecasts, 23 sensors, 3.9 min\n"}
+,{"stream_name":"stdout","time":1360.438514456,"data":"test: 5085 forecasts, 25 sensors, 17.7 min\n"}
+,{"stream_name":"stdout","time":2891.876387525,"data":"post: 7343 forecasts, 62 sensors, 25.5 min\n"}
+,{"stream_name":"stderr","time":2898.835868012,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":2898.835902186,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":2899.130570907,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":2899.130597948,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":2899.945603753,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":2901.045768171,"data":"[NbConvertApp] Writing 303166 bytes to __results__.html\n"}
+]
