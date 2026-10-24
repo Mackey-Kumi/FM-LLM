@@ -62,3 +62,32 @@ def test_replay_reports_the_real_outcome():
     today = p["sensors"][0]["today"]
     assert p["mode"] == "replay" and today["actual_mean_24h"] == 40.0 and today["actual_level"] == "unhealthy"
     assert day_outlook(f.summary["today"])["mean_24h"] == today["mean_24h"]
+
+
+def test_worst_hours_ignores_hours_before_issue():
+    med = np.full(48, 10.0)
+    med[0:4] = 60.0          # the past: between the last reading and the issue time
+    med[20:24] = 40.0
+    start = pd.Timestamp("2026-10-30 10:00")
+    w = worst_hours(med, start, not_before=start + pd.Timedelta(hours=3))
+    assert w["start"] == "2026-10-31T06:00:00Z"
+
+
+def test_run_forecasts_with_ratio_calibration_uses_one_plain_forecast():
+    import torch
+    from fmllm.calibration import RatioCalibration
+    from fmllm.model import FMLLM, ModelConfig, TinyBackbone
+    from fmllm.payloads import run_forecasts
+    torch.manual_seed(0)
+    config = ModelConfig(mlp_dim=16, llm_dim=32, hidden_dim=16)
+    model = FMLLM(config, TinyBackbone(config.llm_dim))
+    inp = SensorInput(1, pd.Timestamp("2026-10-30 12:00"), np.full(672, 30.0, dtype="float32") +
+                      np.sin(np.arange(672, dtype="float32")), pd.Series(dtype=float))
+    cal = RatioCalibration({"today": [0.8, 1.0, 1.5], "tomorrow": [0.7, 1.0, 1.6]}, np.full(48, 0.8), np.full(48, 1.3))
+    f = run_forecasts(model, [inp], {1: (30.0, 5.0)}, calibration=cal)[0]
+    assert f.samples.shape == (1, 48)                                   # no ensemble
+    t = f.summary["today"]
+    assert np.allclose(t["low"], t["median"] * 0.8) and 0 <= t["prob_exceed"] <= 1
+    # same forecast twice -> identical (dropout stays off)
+    g = run_forecasts(model, [inp], {1: (30.0, 5.0)}, calibration=cal)[0]
+    assert np.allclose(f.summary["all"]["median"], g.summary["all"]["median"])

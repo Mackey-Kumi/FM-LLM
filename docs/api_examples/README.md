@@ -1,7 +1,7 @@
 # Example API responses
 
 Made by the real model (`fm-llm-aq-run2`) on real OpenAQ data, in exactly the format of `../api_contract.md`.
-Generated 2026-10-23 21:20 by `scripts/make_api_examples.py`.
+Generated 2026-10-24 00:45 by `scripts/make_api_examples.py`.
 
 | File | Endpoint |
 |---|---|
@@ -15,5 +15,5 @@ Generated 2026-10-23 21:20 by `scripts/make_api_examples.py`.
 
 Notes:
 - The "live" files are issued at 2026-10-22 21:00 UTC, the end of the last data download. The real service is current to the hour.
-- `likelihood_status` is `"uncalibrated"`: the probabilities are real model output but not yet checked, so treat them as placeholders.
+- Probabilities and ranges are calibrated (Method B: the model's real errors on validation; see experiment 15). `likelihood_status` is `"calibrated"`.
 - The three replay files are the suggested demo dates (clean / borderline / bad).

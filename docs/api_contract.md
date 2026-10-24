@@ -25,7 +25,7 @@ The forecast service runs FM-LLM on Accra's live PM2.5 sensors every hour and se
 {"status": "ok", "model": "fm-llm-aq-run2", "last_update": "2026-10-30T13:05:00Z",
  "sensors_forecast": 56, "likelihood_status": "uncalibrated"}
 ```
-While `likelihood_status` is `"uncalibrated"`, hide the probabilities or mark them "experimental". It switches to `"calibrated"` once they're checked.
+`likelihood_status` is `"calibrated"`: the probabilities and ranges are checked against real outcomes (when it says 60%, it happened ~60% of the time). If it ever says `"uncalibrated"`, hide the probabilities or mark them "experimental".
 
 ### GET /v1/sensors (map)
 ```json
@@ -80,4 +80,3 @@ Demo dates (examples in `api_examples/`): **2026-02-16** clean, **2026-02-26** b
 
 ## Coming from me
 1. Live URL: by Wed 28 Oct.
-2. Calibrated probabilities: until then `likelihood_status` stays `"uncalibrated"` and the example probabilities are placeholders.

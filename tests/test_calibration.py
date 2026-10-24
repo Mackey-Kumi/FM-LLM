@@ -61,3 +61,23 @@ def test_hourly_band_covers_about_80_percent():
     lo, hi = fit_hourly_band(fake(seed=0))
     assert lo.shape == (48,) and (lo < hi).all()
     assert abs(hourly_coverage(fake(seed=1), lo, hi) - 0.8) < 0.08
+
+
+def test_ratio_calibration_object_matches_the_functions(tmp_path):
+    import json
+    from fmllm.calibration import RatioCalibration, fit_hourly_band
+    val = fake(seed=0)
+    fitted = fit_all(val)
+    lo, hi = fit_hourly_band(val)
+    path = tmp_path / "calibration.json"
+    path.write_text(json.dumps({"ratios": {p: fitted[p]["ratios"].tolist() for p in fitted},
+                                "hourly_band": {"low_ratio": lo.tolist(), "high_ratio": hi.tolist()}, "limit": 35.0}))
+    cal = RatioCalibration.load(path)
+    test = fake(5, seed=4)
+    p, low, high = ratio_method(test, "today", fitted["today"]["ratios"])
+    f = test["point"][:, :24].mean(axis=1)
+    for k in range(5):
+        d = cal.day(f[k], "today")
+        assert d["prob_exceed"] == pytest.approx(p[k]) and d["low"] == pytest.approx(low[k], rel=1e-6)
+    band_lo, band_hi = cal.hourly_band(test["point"][0])
+    assert np.allclose(band_lo, test["point"][0] * lo)

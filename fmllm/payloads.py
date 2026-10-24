@@ -19,7 +19,8 @@ import numpy as np
 import pandas as pd
 import torch
 
-from .forecast import forecast_ensemble, summarize_ensemble
+from .calibration import RatioCalibration
+from .forecast import forecast, forecast_ensemble, summarize_ensemble
 
 HORIZON = 48            # hours forecast per sensor
 DAY = 24                # "today" = hours 0-24 from the forecast start, "tomorrow" = hours 24-48
@@ -136,28 +137,50 @@ def prepare_inputs(raw: pd.DataFrame, wide: pd.DataFrame, as_of: pd.Timestamp, s
     return inputs, skipped
 
 
-def run_forecasts(model, inputs: List[SensorInput], scale: Dict, n_samples: int = 30,
-                  device="cpu") -> List[SensorForecast]:
+def run_forecasts(model, inputs: List[SensorInput], scale: Dict, calibration: Optional[RatioCalibration] = None,
+                  n_samples: int = 30, device="cpu") -> List[SensorForecast]:
     """
-    Run the dropout ensemble for every prepared sensor in one batch.
+    Forecast every prepared sensor in one batch.
+
+    With `calibration` (Method B, what the service uses): ONE plain forecast per sensor;
+    the probability, the daily range and the hourly band come from the error ratios
+    learned on validation (fmllm.calibration). Without it: the raw dropout ensemble of
+    `n_samples` members (kept for comparison; known to be overconfident).
 
     Args:
         model: trained FMLLM.
         inputs: from prepare_inputs.
         scale: {sensor_id: (mean, std)} used in training (sensors missing from it get no scaling).
-        n_samples: ensemble size.
+        calibration: a RatioCalibration (Method B), or None for the raw ensemble.
+        n_samples: ensemble size (raw ensemble only).
         device: where the model is.
 
     Returns:
-        One SensorForecast per input, in µg/m³.
+        One SensorForecast per input, in µg/m³. Its summary has, for "today", "tomorrow"
+        and "all": median (the forecast), low / high (the 80% range per hour) and
+        prob_exceed (the chance that period's average reaches 35; "all" = today's).
     """
     if not inputs:
         return []
     ms = np.array([scale.get(i.sensor_id, (0.0, 1.0)) for i in inputs], dtype="float32")   # (n, 2)
-    x = np.stack([(i.history - m) / s for i, (m, s) in zip(inputs, ms)])[:, None, :]
-    ens = forecast_ensemble(model, torch.from_numpy(x).to(device), HORIZON, n_samples=n_samples)
-    ens = ens[:, :, 0].float().cpu().numpy() * ms[None, :, 1:2] + ms[None, :, 0:1]          # (samples, n, H)
+    x = torch.from_numpy(np.stack([(i.history - m) / s for i, (m, s) in zip(inputs, ms)])[:, None, :]).to(device)
     out = []
+    if calibration is not None:
+        model.eval()
+        point = forecast(model, x, HORIZON)[:, 0].float().cpu().numpy() * ms[:, 1:2] + ms[:, 0:1]   # (n, H)
+        for k, inp in enumerate(inputs):
+            low, high = calibration.hourly_band(point[k])
+            summary = {}
+            for period, sl in (("today", slice(0, DAY)), ("tomorrow", slice(DAY, 2 * DAY))):
+                d = calibration.day(float(point[k, sl].mean()), period)
+                summary[period] = {"median": point[k, sl], "low": low[sl], "high": high[sl],
+                                   "prob_exceed": d["prob_exceed"], "mean_low": d["low"], "mean_high": d["high"]}
+            summary["all"] = {"median": point[k], "low": low, "high": high,
+                              "prob_exceed": summary["today"]["prob_exceed"]}
+            out.append(SensorForecast(inp, point[k][None], summary))
+        return out
+    ens = forecast_ensemble(model, x, HORIZON, n_samples=n_samples)
+    ens = ens[:, :, 0].float().cpu().numpy() * ms[None, :, 1:2] + ms[None, :, 0:1]          # (samples, n, H)
     for k, inp in enumerate(inputs):
         samples = ens[:, k]
         out.append(SensorForecast(inp, samples, {
@@ -180,7 +203,8 @@ def day_outlook(summary: Dict) -> Dict:
     return {"mean_24h": _r(mean), "level": level_of(mean), "prob_unhealthy": _r(summary["prob_exceed"], 2)}
 
 
-def worst_hours(median: np.ndarray, start: pd.Timestamp, width: int = 4) -> Dict:
+def worst_hours(median: np.ndarray, start: pd.Timestamp, width: int = 4,
+                not_before: Optional[pd.Timestamp] = None) -> Dict:
     """
     The `width`-hour stretch with the highest forecast average: the time to warn about.
 
@@ -188,13 +212,17 @@ def worst_hours(median: np.ndarray, start: pd.Timestamp, width: int = 4) -> Dict
         median: (HORIZON,) central forecast in µg/m³.
         start: time of median[0].
         width: hours in the stretch.
+        not_before: ignore hours before this time (the issue time: hours between the
+            sensor's last reading and the issue time are already in the past).
 
     Returns:
         {"start", "end", "pm25_peak"}: ISO times (end = the last hour of the stretch) and the
         highest hourly value inside it.
     """
-    sums = np.convolve(median, np.ones(width), mode="valid")
-    i = int(np.argmax(sums))
+    skip = 0 if not_before is None else max(0, int((pd.Timestamp(not_before) - start) / pd.Timedelta(hours=1)))
+    skip = min(skip, len(median) - width)
+    sums = np.convolve(median[skip:], np.ones(width), mode="valid")
+    i = skip + int(np.argmax(sums))
     return {"start": iso(start + pd.Timedelta(hours=i)), "end": iso(start + pd.Timedelta(hours=i + width - 1)),
             "pm25_peak": _r(median[i: i + width].max())}
 
@@ -285,7 +313,7 @@ def forecast_detail_payload(f: SensorForecast, name: str, issued_at) -> Dict:
     """
     s, start = f.summary["all"], f.forecast_start
     today, tomorrow = day_outlook(f.summary["today"]), day_outlook(f.summary["tomorrow"])
-    worst = worst_hours(s["median"], start)
+    worst = worst_hours(s["median"], start, not_before=pd.Timestamp(issued_at).floor("h"))
     return {
         "id": str(f.inp.sensor_id), "name": name, "issued_at": iso(issued_at), "forecast_start": iso(start),
         "recent": [{"time": iso(t), "pm25": _r(v)} for t, v in f.inp.recent.items()],

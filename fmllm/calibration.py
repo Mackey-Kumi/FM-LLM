@@ -276,3 +276,61 @@ def hourly_coverage(a: Dict[str, np.ndarray], low_ratio: np.ndarray, high_ratio:
     low, high, t = a["point"] * low_ratio, a["point"] * high_ratio, a["truth"]
     ok = np.isfinite(t)
     return float(np.mean((t[ok] >= low[ok]) & (t[ok] <= high[ok])))
+
+
+class RatioCalibration:
+    """
+    Method B, ready to use on new forecasts: loaded from calibration.json (written by
+    scripts/calibrate.py). Turns a plain forecast into a probability, a range and an hourly band.
+
+    Args:
+        ratios: {"today": [...], "tomorrow": [...]}: validation actual / forecast ratios of the
+            24-hour average.
+        low_ratio, high_ratio: (horizon,) hourly band ratios (fit_hourly_band).
+        limit: the bad-day level, µg/m³.
+    """
+
+    def __init__(self, ratios: Dict, low_ratio, high_ratio, limit: float = LIMIT):
+        self.ratios = {k: np.sort(np.asarray(v, dtype=float)) for k, v in ratios.items()}
+        self.low_ratio = np.asarray(low_ratio, dtype=float)
+        self.high_ratio = np.asarray(high_ratio, dtype=float)
+        self.limit = limit
+
+    @classmethod
+    def load(cls, path) -> "RatioCalibration":
+        """
+        Args:
+            path: calibration.json.
+
+        Returns:
+            RatioCalibration.
+        """
+        import json  # pylint: disable=import-outside-toplevel  # only needed here
+        with open(path, encoding="utf-8") as f:
+            c = json.load(f)
+        return cls(c["ratios"], c["hourly_band"]["low_ratio"], c["hourly_band"]["high_ratio"], c.get("limit", LIMIT))
+
+    def day(self, mean_forecast: float, period: str) -> Dict:
+        """
+        Args:
+            mean_forecast: the plain forecast's 24-hour average, µg/m³.
+            period: "today" or "tomorrow".
+
+        Returns:
+            {"prob_exceed", "low", "high"}: P(actual average >= limit) and the 80% range of the average.
+        """
+        r = self.ratios[period]
+        outcomes_ = mean_forecast * r
+        return {"prob_exceed": float((outcomes_ >= self.limit).mean()),
+                "low": float(np.quantile(outcomes_, 0.1)), "high": float(np.quantile(outcomes_, 0.9))}
+
+    def hourly_band(self, point: np.ndarray):
+        """
+        Args:
+            point: (horizon,) plain hourly forecast, µg/m³.
+
+        Returns:
+            (low, high): (horizon,) the 80% band for each hour.
+        """
+        n = len(point)
+        return point * self.low_ratio[:n], point * self.high_ratio[:n]

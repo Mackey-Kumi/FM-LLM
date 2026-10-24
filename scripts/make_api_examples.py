@@ -3,7 +3,8 @@ Write example responses for every endpoint in docs/api_contract.md, made by the 
 model on real data (on CPU), so the app can be built against realistic numbers.
 
     python scripts/make_api_examples.py
-    python scripts/make_api_examples.py --checkpoint path/to/aq_pm25_best.pt --samples 30
+    python scripts/make_api_examples.py --checkpoint path/to/aq_pm25_best.pt
+    python scripts/make_api_examples.py --raw-ensemble      # the uncalibrated 30-member ensemble instead
 
 Writes docs/api_examples/:
   health.json, sensors.json, forecasts.json, forecast_<sensor_id>.json,
@@ -27,6 +28,7 @@ sys.path.insert(0, str(REPO))
 import pandas as pd
 
 from fmllm.aq import MAX_GAP, SPLIT
+from fmllm.calibration import RatioCalibration
 from fmllm.data import fill_short_gaps, load_hourly, train_scale
 from fmllm.model import LlamaBackbone, load_checkpoint
 from fmllm.payloads import (UNHEALTHY, forecast_detail_payload, forecasts_payload, health_payload,
@@ -36,6 +38,7 @@ from fmllm.payloads import (UNHEALTHY, forecast_detail_payload, forecasts_payloa
 DATA = REPO / "data" / "raw" / "openaq_accra"
 OUT = REPO / "docs" / "api_examples"
 CHECKPOINT = REPO / "kaggle" / "experiments" / "12_aq_first_train" / "results_run2" / "aq_pm25_best.pt"
+CALIBRATION = REPO / "kaggle" / "experiments" / "15_aq_ensemble_calibration" / "results" / "calibration.json"
 MODEL_NAME = "fm-llm-aq-run2"
 DETAIL_SENSOR = 10331004   # Graphic Road: a long-running sensor, used for the detail example if available
 
@@ -76,7 +79,9 @@ def main():
     """Build and write every example file (see the module docstring)."""
     ap = argparse.ArgumentParser()
     ap.add_argument("--checkpoint", default=str(CHECKPOINT))
-    ap.add_argument("--samples", type=int, default=30, help="ensemble size")
+    ap.add_argument("--calibration", default=str(CALIBRATION), help="calibration.json (Method B)")
+    ap.add_argument("--raw-ensemble", action="store_true", help="use the uncalibrated dropout ensemble instead")
+    ap.add_argument("--samples", type=int, default=30, help="ensemble size (with --raw-ensemble)")
     args = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
 
@@ -87,16 +92,17 @@ def main():
     meta = pd.read_csv(DATA / "sensors.csv")
     names = dict(zip(meta.sensor_id, meta.name.str.strip()))
     model = load_checkpoint(args.checkpoint, LlamaBackbone("cpu"), "cpu")
+    calibration = None if args.raw_ensemble else RatioCalibration.load(args.calibration)
     print(f"data + model loaded in {time.time() - t0:.0f}s")
 
     # live examples, issued just after the last downloaded hour
     as_of = raw.index.max() + pd.Timedelta(hours=1)
     inputs, skipped = prepare_inputs(raw, wide, as_of)
     t1 = time.time()
-    forecasts = run_forecasts(model, inputs, scale, n_samples=args.samples)
+    forecasts = run_forecasts(model, inputs, scale, calibration=calibration, n_samples=args.samples)
     print(f"live: {len(forecasts)} sensors forecast, {len(skipped)} skipped, {time.time() - t1:.0f}s")
     issued = as_of
-    write("health.json", health_payload(issued, len(forecasts), MODEL_NAME, calibrated=False))
+    write("health.json", health_payload(issued, len(forecasts), MODEL_NAME, calibrated=calibration is not None))
     write("sensors.json", sensors_payload(meta, raw, [f.inp.sensor_id for f in forecasts], as_of))
     write("forecasts.json", forecasts_payload(forecasts, names, issued))
     detail = next((f for f in forecasts if f.inp.sensor_id == DETAIL_SENSOR), forecasts[0])
@@ -108,7 +114,7 @@ def main():
     for kind in ("clean", "borderline", "bad"):
         when = pd.Timestamp(days[kind])
         r_inputs, _ = prepare_inputs(raw, wide, when)
-        r_forecasts = run_forecasts(model, r_inputs, scale, n_samples=args.samples)
+        r_forecasts = run_forecasts(model, r_inputs, scale, calibration=calibration, n_samples=args.samples)
         write(f"replay_{days[kind]}.json", replay_payload(r_forecasts, names, when, raw))
 
     readme = f"""# Example API responses
@@ -128,7 +134,7 @@ Generated {pd.Timestamp.now():%Y-%m-%d %H:%M} by `scripts/make_api_examples.py`.
 
 Notes:
 - The "live" files are issued at {iso_time(issued)}, the end of the last data download. The real service is current to the hour.
-- `likelihood_status` is `"uncalibrated"`: the probabilities are real model output but not yet checked, so treat them as placeholders.
+- Probabilities and ranges are calibrated (Method B: the model's real errors on validation; see experiment 15). `likelihood_status` is `"calibrated"`.
 - The three replay files are the suggested demo dates (clean / borderline / bad).
 """
     (OUT / "README.md").write_text(readme, encoding="utf-8")
