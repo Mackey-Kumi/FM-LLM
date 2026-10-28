@@ -4,7 +4,7 @@ The forecast service runs FM-LLM on Accra's live PM2.5 sensors every hour and se
 
 ## Basics
 - JSON over HTTPS, GET only, no auth. CORS open (call it from the browser).
-- Base URL: Hugging Face Space, link coming by Wed 28 Oct. Until then, build against the example responses in `api_examples/` (made by the real model on real data; see its README).
+- Base URL: `https://mackey333-accra-air-forecast.hf.space` (live, e.g. `/v1/health`). The example responses in `api_examples/` have the same format, for building offline.
 - Times: ISO 8601 UTC, which is also Ghana time, e.g. `2026-10-30T14:00:00Z`
 - PM2.5 in µg/m³, 1 decimal. Probabilities 0–1, 2 decimals. `null` = not available.
 - New forecasts every hour at ~:05. Polling every 15 min is enough.
@@ -74,9 +74,7 @@ The demo is in the clean season, so live air will mostly be `good`. Replay shows
 Demo dates (examples in `api_examples/`): **2026-02-16** clean, **2026-02-26** borderline, **2026-01-29** worst Harmattan day.
 
 ## Decided
-- Hosting: Hugging Face Space (free, no GPU needed). Backup: my laptop with cached forecasts. The Space sleeps when idle and takes ~2 min to wake; I'll wake it before the demo.
+- Hosting: Hugging Face Space (free; the model runs on CPU). Backup: my laptop with cached forecasts. The Space sleeps after 48 h without visitors and takes a few minutes to wake; I'll wake it before the demo.
+- After any restart, `/v1/health` returns 503 with `"status": "starting"` for about 2 minutes, until the first forecasts are ready. Show a "loading" state for any 503.
 - No push notifications for the demo. Warnings show when the app is opened.
 - Changes to this contract: we agree first, then bump to /v2.
-
-## Coming from me
-1. Live URL: by Wed 28 Oct.
