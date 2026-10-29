@@ -64,6 +64,17 @@ def test_replay_reports_the_real_outcome():
     assert day_outlook(f.summary["today"])["mean_24h"] == today["mean_24h"]
 
 
+def test_in_training_is_marked_only_when_the_training_set_is_given():
+    f = fake_forecast()
+    idx = pd.date_range("2026-10-30 13:00", periods=24, freq="h")
+    raw = pd.DataFrame({7: np.full(24, 40.0)}, index=idx)
+    issued = pd.Timestamp("2026-10-30 13:00")
+    assert "in_training" not in replay_payload([f], {}, issued, raw)["sensors"][0]
+    assert replay_payload([f], {}, issued, raw, trained={7})["sensors"][0]["in_training"] is True
+    assert replay_payload([f], {}, issued, raw, trained={8})["sensors"][0]["in_training"] is False
+    assert forecast_detail_payload(f, "", issued, trained={7})["in_training"] is True
+
+
 def test_worst_hours_ignores_hours_before_issue():
     med = np.full(48, 10.0)
     med[0:4] = 60.0          # the past: between the last reading and the issue time

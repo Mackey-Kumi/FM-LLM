@@ -29,7 +29,7 @@ sys.path.insert(0, str(REPO))
 from huggingface_hub import HfApi, constants
 
 from fmllm.model import hf_token
-from service.live import CALIBRATION, CHECKPOINT, DATA_DIR
+from service.live import CALIBRATION, CHECKPOINT, DATA_DIR, TRAINING_SENSORS
 # pylint: enable=wrong-import-position
 
 STAGE = REPO / "outputs" / "space"
@@ -126,6 +126,7 @@ def stage():
     (STAGE / "model").mkdir()
     shutil.copy(CHECKPOINT, STAGE / "model" / "aq_pm25_best.pt")
     shutil.copy(CALIBRATION, STAGE / "model" / "calibration.json")
+    shutil.copy(TRAINING_SENSORS, STAGE / "model" / "training_sensors.json")
     (STAGE / "data").mkdir()
     for name in ("pm25_hourly.csv", "sensors.csv"):
         shutil.copy(DATA_DIR / name, STAGE / "data" / name)

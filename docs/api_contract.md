@@ -31,17 +31,19 @@ The forecast service runs FM-LLM on Accra's live PM2.5 sensors every hour and se
 ```json
 [{"id": "10331004", "name": "Graphic Road", "lat": 5.5585, "lon": -0.2002,
   "last_reading": {"time": "2026-10-30T12:00:00Z", "pm25": 21.4},
-  "forecast_available": true}]
+  "forecast_available": true, "in_training": true}]
 ```
 - `name` = sensor location (market, school, junction). Use it as the area label.
 - `forecast_available: false` = too many recent gaps. Show it grey.
+- `in_training`: `true` = one of the 24 sensors the model was trained on (data before 1 Oct 2025); `false` = the model never saw this sensor's data. Also on every entry of `/v1/forecasts`, `/v1/forecasts/{id}` and `/v1/replay`.
 
 ### GET /v1/forecasts (all sensors, one line each)
 ```json
 {"issued_at": "2026-10-30T13:05:00Z",
  "sensors": [{"id": "10331004", "name": "Graphic Road",
               "today":    {"mean_24h": 24.8, "level": "moderate", "prob_unhealthy": 0.08},
-              "tomorrow": {"mean_24h": 31.2, "level": "moderate", "prob_unhealthy": 0.31}}]}
+              "tomorrow": {"mean_24h": 31.2, "level": "moderate", "prob_unhealthy": 0.31},
+              "in_training": true}]}
 ```
 - `today` = the next 24 hours from the forecast start; `tomorrow` = the 24 hours after that (rolling, not calendar days).
 - `prob_unhealthy` = chance that period's average reaches 35.
@@ -64,14 +66,18 @@ The forecast service runs FM-LLM on Accra's live PM2.5 sensors every hour and se
 - `message`: ready-made sentence; use as-is or build your own.
 
 ### GET /v1/replay?date=YYYY-MM-DD (demo mode)
-The demo is in the clean season, so live air will mostly be `good`. Replay shows last Harmattan (1 Dec 2025 – 28 Feb 2026) as if it were live: the same shape as `/v1/forecasts` for 00:00 that day, plus what actually happened.
+Shows any past day as if it were live: the same shape as `/v1/forecasts`, issued at 00:00 that day using only data up to then, plus what actually happened (`actual_*`, `null` if the sensor had fewer than 18 real hours). Valid dates: 2023-08-13 to yesterday (the 400 error lists them). Fair dates are **1 Dec 2025 onwards**: the model trained on everything before 1 Oct 2025.
 ```json
 {"issued_at": "2026-01-14T00:00:00Z", "mode": "replay",
  "sensors": [{"id": "10331004", "name": "Graphic Road",
               "today": {"mean_24h": 41.3, "level": "unhealthy", "prob_unhealthy": 0.74,
-                        "actual_mean_24h": 44.0, "actual_level": "unhealthy"}}]}
+                        "actual_mean_24h": 44.0, "actual_level": "unhealthy"},
+              "tomorrow": {"mean_24h": 39.8, "level": "unhealthy", "prob_unhealthy": 0.65},
+              "in_training": true}]}
 ```
-Demo dates (examples in `api_examples/`): **2026-02-16** clean, **2026-02-26** borderline, **2026-01-29** worst Harmattan day.
+Demo dates (pre-computed, answer in under a second):
+- Harmattan test, sensors the model trained on: **2026-01-29** worst day, **2026-02-26** borderline, **2026-02-16** clean.
+- Sensors the model never trained on (`in_training: false`): **2026-09-05** (37 such sensors), **2026-08-25** (13, one unhealthy).
 
 ## Decided
 - Hosting: Hugging Face Space (free; the model runs on CPU). Backup: my laptop with cached forecasts. The Space sleeps after 48 h without visitors and takes a few minutes to wake; I'll wake it before the demo.

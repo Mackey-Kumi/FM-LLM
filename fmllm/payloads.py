@@ -263,13 +263,15 @@ def health_payload(issued_at, n_forecast: int, model_name: str, calibrated: bool
             "likelihood_status": "calibrated" if calibrated else "uncalibrated"}
 
 
-def sensors_payload(meta: pd.DataFrame, raw: pd.DataFrame, forecast_ids, as_of) -> List[Dict]:
+def sensors_payload(meta: pd.DataFrame, raw: pd.DataFrame, forecast_ids, as_of, trained=None) -> List[Dict]:
     """
     Args:
         meta: sensors.csv (sensor_id, name, lat, lon, ...).
         raw: hourly readings (columns = sensor ids).
         forecast_ids: ids that have a forecast.
         as_of: nothing after this time is used.
+        trained: ids of the sensors the model was trained on; given = each entry gets
+            "in_training" (None = field left out).
 
     Returns:
         GET /v1/sensors response.
@@ -282,31 +284,41 @@ def sensors_payload(meta: pd.DataFrame, raw: pd.DataFrame, forecast_ids, as_of) 
         out.append({"id": str(row.sensor_id), "name": row.name, "lat": round(row.lat, 5), "lon": round(row.lon, 5),
                     "last_reading": None if last is None else {"time": iso(last), "pm25": _r(col[last])},
                     "forecast_available": row.sensor_id in set(forecast_ids)})
+        if trained is not None:
+            out[-1]["in_training"] = int(row.sensor_id) in trained
     return out
 
 
-def forecasts_payload(forecasts: List[SensorForecast], names: Dict, issued_at) -> Dict:
+def forecasts_payload(forecasts: List[SensorForecast], names: Dict, issued_at, trained=None) -> Dict:
     """
     Args:
         forecasts: run_forecasts() results.
         names: {sensor_id: place name}.
         issued_at: when the forecasts were made.
+        trained: ids of the sensors the model was trained on; given = each entry gets
+            "in_training" (None = field left out).
 
     Returns:
         GET /v1/forecasts response.
     """
-    return {"issued_at": iso(issued_at), "sensors": [
+    out = {"issued_at": iso(issued_at), "sensors": [
         {"id": str(f.inp.sensor_id), "name": names.get(f.inp.sensor_id, ""),
          "today": day_outlook(f.summary["today"]), "tomorrow": day_outlook(f.summary["tomorrow"])}
         for f in forecasts]}
+    if trained is not None:
+        for entry, f in zip(out["sensors"], forecasts):
+            entry["in_training"] = f.inp.sensor_id in trained
+    return out
 
 
-def forecast_detail_payload(f: SensorForecast, name: str, issued_at) -> Dict:
+def forecast_detail_payload(f: SensorForecast, name: str, issued_at, trained=None) -> Dict:
     """
     Args:
         f: one sensor's run_forecasts() result.
         name: its place name.
         issued_at: when the forecast was made.
+        trained: ids of the sensors the model was trained on; given = adds "in_training"
+            (None = field left out).
 
     Returns:
         GET /v1/forecasts/{sensor_id} response.
@@ -314,7 +326,7 @@ def forecast_detail_payload(f: SensorForecast, name: str, issued_at) -> Dict:
     s, start = f.summary["all"], f.forecast_start
     today, tomorrow = day_outlook(f.summary["today"]), day_outlook(f.summary["tomorrow"])
     worst = worst_hours(s["median"], start, not_before=pd.Timestamp(issued_at).floor("h"))
-    return {
+    out = {
         "id": str(f.inp.sensor_id), "name": name, "issued_at": iso(issued_at), "forecast_start": iso(start),
         "recent": [{"time": iso(t), "pm25": _r(v)} for t, v in f.inp.recent.items()],
         "hourly": [{"time": iso(start + pd.Timedelta(hours=h)), "pm25": _r(s["median"][h]),
@@ -324,10 +336,13 @@ def forecast_detail_payload(f: SensorForecast, name: str, issued_at) -> Dict:
         "worst_hours": worst,
         "message": message(today, tomorrow, worst),
     }
+    if trained is not None:
+        out["in_training"] = f.inp.sensor_id in trained
+    return out
 
 
 def replay_payload(forecasts: List[SensorForecast], names: Dict, issued_at, raw: pd.DataFrame,
-                   min_real_hours: int = 18) -> Dict:
+                   min_real_hours: int = 18, trained=None) -> Dict:
     """
     /v1/forecasts as it would have looked at `issued_at`, plus what really happened.
 
@@ -338,11 +353,12 @@ def replay_payload(forecasts: List[SensorForecast], names: Dict, issued_at, raw:
         raw: hourly readings, including the hours after issued_at (the outcome).
         min_real_hours: the actual 24-h average is only reported if at least this many
             of the 24 hours have real readings.
+        trained: ids of the sensors the model was trained on (see forecasts_payload).
 
     Returns:
         GET /v1/replay response.
     """
-    base = forecasts_payload(forecasts, names, issued_at)
+    base = forecasts_payload(forecasts, names, issued_at, trained)
     for entry, f in zip(base["sensors"], forecasts):
         truth = raw[f.inp.sensor_id].loc[f.forecast_start: f.forecast_start + pd.Timedelta(hours=DAY - 1)]
         actual = float(truth.mean()) if truth.notna().sum() >= min_real_hours else float("nan")

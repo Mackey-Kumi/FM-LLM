@@ -12,6 +12,7 @@ Replay days (the demo mode) are forecast on request and kept; the three demo dat
 the whole Harmattan test period are worked out in the background after the first live run.
 """
 
+import json
 import os
 import sys
 import threading
@@ -43,9 +44,11 @@ CHECKPOINT = Path(os.environ.get("SERVICE_CHECKPOINT", REPO / "kaggle" / "experi
                                  "results_run2" / "aq_pm25_best.pt"))
 CALIBRATION = Path(os.environ.get("SERVICE_CALIBRATION", REPO / "kaggle" / "experiments" /
                                   "15_aq_ensemble_calibration" / "results" / "calibration.json"))
+TRAINING_SENSORS = Path(os.environ.get("SERVICE_TRAINING_SENSORS", CHECKPOINT.parent / "training_sensors.json"))
 WORK_DIR = Path(os.environ.get("SERVICE_WORK_DIR", REPO / "outputs" / "service"))
 MODEL_NAME = "fm-llm-aq-run2"
-DEMO_DATES = ("2026-02-16", "2026-02-26", "2026-01-29")     # clean, borderline, worst (docs/api_contract.md)
+DEMO_DATES = ("2026-01-29", "2026-02-26", "2026-02-16",     # Harmattan test: worst, borderline, clean
+              "2026-09-05", "2026-08-25")                   # sensors never trained on (docs/api_contract.md)
 HARMATTAN = ("2025-12-01", "2026-02-28")
 REFRESH_MINUTE = 5            # new forecasts at hh:05
 OVERLAP_H = 6                 # re-fetch the last few hours too: sensors report late and OpenAQ fills them in
@@ -85,6 +88,7 @@ class LiveService:
         self._last_discovery = None
         self._started = False
         self.model = self.calibration = self.scale = None
+        self.trained = None                       # ids of the sensors the model was trained on
         self.long = self.meta = self.raw = self.wide = None
 
     # ------------------------------------------------------------------ data
@@ -98,6 +102,8 @@ class LiveService:
         self.scale = train_scale(self.wide, SPLIT["train_end"])     # the training scaling, fixed for good
         self.model = load_checkpoint(str(self.checkpoint), LlamaBackbone("cpu"), "cpu")
         self.calibration = RatioCalibration.load(str(self.calibration_path))
+        if TRAINING_SENSORS.exists():
+            self.trained = set(json.loads(TRAINING_SENSORS.read_text(encoding="utf-8"))["training_sensors"])
         print(f"[service] history + model loaded in {time.time() - t0:.0f}s; data ends {self.raw.index.max()}",
               flush=True)
 
@@ -184,9 +190,10 @@ class LiveService:
         self.live = {
             "issued_at": issued,
             "health": health_payload(issued, len(forecasts), MODEL_NAME, calibrated=True),
-            "sensors": sensors_payload(self.meta, raw, ids, as_of),
-            "forecasts": forecasts_payload(forecasts, names, issued),
-            "details": {str(f.inp.sensor_id): forecast_detail_payload(f, names.get(f.inp.sensor_id, ""), issued)
+            "sensors": sensors_payload(self.meta, raw, ids, as_of, self.trained),
+            "forecasts": forecasts_payload(forecasts, names, issued, self.trained),
+            "details": {str(f.inp.sensor_id): forecast_detail_payload(f, names.get(f.inp.sensor_id, ""), issued,
+                                                                      self.trained)
                         for f in forecasts},
         }
         self.status = "ok"
@@ -217,7 +224,7 @@ class LiveService:
                              f"{(first + pd.Timedelta(days=29)):%Y-%m-%d} and {(end - pd.Timedelta(hours=24)):%Y-%m-%d}")
         forecasts, raw = self._forecast(when)
         names = dict(zip(self.meta.sensor_id, self.meta.name.astype(str).str.strip()))
-        self.replays[date] = replay_payload(forecasts, names, when, raw)
+        self.replays[date] = replay_payload(forecasts, names, when, raw, trained=self.trained)
         return self.replays[date]
 
     def _warm_replays(self):
