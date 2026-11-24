@@ -44,15 +44,17 @@ def load_ensemble(path) -> Dict[str, np.ndarray]:
         return {k: z[k] for k in z.files}
 
 
-def outcomes(a: Dict[str, np.ndarray]) -> Dict[str, np.ndarray]:
+def outcomes(a: Dict[str, np.ndarray], min_real: int = MIN_REAL) -> Dict[str, np.ndarray]:
     """
     The real 24-hour averages for each outlook period, where enough hours were measured.
 
     Args:
         a: ensemble arrays.
+        min_real: real hours a period needs to be judged (experiment 18 also checks 12,
+            because sensors reported far fewer hours in November 2026).
 
     Returns:
-        {"today": (N,), "tomorrow": (N,)} in µg/m³; NaN where fewer than MIN_REAL real hours.
+        {"today": (N,), "tomorrow": (N,)} in µg/m³; NaN where fewer than min_real real hours.
     """
     out = {}
     for k, name in enumerate(PERIODS):
@@ -60,7 +62,7 @@ def outcomes(a: Dict[str, np.ndarray]) -> Dict[str, np.ndarray]:
         n_real = np.isfinite(block).sum(axis=1)
         with np.errstate(invalid="ignore"):
             mean = np.nanmean(np.where(np.isfinite(block), block, np.nan), axis=1)
-        out[name] = np.where(n_real >= MIN_REAL, mean, np.nan)
+        out[name] = np.where(n_real >= min_real, mean, np.nan)
     return out
 
 
@@ -129,18 +131,19 @@ def scaled_ensemble(a: Dict[str, np.ndarray], period: str, factor: float):
     return (stretched >= LIMIT).mean(axis=1), np.quantile(stretched, 0.1, axis=1), np.quantile(stretched, 0.9, axis=1)
 
 
-def fit_ratios(a_val: Dict[str, np.ndarray], period: str) -> np.ndarray:
+def fit_ratios(a_val: Dict[str, np.ndarray], period: str, min_real: int = MIN_REAL) -> np.ndarray:
     """
     Method B: the model's real errors on validation, as actual / forecast 24-hour averages.
 
     Args:
         a_val: validation ensemble arrays.
         period: "today" or "tomorrow".
+        min_real: real hours a period needs to be used (see outcomes).
 
     Returns:
         (M,) sorted ratios (M = validation forecasts with a judged outcome).
     """
-    y, f = outcomes(a_val)[period], point_means(a_val)[period]
+    y, f = outcomes(a_val, min_real)[period], point_means(a_val)[period]
     ok = np.isfinite(y) & (f > 0) & (y > 0)
     return np.sort(y[ok] / f[ok])
 

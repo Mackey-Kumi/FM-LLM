@@ -55,7 +55,8 @@ class AQSplits:
     test: SensorWindows
 
 
-def build_splits(csv_path, config: ModelConfig, split: Optional[Dict] = None, max_gap: int = MAX_GAP) -> AQSplits:
+def build_splits(csv_path, config: ModelConfig, split: Optional[Dict] = None, max_gap: int = MAX_GAP,
+                 gap: int = 0) -> AQSplits:
     """
     Load the PM2.5 data and cut it into the train / validation / test windows.
 
@@ -65,6 +66,7 @@ def build_splits(csv_path, config: ModelConfig, split: Optional[Dict] = None, ma
             (history = seq_len, future = patch_len).
         split: {"train_end", "val_end", "test_end"} dates. None = SPLIT.
         max_gap: longest history gap (hours) that is interpolated.
+        gap: hours left out between history and future (see SensorWindows; 0 = none).
 
     Returns:
         AQSplits.
@@ -74,7 +76,7 @@ def build_splits(csv_path, config: ModelConfig, split: Optional[Dict] = None, ma
     wide = fill_short_gaps(raw, max_gap=max_gap)
     scale = train_scale(wide, split["train_end"])
     common = {"seq_len": config.seq_len, "pred_len": config.patch_len, "scale": scale, "observed": raw,
-              "real_future_hours": max(HORIZONS)}
+              "real_future_hours": max(HORIZONS), "gap": gap}
     return AQSplits(
         raw=raw, wide=wide, scale=scale,
         train=SensorWindows(wide, end=split["train_end"], stride=TRAIN_STRIDE, **common),
@@ -105,7 +107,7 @@ def new_sensor_ids(raw: pd.DataFrame, train_end: Optional[str] = None):
 
 
 def build_period(csv_path, config: ModelConfig, start: str, end: Optional[str] = None,
-                 max_gap: int = MAX_GAP, min_real_fraction: float = MIN_REAL_FRACTION) -> AQSplits:
+                 max_gap: int = MAX_GAP, min_real_fraction: float = MIN_REAL_FRACTION, gap: int = 0) -> AQSplits:
     """
     Forecast windows for any period, with the training data rules (gap filling,
     scaling from the training period) and the Option A scoring rule: at least
@@ -120,6 +122,7 @@ def build_period(csv_path, config: ModelConfig, start: str, end: Optional[str] =
         max_gap: longest history gap (hours) that is interpolated.
         min_real_fraction: share of the scored hours that must be real (1.0 = the strict
             rule of experiments 12-13).
+        gap: hours left out between history and future (see SensorWindows; 0 = none).
 
     Returns:
         AQSplits whose `test` holds this period's windows (train and val are empty
@@ -130,5 +133,5 @@ def build_period(csv_path, config: ModelConfig, start: str, end: Optional[str] =
     scale = train_scale(wide, SPLIT["train_end"])
     period = SensorWindows(wide, seq_len=config.seq_len, pred_len=config.patch_len, start=start, end=end,
                            issue_hours=TEST_ISSUE_HOURS, scale=scale, observed=raw,
-                           real_future_hours=max(HORIZONS), min_real_fraction=min_real_fraction)
+                           real_future_hours=max(HORIZONS), min_real_fraction=min_real_fraction, gap=gap)
     return AQSplits(raw=raw, wide=wide, scale=scale, train=period, val=period, test=period)

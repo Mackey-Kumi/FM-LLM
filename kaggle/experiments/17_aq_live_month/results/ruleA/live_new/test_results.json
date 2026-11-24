@@ -1,0 +1,4371 @@
+{
+ "mae_overall": {
+  "mae_24h": {
+   "daily_naive": 11.45346124239371,
+   "fm_llm": 9.11690555659818,
+   "persistence": 15.461209486907636,
+   "weekly_naive": 12.183944598050184
+  },
+  "mae_48h": {
+   "daily_naive": 12.150865930906484,
+   "fm_llm": 9.485217028940228,
+   "persistence": 16.37823318763518,
+   "weekly_naive": 11.976848798738398
+  }
+ },
+ "warnings": {
+  "ghana_24h_mean": {
+   "all": {
+    "n": 138,
+    "base_rate": 0.028985507246376812,
+    "scores": {
+     "daily_naive": {
+      "n": 138,
+      "hits": 0,
+      "misses": 4,
+      "false_alarms": 1,
+      "correct_negatives": 133,
+      "hit_rate": 0.0,
+      "false_alarm_ratio": 1.0,
+      "csi": 0.0,
+      "mean_lead_hours": null
+     },
+     "fm_llm": {
+      "n": 138,
+      "hits": 0,
+      "misses": 4,
+      "false_alarms": 0,
+      "correct_negatives": 134,
+      "hit_rate": 0.0,
+      "false_alarm_ratio": null,
+      "csi": 0.0,
+      "mean_lead_hours": null
+     },
+     "persistence": {
+      "n": 138,
+      "hits": 1,
+      "misses": 3,
+      "false_alarms": 22,
+      "correct_negatives": 112,
+      "hit_rate": 0.25,
+      "false_alarm_ratio": 0.9565217391304348,
+      "csi": 0.038461538461538464,
+      "mean_lead_hours": null
+     },
+     "weekly_naive": {
+      "n": 138,
+      "hits": 0,
+      "misses": 4,
+      "false_alarms": 1,
+      "correct_negatives": 133,
+      "hit_rate": 0.0,
+      "false_alarm_ratio": 1.0,
+      "csi": 0.0,
+      "mean_lead_hours": null
+     }
+    },
+    "scores_by_sensor": {
+     "daily_naive": {
+      "15872033": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872034": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872035": {
+       "n": 5,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 5,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905125": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913720": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913721": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15914832": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15915116": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15916831": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963359": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963361": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963363": {
+       "n": 2,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15998898": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062453": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 96,
+       "hits": 0,
+       "misses": 3,
+       "false_alarms": 1,
+       "correct_negatives": 92,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": 1.0,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      }
+     },
+     "fm_llm": {
+      "15872033": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872034": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872035": {
+       "n": 5,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 5,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905125": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913720": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913721": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15914832": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15915116": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15916831": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963359": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963361": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963363": {
+       "n": 2,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15998898": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062453": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 96,
+       "hits": 0,
+       "misses": 3,
+       "false_alarms": 0,
+       "correct_negatives": 93,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      }
+     },
+     "persistence": {
+      "15872033": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 1,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": 1.0,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15872034": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 1,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": 1.0,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15872035": {
+       "n": 5,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 5,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905125": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913720": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 1,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": 1.0,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15913721": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 1,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": 1.0,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15914832": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15915116": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15916831": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 1,
+       "correct_negatives": 0,
+       "hit_rate": null,
+       "false_alarm_ratio": 1.0,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15963359": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 1,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": 1.0,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15963361": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963363": {
+       "n": 2,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 1,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": 1.0,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15998898": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 1,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": 1.0,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "16062453": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 96,
+       "hits": 1,
+       "misses": 2,
+       "false_alarms": 14,
+       "correct_negatives": 79,
+       "hit_rate": 0.3333333333333333,
+       "false_alarm_ratio": 0.9333333333333333,
+       "csi": 0.058823529411764705,
+       "mean_lead_hours": null
+      }
+     },
+     "weekly_naive": {
+      "15872033": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872034": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872035": {
+       "n": 5,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 5,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905125": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913720": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913721": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15914832": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15915116": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15916831": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963359": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963361": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963363": {
+       "n": 2,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15998898": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062453": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 96,
+       "hits": 0,
+       "misses": 3,
+       "false_alarms": 1,
+       "correct_negatives": 92,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": 1.0,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      }
+     }
+    }
+   },
+   "daily": {
+    "n": 35,
+    "base_rate": 0.02857142857142857,
+    "scores": {
+     "daily_naive": {
+      "n": 35,
+      "hits": 0,
+      "misses": 1,
+      "false_alarms": 0,
+      "correct_negatives": 34,
+      "hit_rate": 0.0,
+      "false_alarm_ratio": null,
+      "csi": 0.0,
+      "mean_lead_hours": null
+     },
+     "fm_llm": {
+      "n": 35,
+      "hits": 0,
+      "misses": 1,
+      "false_alarms": 0,
+      "correct_negatives": 34,
+      "hit_rate": 0.0,
+      "false_alarm_ratio": null,
+      "csi": 0.0,
+      "mean_lead_hours": null
+     },
+     "persistence": {
+      "n": 35,
+      "hits": 0,
+      "misses": 1,
+      "false_alarms": 2,
+      "correct_negatives": 32,
+      "hit_rate": 0.0,
+      "false_alarm_ratio": 1.0,
+      "csi": 0.0,
+      "mean_lead_hours": null
+     },
+     "weekly_naive": {
+      "n": 35,
+      "hits": 0,
+      "misses": 1,
+      "false_alarms": 0,
+      "correct_negatives": 34,
+      "hit_rate": 0.0,
+      "false_alarm_ratio": null,
+      "csi": 0.0,
+      "mean_lead_hours": null
+     }
+    },
+    "scores_by_sensor": {
+     "daily_naive": {
+      "15872033": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872034": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872035": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913721": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15914832": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963359": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963363": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15998898": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 24,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 24,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      }
+     },
+     "fm_llm": {
+      "15872033": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872034": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872035": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913721": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15914832": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963359": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963363": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15998898": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 24,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 24,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      }
+     },
+     "persistence": {
+      "15872033": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872034": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872035": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913721": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15914832": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963359": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963363": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15998898": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 24,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 2,
+       "correct_negatives": 22,
+       "hit_rate": null,
+       "false_alarm_ratio": 1.0,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      }
+     },
+     "weekly_naive": {
+      "15872033": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872034": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872035": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913721": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15914832": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963359": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963363": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15998898": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 24,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 24,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      }
+     }
+    }
+   }
+  },
+  "unhealthy_24h_mean": {
+   "all": {
+    "n": 138,
+    "base_rate": 0.0,
+    "scores": {
+     "daily_naive": {
+      "n": 138,
+      "hits": 0,
+      "misses": 0,
+      "false_alarms": 0,
+      "correct_negatives": 138,
+      "hit_rate": null,
+      "false_alarm_ratio": null,
+      "csi": null,
+      "mean_lead_hours": null
+     },
+     "fm_llm": {
+      "n": 138,
+      "hits": 0,
+      "misses": 0,
+      "false_alarms": 0,
+      "correct_negatives": 138,
+      "hit_rate": null,
+      "false_alarm_ratio": null,
+      "csi": null,
+      "mean_lead_hours": null
+     },
+     "persistence": {
+      "n": 138,
+      "hits": 0,
+      "misses": 0,
+      "false_alarms": 6,
+      "correct_negatives": 132,
+      "hit_rate": null,
+      "false_alarm_ratio": 1.0,
+      "csi": 0.0,
+      "mean_lead_hours": null
+     },
+     "weekly_naive": {
+      "n": 138,
+      "hits": 0,
+      "misses": 0,
+      "false_alarms": 0,
+      "correct_negatives": 138,
+      "hit_rate": null,
+      "false_alarm_ratio": null,
+      "csi": null,
+      "mean_lead_hours": null
+     }
+    },
+    "scores_by_sensor": {
+     "daily_naive": {
+      "15872033": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872034": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872035": {
+       "n": 5,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 5,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905125": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913720": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913721": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15914832": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15915116": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15916831": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963359": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963361": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963363": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15998898": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062453": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 96,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 96,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      }
+     },
+     "fm_llm": {
+      "15872033": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872034": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872035": {
+       "n": 5,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 5,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905125": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913720": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913721": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15914832": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15915116": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15916831": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963359": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963361": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963363": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15998898": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062453": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 96,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 96,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      }
+     },
+     "persistence": {
+      "15872033": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872034": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872035": {
+       "n": 5,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 5,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905125": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913720": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913721": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15914832": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15915116": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15916831": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 1,
+       "correct_negatives": 0,
+       "hit_rate": null,
+       "false_alarm_ratio": 1.0,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15963359": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963361": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963363": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15998898": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 1,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": 1.0,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "16062453": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 96,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 4,
+       "correct_negatives": 92,
+       "hit_rate": null,
+       "false_alarm_ratio": 1.0,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      }
+     },
+     "weekly_naive": {
+      "15872033": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872034": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872035": {
+       "n": 5,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 5,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905125": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913720": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913721": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15914832": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15915116": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15916831": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963359": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963361": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963363": {
+       "n": 2,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15998898": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062453": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 96,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 96,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      }
+     }
+    }
+   },
+   "daily": {
+    "n": 35,
+    "base_rate": 0.0,
+    "scores": {
+     "daily_naive": {
+      "n": 35,
+      "hits": 0,
+      "misses": 0,
+      "false_alarms": 0,
+      "correct_negatives": 35,
+      "hit_rate": null,
+      "false_alarm_ratio": null,
+      "csi": null,
+      "mean_lead_hours": null
+     },
+     "fm_llm": {
+      "n": 35,
+      "hits": 0,
+      "misses": 0,
+      "false_alarms": 0,
+      "correct_negatives": 35,
+      "hit_rate": null,
+      "false_alarm_ratio": null,
+      "csi": null,
+      "mean_lead_hours": null
+     },
+     "persistence": {
+      "n": 35,
+      "hits": 0,
+      "misses": 0,
+      "false_alarms": 1,
+      "correct_negatives": 34,
+      "hit_rate": null,
+      "false_alarm_ratio": 1.0,
+      "csi": 0.0,
+      "mean_lead_hours": null
+     },
+     "weekly_naive": {
+      "n": 35,
+      "hits": 0,
+      "misses": 0,
+      "false_alarms": 0,
+      "correct_negatives": 35,
+      "hit_rate": null,
+      "false_alarm_ratio": null,
+      "csi": null,
+      "mean_lead_hours": null
+     }
+    },
+    "scores_by_sensor": {
+     "daily_naive": {
+      "15872033": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872034": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872035": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913721": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15914832": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963359": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963363": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15998898": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 24,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 24,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      }
+     },
+     "fm_llm": {
+      "15872033": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872034": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872035": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913721": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15914832": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963359": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963363": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15998898": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 24,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 24,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      }
+     },
+     "persistence": {
+      "15872033": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872034": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872035": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913721": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15914832": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963359": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963363": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15998898": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 24,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 1,
+       "correct_negatives": 23,
+       "hit_rate": null,
+       "false_alarm_ratio": 1.0,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      }
+     },
+     "weekly_naive": {
+      "15872033": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872034": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872035": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913721": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15914832": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963359": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15963363": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15998898": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 24,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 24,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      }
+     }
+    }
+   }
+  },
+  "any_hour_35.5": {
+   "all": {
+    "n": 138,
+    "base_rate": 0.8115942028985508,
+    "scores": {
+     "daily_naive": {
+      "n": 138,
+      "hits": 90,
+      "misses": 22,
+      "false_alarms": 15,
+      "correct_negatives": 11,
+      "hit_rate": 0.8035714285714286,
+      "false_alarm_ratio": 0.14285714285714285,
+      "csi": 0.7086614173228346,
+      "mean_lead_hours": 7.966666666666667
+     },
+     "fm_llm": {
+      "n": 138,
+      "hits": 44,
+      "misses": 68,
+      "false_alarms": 3,
+      "correct_negatives": 23,
+      "hit_rate": 0.39285714285714285,
+      "false_alarm_ratio": 0.06382978723404255,
+      "csi": 0.3826086956521739,
+      "mean_lead_hours": 5.613636363636363
+     },
+     "persistence": {
+      "n": 138,
+      "hits": 21,
+      "misses": 91,
+      "false_alarms": 2,
+      "correct_negatives": 24,
+      "hit_rate": 0.1875,
+      "false_alarm_ratio": 0.08695652173913043,
+      "csi": 0.18421052631578946,
+      "mean_lead_hours": 1.619047619047619
+     },
+     "weekly_naive": {
+      "n": 138,
+      "hits": 87,
+      "misses": 25,
+      "false_alarms": 9,
+      "correct_negatives": 17,
+      "hit_rate": 0.7767857142857143,
+      "false_alarm_ratio": 0.09375,
+      "csi": 0.71900826446281,
+      "mean_lead_hours": 7.862068965517241
+     }
+    },
+    "scores_by_sensor": {
+     "daily_naive": {
+      "15872033": {
+       "n": 2,
+       "hits": 1,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.5,
+       "false_alarm_ratio": 0.0,
+       "csi": 0.5,
+       "mean_lead_hours": 0.0
+      },
+      "15872034": {
+       "n": 4,
+       "hits": 1,
+       "misses": 1,
+       "false_alarms": 2,
+       "correct_negatives": 0,
+       "hit_rate": 0.5,
+       "false_alarm_ratio": 0.6666666666666666,
+       "csi": 0.25,
+       "mean_lead_hours": 0.0
+      },
+      "15872035": {
+       "n": 5,
+       "hits": 0,
+       "misses": 2,
+       "false_alarms": 2,
+       "correct_negatives": 1,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": 1.0,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905125": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 4,
+       "hits": 0,
+       "misses": 2,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15913720": {
+       "n": 2,
+       "hits": 2,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 1.0,
+       "false_alarm_ratio": 0.0,
+       "csi": 1.0,
+       "mean_lead_hours": 9.0
+      },
+      "15913721": {
+       "n": 2,
+       "hits": 1,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.5,
+       "false_alarm_ratio": 0.0,
+       "csi": 0.5,
+       "mean_lead_hours": 0.0
+      },
+      "15914832": {
+       "n": 3,
+       "hits": 0,
+       "misses": 2,
+       "false_alarms": 1,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": 1.0,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15915116": {
+       "n": 1,
+       "hits": 1,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 1.0,
+       "false_alarm_ratio": 0.0,
+       "csi": 1.0,
+       "mean_lead_hours": 17.0
+      },
+      "15916831": {
+       "n": 1,
+       "hits": 1,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 1.0,
+       "false_alarm_ratio": 0.0,
+       "csi": 1.0,
+       "mean_lead_hours": 0.0
+      },
+      "15963359": {
+       "n": 3,
+       "hits": 1,
+       "misses": 1,
+       "false_alarms": 1,
+       "correct_negatives": 0,
+       "hit_rate": 0.5,
+       "false_alarm_ratio": 0.5,
+       "csi": 0.3333333333333333,
+       "mean_lead_hours": 18.0
+      },
+      "15963361": {
+       "n": 1,
+       "hits": 1,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 1.0,
+       "false_alarm_ratio": 0.0,
+       "csi": 1.0,
+       "mean_lead_hours": 6.0
+      },
+      "15963363": {
+       "n": 2,
+       "hits": 1,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.5,
+       "false_alarm_ratio": 0.0,
+       "csi": 0.5,
+       "mean_lead_hours": 0.0
+      },
+      "15998898": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 3,
+       "hits": 2,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.6666666666666666,
+       "false_alarm_ratio": 0.0,
+       "csi": 0.6666666666666666,
+       "mean_lead_hours": 8.5
+      },
+      "16062453": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 96,
+       "hits": 78,
+       "misses": 9,
+       "false_alarms": 9,
+       "correct_negatives": 0,
+       "hit_rate": 0.896551724137931,
+       "false_alarm_ratio": 0.10344827586206896,
+       "csi": 0.8125,
+       "mean_lead_hours": 8.217948717948717
+      }
+     },
+     "fm_llm": {
+      "15872033": {
+       "n": 2,
+       "hits": 0,
+       "misses": 2,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15872034": {
+       "n": 4,
+       "hits": 0,
+       "misses": 2,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15872035": {
+       "n": 5,
+       "hits": 0,
+       "misses": 2,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905125": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 4,
+       "hits": 0,
+       "misses": 2,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15913720": {
+       "n": 2,
+       "hits": 0,
+       "misses": 2,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15913721": {
+       "n": 2,
+       "hits": 0,
+       "misses": 2,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15914832": {
+       "n": 3,
+       "hits": 0,
+       "misses": 2,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15915116": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15916831": {
+       "n": 1,
+       "hits": 1,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 1.0,
+       "false_alarm_ratio": 0.0,
+       "csi": 1.0,
+       "mean_lead_hours": 0.0
+      },
+      "15963359": {
+       "n": 3,
+       "hits": 0,
+       "misses": 2,
+       "false_alarms": 1,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": 1.0,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15963361": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15963363": {
+       "n": 2,
+       "hits": 1,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.5,
+       "false_alarm_ratio": 0.0,
+       "csi": 0.5,
+       "mean_lead_hours": 0.0
+      },
+      "15998898": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 3,
+       "hits": 1,
+       "misses": 2,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.3333333333333333,
+       "false_alarm_ratio": 0.0,
+       "csi": 0.3333333333333333,
+       "mean_lead_hours": 0.0
+      },
+      "16062453": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 96,
+       "hits": 41,
+       "misses": 46,
+       "false_alarms": 2,
+       "correct_negatives": 7,
+       "hit_rate": 0.47126436781609193,
+       "false_alarm_ratio": 0.046511627906976744,
+       "csi": 0.4606741573033708,
+       "mean_lead_hours": 6.024390243902439
+      }
+     },
+     "persistence": {
+      "15872033": {
+       "n": 2,
+       "hits": 1,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.5,
+       "false_alarm_ratio": 0.0,
+       "csi": 0.5,
+       "mean_lead_hours": 0.0
+      },
+      "15872034": {
+       "n": 4,
+       "hits": 1,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": 0.5,
+       "false_alarm_ratio": 0.0,
+       "csi": 0.5,
+       "mean_lead_hours": 0.0
+      },
+      "15872035": {
+       "n": 5,
+       "hits": 0,
+       "misses": 2,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905125": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 4,
+       "hits": 0,
+       "misses": 2,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15913720": {
+       "n": 2,
+       "hits": 1,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.5,
+       "false_alarm_ratio": 0.0,
+       "csi": 0.5,
+       "mean_lead_hours": 0.0
+      },
+      "15913721": {
+       "n": 2,
+       "hits": 1,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.5,
+       "false_alarm_ratio": 0.0,
+       "csi": 0.5,
+       "mean_lead_hours": 0.0
+      },
+      "15914832": {
+       "n": 3,
+       "hits": 0,
+       "misses": 2,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15915116": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15916831": {
+       "n": 1,
+       "hits": 1,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 1.0,
+       "false_alarm_ratio": 0.0,
+       "csi": 1.0,
+       "mean_lead_hours": 0.0
+      },
+      "15963359": {
+       "n": 3,
+       "hits": 0,
+       "misses": 2,
+       "false_alarms": 1,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": 1.0,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15963361": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15963363": {
+       "n": 2,
+       "hits": 1,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.5,
+       "false_alarm_ratio": 0.0,
+       "csi": 0.5,
+       "mean_lead_hours": 0.0
+      },
+      "15998898": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 3,
+       "hits": 1,
+       "misses": 2,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.3333333333333333,
+       "false_alarm_ratio": 0.0,
+       "csi": 0.3333333333333333,
+       "mean_lead_hours": 0.0
+      },
+      "16062453": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 96,
+       "hits": 14,
+       "misses": 73,
+       "false_alarms": 1,
+       "correct_negatives": 8,
+       "hit_rate": 0.16091954022988506,
+       "false_alarm_ratio": 0.06666666666666667,
+       "csi": 0.1590909090909091,
+       "mean_lead_hours": 2.4285714285714284
+      }
+     },
+     "weekly_naive": {
+      "15872033": {
+       "n": 2,
+       "hits": 0,
+       "misses": 2,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15872034": {
+       "n": 4,
+       "hits": 0,
+       "misses": 2,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15872035": {
+       "n": 5,
+       "hits": 0,
+       "misses": 2,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 3,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 3,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905125": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 4,
+       "hits": 0,
+       "misses": 2,
+       "false_alarms": 0,
+       "correct_negatives": 2,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15913720": {
+       "n": 2,
+       "hits": 0,
+       "misses": 2,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15913721": {
+       "n": 2,
+       "hits": 0,
+       "misses": 2,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15914832": {
+       "n": 3,
+       "hits": 0,
+       "misses": 2,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15915116": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15916831": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15963359": {
+       "n": 3,
+       "hits": 2,
+       "misses": 0,
+       "false_alarms": 1,
+       "correct_negatives": 0,
+       "hit_rate": 1.0,
+       "false_alarm_ratio": 0.3333333333333333,
+       "csi": 0.6666666666666666,
+       "mean_lead_hours": 11.5
+      },
+      "15963361": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15963363": {
+       "n": 2,
+       "hits": 2,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 1.0,
+       "false_alarm_ratio": 0.0,
+       "csi": 1.0,
+       "mean_lead_hours": 2.5
+      },
+      "15998898": {
+       "n": 4,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 4,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 3,
+       "hits": 2,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.6666666666666666,
+       "false_alarm_ratio": 0.0,
+       "csi": 0.6666666666666666,
+       "mean_lead_hours": 1.0
+      },
+      "16062453": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 96,
+       "hits": 81,
+       "misses": 6,
+       "false_alarms": 8,
+       "correct_negatives": 1,
+       "hit_rate": 0.9310344827586207,
+       "false_alarm_ratio": 0.0898876404494382,
+       "csi": 0.8526315789473684,
+       "mean_lead_hours": 8.074074074074074
+      }
+     }
+    }
+   },
+   "daily": {
+    "n": 35,
+    "base_rate": 0.8571428571428571,
+    "scores": {
+     "daily_naive": {
+      "n": 35,
+      "hits": 20,
+      "misses": 10,
+      "false_alarms": 2,
+      "correct_negatives": 3,
+      "hit_rate": 0.6666666666666666,
+      "false_alarm_ratio": 0.09090909090909091,
+      "csi": 0.625,
+      "mean_lead_hours": 6.3
+     },
+     "fm_llm": {
+      "n": 35,
+      "hits": 10,
+      "misses": 20,
+      "false_alarms": 1,
+      "correct_negatives": 4,
+      "hit_rate": 0.3333333333333333,
+      "false_alarm_ratio": 0.09090909090909091,
+      "csi": 0.3225806451612903,
+      "mean_lead_hours": 6.1
+     },
+     "persistence": {
+      "n": 35,
+      "hits": 1,
+      "misses": 29,
+      "false_alarms": 1,
+      "correct_negatives": 4,
+      "hit_rate": 0.03333333333333333,
+      "false_alarm_ratio": 0.5,
+      "csi": 0.03225806451612903,
+      "mean_lead_hours": 0.0
+     },
+     "weekly_naive": {
+      "n": 35,
+      "hits": 24,
+      "misses": 6,
+      "false_alarms": 1,
+      "correct_negatives": 4,
+      "hit_rate": 0.8,
+      "false_alarm_ratio": 0.04,
+      "csi": 0.7741935483870968,
+      "mean_lead_hours": 5.958333333333333
+     }
+    },
+    "scores_by_sensor": {
+     "daily_naive": {
+      "15872033": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15872034": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15872035": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913721": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15914832": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15963359": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15963363": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15998898": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 24,
+       "hits": 20,
+       "misses": 2,
+       "false_alarms": 2,
+       "correct_negatives": 0,
+       "hit_rate": 0.9090909090909091,
+       "false_alarm_ratio": 0.09090909090909091,
+       "csi": 0.8333333333333334,
+       "mean_lead_hours": 6.3
+      }
+     },
+     "fm_llm": {
+      "15872033": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15872034": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15872035": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913721": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15914832": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15963359": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15963363": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15998898": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 24,
+       "hits": 10,
+       "misses": 12,
+       "false_alarms": 1,
+       "correct_negatives": 1,
+       "hit_rate": 0.45454545454545453,
+       "false_alarm_ratio": 0.09090909090909091,
+       "csi": 0.43478260869565216,
+       "mean_lead_hours": 6.1
+      }
+     },
+     "persistence": {
+      "15872033": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15872034": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15872035": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913721": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15914832": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15963359": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15963363": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15998898": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "17291613": {
+       "n": 24,
+       "hits": 1,
+       "misses": 21,
+       "false_alarms": 1,
+       "correct_negatives": 1,
+       "hit_rate": 0.045454545454545456,
+       "false_alarm_ratio": 0.5,
+       "csi": 0.043478260869565216,
+       "mean_lead_hours": 0.0
+      }
+     },
+     "weekly_naive": {
+      "15872033": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15872034": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15872035": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15872036": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15905129": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "15913721": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15914832": {
+       "n": 1,
+       "hits": 0,
+       "misses": 1,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 0.0,
+       "false_alarm_ratio": null,
+       "csi": 0.0,
+       "mean_lead_hours": null
+      },
+      "15963359": {
+       "n": 1,
+       "hits": 1,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 1.0,
+       "false_alarm_ratio": 0.0,
+       "csi": 1.0,
+       "mean_lead_hours": 5.0
+      },
+      "15963363": {
+       "n": 1,
+       "hits": 1,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 1.0,
+       "false_alarm_ratio": 0.0,
+       "csi": 1.0,
+       "mean_lead_hours": 5.0
+      },
+      "15998898": {
+       "n": 1,
+       "hits": 0,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 1,
+       "hit_rate": null,
+       "false_alarm_ratio": null,
+       "csi": null,
+       "mean_lead_hours": null
+      },
+      "16062452": {
+       "n": 1,
+       "hits": 1,
+       "misses": 0,
+       "false_alarms": 0,
+       "correct_negatives": 0,
+       "hit_rate": 1.0,
+       "false_alarm_ratio": 0.0,
+       "csi": 1.0,
+       "mean_lead_hours": 2.0
+      },
+      "17291613": {
+       "n": 24,
+       "hits": 21,
+       "misses": 1,
+       "false_alarms": 1,
+       "correct_negatives": 1,
+       "hit_rate": 0.9545454545454546,
+       "false_alarm_ratio": 0.045454545454545456,
+       "csi": 0.9130434782608695,
+       "mean_lead_hours": 6.238095238095238
+      }
+     }
+    }
+   }
+  }
+ },
+ "n_forecasts": 142,
+ "events": {
+  "ghana_24h_mean": {
+   "stat": "mean",
+   "hours": 24,
+   "limit": 35.0
+  },
+  "unhealthy_24h_mean": {
+   "stat": "mean",
+   "hours": 24,
+   "limit": 55.5
+  },
+  "any_hour_35.5": {
+   "stat": "max",
+   "hours": 24,
+   "limit": 35.5
+  }
+ },
+ "group": "live_new",
+ "model": "run 2",
+ "rule": "ruleA",
+ "min_real_fraction": 0.75,
+ "min_real_hours": 18,
+ "period": [
+  "2026-10-28",
+  "2026-11-24 18:00:00"
+ ]
+}

@@ -1,0 +1,206 @@
+{
+ "all/today": {
+  "n": 564,
+  "base_rate_here": 0.067,
+  "brier": 0.0702,
+  "brier_reference": 0.0628,
+  "brier_skill": -0.117,
+  "coverage_80": 0.768,
+  "csi_at_50": 0.089,
+  "reliability": [
+   {
+    "bin": "0.0-0.1",
+    "n": 386,
+    "mean_prob": 0.019,
+    "observed": 0.018
+   },
+   {
+    "bin": "0.1-0.3",
+    "n": 87,
+    "mean_prob": 0.188,
+    "observed": 0.161
+   },
+   {
+    "bin": "0.3-0.5",
+    "n": 68,
+    "mean_prob": 0.385,
+    "observed": 0.176
+   },
+   {
+    "bin": "0.5-0.7",
+    "n": 22,
+    "mean_prob": 0.59,
+    "observed": 0.227
+   },
+   {
+    "bin": "0.7-0.9",
+    "n": 1,
+    "mean_prob": 0.795,
+    "observed": 0.0
+   }
+  ]
+ },
+ "all/tomorrow": {
+  "n": 572,
+  "base_rate_here": 0.079,
+  "brier": 0.0632,
+  "brier_reference": 0.0726,
+  "brier_skill": 0.13,
+  "coverage_80": 0.743,
+  "csi_at_50": 0.096,
+  "reliability": [
+   {
+    "bin": "0.0-0.1",
+    "n": 397,
+    "mean_prob": 0.022,
+    "observed": 0.018
+   },
+   {
+    "bin": "0.1-0.3",
+    "n": 118,
+    "mean_prob": 0.188,
+    "observed": 0.161
+   },
+   {
+    "bin": "0.3-0.5",
+    "n": 45,
+    "mean_prob": 0.397,
+    "observed": 0.311
+   },
+   {
+    "bin": "0.5-0.7",
+    "n": 12,
+    "mean_prob": 0.571,
+    "observed": 0.417
+   }
+  ]
+ },
+ "trained/today": {
+  "n": 426,
+  "base_rate_here": 0.08,
+  "brier": 0.0834,
+  "brier_reference": 0.0736,
+  "brier_skill": -0.133,
+  "coverage_80": 0.81,
+  "csi_at_50": 0.096,
+  "reliability": [
+   {
+    "bin": "0.0-0.1",
+    "n": 257,
+    "mean_prob": 0.022,
+    "observed": 0.016
+   },
+   {
+    "bin": "0.1-0.3",
+    "n": 80,
+    "mean_prob": 0.188,
+    "observed": 0.163
+   },
+   {
+    "bin": "0.3-0.5",
+    "n": 66,
+    "mean_prob": 0.386,
+    "observed": 0.182
+   },
+   {
+    "bin": "0.5-0.7",
+    "n": 22,
+    "mean_prob": 0.59,
+    "observed": 0.227
+   },
+   {
+    "bin": "0.7-0.9",
+    "n": 1,
+    "mean_prob": 0.795,
+    "observed": 0.0
+   }
+  ]
+ },
+ "trained/tomorrow": {
+  "n": 440,
+  "base_rate_here": 0.093,
+  "brier": 0.0734,
+  "brier_reference": 0.0852,
+  "brier_skill": 0.139,
+  "coverage_80": 0.782,
+  "csi_at_50": 0.104,
+  "reliability": [
+   {
+    "bin": "0.0-0.1",
+    "n": 273,
+    "mean_prob": 0.025,
+    "observed": 0.011
+   },
+   {
+    "bin": "0.1-0.3",
+    "n": 110,
+    "mean_prob": 0.191,
+    "observed": 0.173
+   },
+   {
+    "bin": "0.3-0.5",
+    "n": 45,
+    "mean_prob": 0.397,
+    "observed": 0.311
+   },
+   {
+    "bin": "0.5-0.7",
+    "n": 12,
+    "mean_prob": 0.571,
+    "observed": 0.417
+   }
+  ]
+ },
+ "new/today": {
+  "n": 138,
+  "base_rate_here": 0.029,
+  "brier": 0.0292,
+  "brier_reference": 0.0295,
+  "brier_skill": 0.009,
+  "coverage_80": 0.638,
+  "csi_at_50": 0.0,
+  "reliability": [
+   {
+    "bin": "0.0-0.1",
+    "n": 129,
+    "mean_prob": 0.012,
+    "observed": 0.023
+   },
+   {
+    "bin": "0.1-0.3",
+    "n": 7,
+    "mean_prob": 0.184,
+    "observed": 0.143
+   },
+   {
+    "bin": "0.3-0.5",
+    "n": 2,
+    "mean_prob": 0.348,
+    "observed": 0.0
+   }
+  ]
+ },
+ "new/tomorrow": {
+  "n": 132,
+  "base_rate_here": 0.03,
+  "brier": 0.0294,
+  "brier_reference": 0.0307,
+  "brier_skill": 0.041,
+  "coverage_80": 0.614,
+  "csi_at_50": 0.0,
+  "reliability": [
+   {
+    "bin": "0.0-0.1",
+    "n": 124,
+    "mean_prob": 0.016,
+    "observed": 0.032
+   },
+   {
+    "bin": "0.1-0.3",
+    "n": 8,
+    "mean_prob": 0.145,
+    "observed": 0.0
+   }
+  ]
+ }
+}

@@ -171,6 +171,10 @@ class SensorWindows(torch.utils.data.Dataset):
             sensors that skip hours (experiment 14 on).
         issue_hours: keep only forecasts issued at these clock hours (UTC = Ghana time),
             e.g. (0, 6, 12, 18). Applied before `stride`. None = any hour.
+        gap: hours left out between the history and the future (experiment 16, the
+            "leave out the most recent days" test). 0 = the history ends right before the
+            future, as everywhere else. The gap hours must still be clean, so every gap
+            setting uses windows of the same total span.
 
     Attributes:
         items: list of (sensor column index, start index) for every sample.
@@ -184,8 +188,9 @@ class SensorWindows(torch.utils.data.Dataset):
                  end: Optional[str] = None, stride: int = 1, sensors: Optional[Sequence] = None,
                  scale: Optional[Dict] = None, observed: Optional[pd.DataFrame] = None,
                  real_future_hours: Optional[int] = None, issue_hours: Optional[Sequence[int]] = None,
-                 min_real_fraction: float = 1.0):
-        self.seq_len, self.pred_len = seq_len, pred_len
+                 min_real_fraction: float = 1.0, gap: int = 0):
+        self.seq_len, self.pred_len, self.gap = seq_len, pred_len, gap
+        lead = seq_len + gap   # hours from a window's start to its future's start
         self.sensors = list(sensors) if sensors is not None else list(wide.columns)
         self.values = wide[self.sensors].to_numpy(dtype="float32")
         self.index = wide.index
@@ -202,17 +207,17 @@ class SensorWindows(torch.utils.data.Dataset):
 
         self.items: List[Tuple[int, int]] = []
         for j in range(len(self.sensors)):
-            # a future [s + seq_len, s + seq_len + pred_len) starting at or after lo needs s >= lo - seq_len
-            first = max(0, lo - seq_len)
-            starts = window_starts(self.values[:, j], seq_len, pred_len, 1, first, hi)
+            # a future [s + lead, s + lead + pred_len) starting at or after lo needs s >= lo - lead
+            first = max(0, lo - lead)
+            starts = window_starts(self.values[:, j], lead, pred_len, 1, first, hi)
             if real is not None and len(starts):
                 fake_before = np.concatenate([[0], np.cumsum(~real[:, j])])  # same counting trick as window_starts
-                fut = starts + seq_len
+                fut = starts + lead
                 n_scored = pred_len if real_future_hours is None else real_future_hours
                 n_fake = fake_before[fut + n_scored] - fake_before[fut]
                 starts = starts[n_scored - n_fake >= np.ceil(min_real_fraction * n_scored)]
             if issue_hours is not None and len(starts):
-                starts = starts[np.isin(self.index[starts + seq_len].hour, list(issue_hours))]
+                starts = starts[np.isin(self.index[starts + lead].hour, list(issue_hours))]
             for s in starts[::stride]:
                 self.items.append((j, int(s)))
 
@@ -244,8 +249,9 @@ class SensorWindows(torch.utils.data.Dataset):
             s: start index of the window in self.values.
         """
         j, s = self.items[i]
+        f0 = s + self.seq_len + self.gap
         hist = self._scaled(j, self.values[s: s + self.seq_len, j])
-        fut = self._scaled(j, self.values[s + self.seq_len: s + self.seq_len + self.pred_len, j])
+        fut = self._scaled(j, self.values[f0: f0 + self.pred_len, j])
         return torch.from_numpy(hist[None].copy()), torch.from_numpy(fut[None].copy()), j, s
 
     def issue_time(self, i) -> pd.Timestamp:
@@ -257,7 +263,7 @@ class SensorWindows(torch.utils.data.Dataset):
             The hour the forecast would be issued at: the first hour of the future window.
         """
         _, s = self.items[i]
-        return self.index[s + self.seq_len]
+        return self.index[s + self.seq_len + self.gap]
 
 
 def train_scale(wide: pd.DataFrame, train_end: str) -> Dict:

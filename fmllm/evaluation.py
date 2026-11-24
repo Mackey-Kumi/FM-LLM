@@ -46,7 +46,9 @@ def collect_records(model, ds, device, events: Dict, horizons: Sequence[int] = (
             real readings (18 of 24 by default); otherwise its e__event is NaN.
 
     Only REAL readings are scored (ds.truth): errors are averaged over the hours that
-    were actually measured, never against gap-filled values.
+    were actually measured, never against gap-filled values. With a gap (ds.gap > 0) the
+    model reads older history, but the simple rules still read the latest hours before
+    the forecast, so they stay the same yardstick.
 
     Returns:
         DataFrame, one row per (forecast, method), with columns
@@ -69,8 +71,9 @@ def collect_records(model, ds, device, events: Dict, horizons: Sequence[int] = (
             sensor = ds.sensors[j]
             issued = ds.issue_time(i0 + k)
             mean, std = ds.scale.get(sensor, (0.0, 1.0))
-            raw_hist = ds.values[s: s + ds.seq_len, j]
-            truth = getattr(ds, "truth", ds.values)[s + ds.seq_len: s + ds.seq_len + horizon, j]
+            f0 = s + ds.seq_len + getattr(ds, "gap", 0)          # first forecast hour
+            raw_hist = ds.values[f0 - ds.seq_len: f0, j]
+            truth = getattr(ds, "truth", ds.values)[f0: f0 + horizon, j]
             methods = {MODEL: pred[k] * std + mean}
             methods.update({m: baseline_forecast(raw_hist[:, None], m, horizon)[:, 0] for m in BASELINES})
             happened = {}

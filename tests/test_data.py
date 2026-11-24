@@ -51,6 +51,16 @@ def test_sensor_windows_split_and_scaling():
     assert {j for j, _ in ds.items} == {0, 1}
 
 
+def test_gap_leaves_out_the_hours_before_the_future():
+    idx = pd.date_range("2026-01-01", periods=48, freq="h")
+    wide = pd.DataFrame({"a": np.arange(48.0)}, index=idx)
+    ds = SensorWindows(wide, seq_len=8, pred_len=4, start="2026-01-02", gap=5)
+    hist, fut, _, s = ds[0]
+    assert hist[0, -1].item() == s + 7            # history ends at s + seq_len - 1 ...
+    assert fut[0, 0].item() == s + 8 + 5          # ... and the future starts 5 hours later
+    assert ds.issue_time(0) == idx[s + 13] >= pd.Timestamp("2026-01-02")
+
+
 def test_future_must_be_real_readings():
     idx = pd.date_range("2026-01-01", periods=30, freq="h")
     raw = pd.DataFrame({"a": np.arange(30.0)}, index=idx)
