@@ -140,6 +140,25 @@ def replay_detail(sensor_id: str, date: str):
     return reply(found)
 
 
+@router.get("/v1/timeline")
+def timeline(date: str = ""):
+    """
+    Args:
+        date: "" for the live forecast, or "YYYY-MM-DD" for a past day (forecast + reality).
+
+    Returns:
+        GET /v1/timeline: every sensor's 48 hourly values and position, for the animated map.
+    """
+    if not date:
+        return not_ready() or reply(service.live["timeline"])
+    if service.raw is None or service.model is None:
+        return error(503, "starting up")
+    try:
+        return reply(service.replay_timeline(date))
+    except ValueError as e:
+        return error(400, str(e))
+
+
 @asynccontextmanager
 async def lifespan(_app):
     """Start loading and the hourly loop in the background, so the server answers at once."""

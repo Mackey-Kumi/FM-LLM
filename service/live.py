@@ -36,7 +36,8 @@ from fmllm.calibration import RatioCalibration
 from fmllm.data import fill_short_gaps, load_hourly, train_scale
 from fmllm.model import LlamaBackbone, load_checkpoint
 from fmllm.payloads import (forecast_detail_payload, forecasts_payload, health_payload, prepare_inputs,
-                            replay_detail_payload, replay_payload, run_forecasts, sensors_payload)
+                            replay_detail_payload, replay_payload, run_forecasts, sensors_payload,
+                            timeline_payload)
 # pylint: enable=wrong-import-position
 
 DATA_DIR = Path(os.environ.get("SERVICE_DATA_DIR", REPO / "data" / "raw" / "openaq_accra"))
@@ -197,6 +198,7 @@ class LiveService:
                                                                       self.trained)
                         for f in forecasts},
         }
+        self.live["timeline"] = timeline_payload(self.live["details"], self.meta, issued)
         self.status = "ok"
         print(f"[service] {issued}: {len(forecasts)} sensors forecast in {time.time() - t0:.0f}s", flush=True)
 
@@ -230,6 +232,22 @@ class LiveService:
             for f in forecasts}
         self.replays[date] = replay_payload(forecasts, names, when, raw, trained=self.trained)
         return self.replays[date]
+
+    def replay_timeline(self, date: str) -> Dict:
+        """
+        /v1/timeline?date= : every sensor's replayed hours on one day, forecast and reality.
+
+        Args:
+            date: "YYYY-MM-DD".
+
+        Returns:
+            timeline_payload() in replay mode.
+
+        Raises:
+            ValueError: as replay().
+        """
+        self.replay(date)
+        return timeline_payload(self.replay_details[date], self.meta, pd.Timestamp(date), mode="replay")
 
     def replay_detail(self, date: str, sensor_id: str) -> Optional[Dict]:
         """

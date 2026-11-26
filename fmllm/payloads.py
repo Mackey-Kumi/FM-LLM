@@ -396,3 +396,36 @@ def replay_detail_payload(f: SensorForecast, name: str, issued_at, raw: pd.DataF
         actual = float(block.mean()) if block.notna().sum() >= min_real_hours else float("nan")
         day.update({"actual_mean_24h": _r(actual), "actual_level": level_of(actual)})
     return out
+
+
+def timeline_payload(details: Dict[str, Dict], meta: pd.DataFrame, issued_at, mode: str = "live") -> Dict:
+    """
+    GET /v1/timeline: every sensor's 48 hourly values in one response, with its position, so the
+    app can animate the whole city hour by hour without one request per sensor.
+
+    Args:
+        details: {sensor id: forecast_detail_payload() or replay_detail_payload()}.
+        meta: sensors.csv (sensor_id, lat, lon).
+        issued_at: when the forecasts were made (now, or 00:00 of the replayed day).
+        mode: "live" or "replay" (replay entries also carry "actual": the real hourly readings).
+
+    Returns:
+        {"issued_at", "mode", "sensors": [{"id", "name", "lat", "lon", "in_training", "start",
+        "pm25" (48), "low" (48), "high" (48), "today" ({mean_24h, level, prob_unhealthy}),
+        and in replay "actual" (48, null = missed hour) and "actual_level"}]}.
+    """
+    where = {str(r.sensor_id): (round(float(r.lat), 5), round(float(r.lon), 5)) for r in meta.itertuples()}
+    sensors = []
+    for sid, d in details.items():
+        if sid not in where:
+            continue
+        today = {k: d["daily"][0][k] for k in ("mean_24h", "level", "prob_unhealthy")}
+        entry = {"id": sid, "name": d["name"], "lat": where[sid][0], "lon": where[sid][1],
+                 "in_training": d.get("in_training"), "start": d["forecast_start"],
+                 "pm25": [h["pm25"] for h in d["hourly"]], "low": [h["low"] for h in d["hourly"]],
+                 "high": [h["high"] for h in d["hourly"]], "today": today}
+        if mode == "replay":
+            entry["actual"] = [a["pm25"] for a in d["actual"]]
+            entry["actual_level"] = d["daily"][0].get("actual_level")
+        sensors.append(entry)
+    return {"issued_at": iso(issued_at), "mode": mode, "sensors": sensors}

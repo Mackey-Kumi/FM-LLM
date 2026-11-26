@@ -5,7 +5,7 @@ import pandas as pd
 
 from fmllm.forecast import summarize_ensemble
 from fmllm.payloads import (SensorForecast, SensorInput, day_outlook, forecast_detail_payload, level_of,
-                            prepare_inputs, replay_detail_payload, replay_payload, worst_hours)
+                            prepare_inputs, replay_detail_payload, replay_payload, timeline_payload, worst_hours)
 
 
 def test_levels_follow_the_contract():
@@ -116,3 +116,17 @@ def test_replay_detail_adds_the_real_hours_and_daily_actuals():
     assert p["daily"][0]["actual_mean_24h"] == 40.0 and p["daily"][0]["actual_level"] == "unhealthy"
     assert p["daily"][1]["actual_mean_24h"] is None and p["in_training"] is True
     json.dumps(p)
+
+
+def test_timeline_has_every_sensors_hours_and_position():
+    f = fake_forecast()
+    issued = pd.Timestamp("2026-10-30 13:00")
+    meta = pd.DataFrame({"sensor_id": [7, 8], "lat": [5.6, 5.7], "lon": [-0.2, -0.1]})
+    live = timeline_payload({"7": forecast_detail_payload(f, "Test Market", issued)}, meta, issued)
+    s7 = live["sensors"][0]
+    assert live["mode"] == "live" and len(live["sensors"]) == 1 and (s7["lat"], s7["lon"]) == (5.6, -0.2)
+    assert len(s7["pm25"]) == len(s7["low"]) == len(s7["high"]) == 48 and "actual" not in s7
+    raw = pd.DataFrame({7: np.full(48, 40.0)}, index=pd.date_range(issued, periods=48, freq="h"))
+    rep = timeline_payload({"7": replay_detail_payload(f, "Test Market", issued, raw)}, meta, issued, mode="replay")
+    assert rep["sensors"][0]["actual"][0] == 40.0 and rep["sensors"][0]["actual_level"] == "unhealthy"
+    json.dumps(rep)
