@@ -1,0 +1,386 @@
+preflight: token found=True, HF env vars=[]
+preflight: token valid and Llama download allowed
+Loading weights:   0%|          | 0/146 [00:00<?, ?it/s]Loading weights: 100%|██████████| 146/146 [00:00<00:00, 2491.14it/s]
+
+=== L16: reads 16 days, gap 0 days ===
+windows  train=34026  val=573  test=1834  sensors train=24
+L16 epoch 1  train=0.9660  val=1.1673  time=3.4min
+L16 epoch 2  train=0.8531  val=1.1463  time=3.3min
+L16 epoch 3  train=0.8226  val=1.1012  time=3.3min
+L16 epoch 4  train=0.8028  val=1.0810  time=3.3min
+L16 epoch 5  train=0.7824  val=1.0662  time=3.3min
+L16 epoch 6  train=0.7707  val=1.0597  time=3.3min
+L16 epoch 7  train=0.7626  val=1.0566  time=3.3min
+L16 epoch 8  train=0.7572  val=1.0559  time=3.3min
+L16 epoch 9  train=0.7529  val=1.0549  time=3.3min
+L16 epoch 10  train=0.7472  val=1.0544  time=3.3min
+L16 epoch 11  train=0.7435  val=1.0600  time=3.3min
+L16 epoch 12  train=0.7391  val=1.0625  time=3.3min
+L16 epoch 13  train=0.7361  val=1.0660  time=3.3min
+L16: early stopping
+
+TEST: MAE in µg/m³, averaged over forecasts:
+              mae_24h  mae_48h
+daily_naive     10.26    10.62
+fm_llm           8.16     8.47
+persistence     13.36    13.80
+weekly_naive    12.27    12.22
+  mae_24h: FM-LLM is the best method at 14/16 sensors
+  mae_48h: FM-LLM is the best method at 15/16 sensors
+
+Warnings: ghana_24h_mean (mean of next 24 h >= 35.0), all: n=1834, happened in 45%
+  daily_naive    hits= 599 misses= 220 false_alarms= 186  hit_rate=0.7313797313797313  FAR=0.23694267515923567  CSI=0.5960199004975124
+  fm_llm         hits= 607 misses= 212 false_alarms= 153  hit_rate=0.7411477411477412  FAR=0.2013157894736842  CSI=0.6244855967078189
+  persistence    hits= 538 misses= 281 false_alarms= 243  hit_rate=0.6568986568986569  FAR=0.3111395646606914  CSI=0.5065913370998116
+  weekly_naive   hits= 506 misses= 313 false_alarms= 239  hit_rate=0.6178266178266179  FAR=0.3208053691275168  CSI=0.4782608695652174
+
+Warnings: ghana_24h_mean (mean of next 24 h >= 35.0), daily: n=468, happened in 45%
+  daily_naive    hits= 153 misses=  56 false_alarms=  47  hit_rate=0.7320574162679426  FAR=0.235  CSI=0.59765625
+  fm_llm         hits= 157 misses=  52 false_alarms=  46  hit_rate=0.7511961722488039  FAR=0.22660098522167488  CSI=0.615686274509804
+  persistence    hits= 142 misses=  67 false_alarms=  64  hit_rate=0.6794258373205742  FAR=0.3106796116504854  CSI=0.5201465201465202
+  weekly_naive   hits= 130 misses=  79 false_alarms=  64  hit_rate=0.6220095693779905  FAR=0.32989690721649484  CSI=0.47619047619047616
+
+Warnings: unhealthy_24h_mean (mean of next 24 h >= 55.5), all: n=1834, happened in 2%
+  daily_naive    hits=   6 misses=  38 false_alarms=  35  hit_rate=0.13636363636363635  FAR=0.8536585365853658  CSI=0.0759493670886076
+  fm_llm         hits=   1 misses=  43 false_alarms=  10  hit_rate=0.022727272727272728  FAR=0.9090909090909091  CSI=0.018518518518518517
+  persistence    hits=   9 misses=  35 false_alarms= 139  hit_rate=0.20454545454545456  FAR=0.9391891891891891  CSI=0.04918032786885246
+  weekly_naive   hits=   3 misses=  41 false_alarms=  39  hit_rate=0.06818181818181818  FAR=0.9285714285714286  CSI=0.03614457831325301
+
+Warnings: unhealthy_24h_mean (mean of next 24 h >= 55.5), daily: n=468, happened in 2%
+  daily_naive    hits=   2 misses=   6 false_alarms=   6  hit_rate=0.25  FAR=0.75  CSI=0.14285714285714285
+  fm_llm         hits=   0 misses=   8 false_alarms=   2  hit_rate=0.0  FAR=1.0  CSI=0.0
+  persistence    hits=   1 misses=   7 false_alarms=  30  hit_rate=0.125  FAR=0.967741935483871  CSI=0.02631578947368421
+  weekly_naive   hits=   1 misses=   7 false_alarms=   7  hit_rate=0.125  FAR=0.875  CSI=0.06666666666666667
+
+Warnings: any_hour_35.5 (max of next 24 h >= 35.5), all: n=1834, happened in 91%
+  daily_naive    hits=1577 misses=  96 false_alarms=  85  hit_rate=0.9426180514046623  FAR=0.05114320096269555  CSI=0.897042093287827
+  fm_llm         hits=1444 misses= 229 false_alarms=  24  hit_rate=0.8631201434548715  FAR=0.01634877384196185  CSI=0.8509133765468474
+  persistence    hits= 748 misses= 925 false_alarms=   6  hit_rate=0.44710101613867304  FAR=0.007957559681697613  CSI=0.4455032757593806
+  weekly_naive   hits=1558 misses= 115 false_alarms= 125  hit_rate=0.931261207411835  FAR=0.07427213309566251  CSI=0.8665183537263627
+
+Warnings: any_hour_35.5 (max of next 24 h >= 35.5), daily: n=468, happened in 92%
+  daily_naive    hits= 411 misses=  21 false_alarms=  21  hit_rate=0.9513888888888888  FAR=0.04861111111111111  CSI=0.9072847682119205
+  fm_llm         hits= 378 misses=  54 false_alarms=   6  hit_rate=0.875  FAR=0.015625  CSI=0.863013698630137
+  persistence    hits= 193 misses= 239 false_alarms=   6  hit_rate=0.44675925925925924  FAR=0.03015075376884422  CSI=0.4406392694063927
+  weekly_naive   hits= 402 misses=  30 false_alarms=  28  hit_rate=0.9305555555555556  FAR=0.06511627906976744  CSI=0.8739130434782608
+
+BOOTSTRAP (resampling test days; diff = FM-LLM minus method, 95% interval):
+                     metric scope       method  estimate   diff  diff_low  diff_high  ref_better
+                    mae_24h   all  daily_naive    10.263 -2.106    -2.649     -1.639       1.000
+                    mae_24h   all  persistence    13.362 -5.204    -5.951     -4.488       1.000
+                    mae_24h   all weekly_naive    12.270 -4.112    -4.941     -3.355       1.000
+                    mae_48h   all  daily_naive    10.621 -2.155    -2.685     -1.704       1.000
+                    mae_48h   all  persistence    13.797 -5.331    -6.116     -4.615       1.000
+                    mae_48h   all weekly_naive    12.217 -3.751    -4.462     -3.069       1.000
+         ghana_24h_mean:csi   all  daily_naive     0.596  0.028     0.002      0.056       0.981
+         ghana_24h_mean:csi   all  persistence     0.507  0.118     0.077      0.161       1.000
+         ghana_24h_mean:csi   all weekly_naive     0.478  0.146     0.074      0.223       1.000
+    ghana_24h_mean:hit_rate   all  daily_naive     0.731  0.010    -0.019      0.044       0.706
+    ghana_24h_mean:hit_rate   all  persistence     0.657  0.084     0.040      0.134       1.000
+    ghana_24h_mean:hit_rate   all weekly_naive     0.618  0.123     0.031      0.225       0.996
+         ghana_24h_mean:far   all  daily_naive     0.237 -0.036    -0.071     -0.004       0.992
+         ghana_24h_mean:far   all  persistence     0.311 -0.110    -0.150     -0.073       1.000
+         ghana_24h_mean:far   all weekly_naive     0.321 -0.119    -0.181     -0.057       1.000
+         ghana_24h_mean:csi daily  daily_naive     0.598  0.018    -0.039      0.079       0.728
+         ghana_24h_mean:csi daily  persistence     0.520  0.096     0.026      0.163       0.997
+         ghana_24h_mean:csi daily weekly_naive     0.476  0.139     0.052      0.227       0.998
+    ghana_24h_mean:hit_rate daily  daily_naive     0.732  0.019    -0.046      0.090       0.704
+    ghana_24h_mean:hit_rate daily  persistence     0.679  0.072    -0.018      0.160       0.945
+    ghana_24h_mean:hit_rate daily weekly_naive     0.622  0.129     0.020      0.240       0.987
+         ghana_24h_mean:far daily  daily_naive     0.235 -0.008    -0.062      0.041       0.628
+         ghana_24h_mean:far daily  persistence     0.311 -0.084    -0.154     -0.011       0.986
+         ghana_24h_mean:far daily weekly_naive     0.330 -0.103    -0.167     -0.033       0.998
+     unhealthy_24h_mean:csi   all  daily_naive     0.076 -0.057    -0.133     -0.009       0.000
+     unhealthy_24h_mean:csi   all  persistence     0.049 -0.031    -0.058     -0.006       0.007
+     unhealthy_24h_mean:csi   all weekly_naive     0.036 -0.018    -0.076      0.042       0.280
+unhealthy_24h_mean:hit_rate   all  daily_naive     0.136 -0.114    -0.280     -0.023       0.000
+unhealthy_24h_mean:hit_rate   all  persistence     0.205 -0.182    -0.278     -0.077       0.000
+unhealthy_24h_mean:hit_rate   all weekly_naive     0.068 -0.045    -0.156      0.048       0.148
+     unhealthy_24h_mean:far   all  daily_naive     0.854  0.055    -0.238      0.211       0.240
+     unhealthy_24h_mean:far   all  persistence     0.939 -0.030    -0.395      0.061       0.580
+     unhealthy_24h_mean:far   all weekly_naive     0.929 -0.019    -0.429      0.149       0.514
+     unhealthy_24h_mean:csi daily  daily_naive     0.143 -0.143    -0.348      0.000       0.000
+     unhealthy_24h_mean:csi daily  persistence     0.026 -0.026    -0.091      0.000       0.000
+     unhealthy_24h_mean:csi daily weekly_naive     0.067 -0.067    -0.223      0.000       0.000
+unhealthy_24h_mean:hit_rate daily  daily_naive     0.250 -0.250    -0.600      0.000       0.000
+unhealthy_24h_mean:hit_rate daily  persistence     0.125 -0.125    -0.400      0.000       0.000
+unhealthy_24h_mean:hit_rate daily weekly_naive     0.125 -0.125    -0.400      0.000       0.000
+     unhealthy_24h_mean:far daily  daily_naive     0.750  0.250     0.000      0.600       0.000
+     unhealthy_24h_mean:far daily  persistence     0.968  0.032     0.000      0.111       0.000
+     unhealthy_24h_mean:far daily weekly_naive     0.875  0.125     0.000      0.429       0.000
+          any_hour_35.5:csi   all  daily_naive     0.897 -0.046    -0.074     -0.018       0.000
+          any_hour_35.5:csi   all  persistence     0.446  0.405     0.362      0.447       1.000
+          any_hour_35.5:csi   all weekly_naive     0.867 -0.016    -0.058      0.025       0.243
+     any_hour_35.5:hit_rate   all  daily_naive     0.943 -0.079    -0.105     -0.055       0.000
+     any_hour_35.5:hit_rate   all  persistence     0.447  0.416     0.373      0.456       1.000
+     any_hour_35.5:hit_rate   all weekly_naive     0.931 -0.068    -0.108     -0.028       0.000
+          any_hour_35.5:far   all  daily_naive     0.051 -0.035    -0.054     -0.018       1.000
+          any_hour_35.5:far   all  persistence     0.008  0.008    -0.000      0.018       0.030
+          any_hour_35.5:far   all weekly_naive     0.074 -0.058    -0.086     -0.032       1.000
+          any_hour_35.5:csi daily  daily_naive     0.907 -0.044    -0.085     -0.002       0.018
+          any_hour_35.5:csi daily  persistence     0.441  0.422     0.351      0.493       1.000
+          any_hour_35.5:csi daily weekly_naive     0.874 -0.011    -0.070      0.048       0.359
+     any_hour_35.5:hit_rate daily  daily_naive     0.951 -0.076    -0.111     -0.043       0.000
+     any_hour_35.5:hit_rate daily  persistence     0.447  0.428     0.357      0.500       1.000
+     any_hour_35.5:hit_rate daily weekly_naive     0.931 -0.056    -0.108     -0.005       0.015
+          any_hour_35.5:far daily  daily_naive     0.049 -0.033    -0.056     -0.012       1.000
+          any_hour_35.5:far daily  persistence     0.030 -0.015    -0.049      0.014       0.776
+          any_hour_35.5:far daily weekly_naive     0.065 -0.049    -0.081     -0.020       1.000
+
+=== L16_gap7: reads 16 days, gap 7 days ===
+windows  train=29734  val=470  test=1724  sensors train=24
+L16_gap7 epoch 1  train=1.1043  val=1.4776  time=2.9min
+L16_gap7 epoch 2  train=1.0050  val=1.4524  time=2.9min
+L16_gap7 epoch 3  train=0.9805  val=1.4162  time=2.9min
+L16_gap7 epoch 4  train=0.9565  val=1.3966  time=2.9min
+L16_gap7 epoch 5  train=0.9334  val=1.4291  time=2.9min
+L16_gap7 epoch 6  train=0.9180  val=1.4359  time=2.9min
+L16_gap7 epoch 7  train=0.9009  val=1.4069  time=2.9min
+L16_gap7: early stopping
+/usr/local/lib/python3.13/dist-packages/numpy/lib/_nanfunctions_impl.py:1631: RuntimeWarning: All-NaN slice encountered
+  return _nanquantile_unchecked(
+
+TEST: MAE in µg/m³, averaged over forecasts:
+              mae_24h  mae_48h
+daily_naive     10.42    10.75
+fm_llm          10.42    10.55
+persistence     13.56    13.99
+weekly_naive    12.26    12.20
+  mae_24h: FM-LLM is the best method at 4/15 sensors
+  mae_48h: FM-LLM is the best method at 6/15 sensors
+
+Warnings: ghana_24h_mean (mean of next 24 h >= 35.0), all: n=1724, happened in 43%
+  daily_naive    hits= 514 misses= 220 false_alarms= 186  hit_rate=0.7002724795640327  FAR=0.26571428571428574  CSI=0.558695652173913
+  fm_llm         hits= 422 misses= 312 false_alarms= 292  hit_rate=0.5749318801089919  FAR=0.40896358543417366  CSI=0.41130604288499023
+  persistence    hits= 455 misses= 279 false_alarms= 243  hit_rate=0.6198910081743869  FAR=0.34813753581661894  CSI=0.4657113613101331
+  weekly_naive   hits= 429 misses= 305 false_alarms= 239  hit_rate=0.5844686648501363  FAR=0.35778443113772457  CSI=0.4409044193216855
+
+Warnings: ghana_24h_mean (mean of next 24 h >= 35.0), daily: n=441, happened in 43%
+  daily_naive    hits= 132 misses=  56 false_alarms=  47  hit_rate=0.7021276595744681  FAR=0.26256983240223464  CSI=0.5617021276595745
+  fm_llm         hits= 116 misses=  72 false_alarms=  81  hit_rate=0.6170212765957447  FAR=0.41116751269035534  CSI=0.4312267657992565
+  persistence    hits= 121 misses=  67 false_alarms=  64  hit_rate=0.6436170212765957  FAR=0.34594594594594597  CSI=0.4801587301587302
+  weekly_naive   hits= 111 misses=  77 false_alarms=  64  hit_rate=0.5904255319148937  FAR=0.3657142857142857  CSI=0.44047619047619047
+
+Warnings: unhealthy_24h_mean (mean of next 24 h >= 55.5), all: n=1724, happened in 2%
+  daily_naive    hits=   0 misses=  30 false_alarms=  24  hit_rate=0.0  FAR=1.0  CSI=0.0
+  fm_llm         hits=   0 misses=  30 false_alarms=   1  hit_rate=0.0  FAR=1.0  CSI=0.0
+  persistence    hits=   5 misses=  25 false_alarms= 121  hit_rate=0.16666666666666666  FAR=0.9603174603174603  CSI=0.033112582781456956
+  weekly_naive   hits=   2 misses=  28 false_alarms=  30  hit_rate=0.06666666666666667  FAR=0.9375  CSI=0.03333333333333333
+
+Warnings: unhealthy_24h_mean (mean of next 24 h >= 55.5), daily: n=441, happened in 1%
+  daily_naive    hits=   0 misses=   5 false_alarms=   4  hit_rate=0.0  FAR=1.0  CSI=0.0
+  fm_llm         hits=   0 misses=   5 false_alarms=   0  hit_rate=0.0  FAR=None  CSI=0.0
+  persistence    hits=   1 misses=   4 false_alarms=  28  hit_rate=0.2  FAR=0.9655172413793104  CSI=0.030303030303030304
+  weekly_naive   hits=   1 misses=   4 false_alarms=   5  hit_rate=0.2  FAR=0.8333333333333334  CSI=0.1
+
+Warnings: any_hour_35.5 (max of next 24 h >= 35.5), all: n=1724, happened in 92%
+  daily_naive    hits=1492 misses=  92 false_alarms=  81  hit_rate=0.9419191919191919  FAR=0.05149396058486968  CSI=0.8960960960960961
+  fm_llm         hits=1206 misses= 378 false_alarms=  42  hit_rate=0.7613636363636364  FAR=0.03365384615384615  CSI=0.7416974169741697
+  persistence    hits= 668 misses= 916 false_alarms=   6  hit_rate=0.4217171717171717  FAR=0.008902077151335312  CSI=0.42012578616352203
+  weekly_naive   hits=1470 misses= 114 false_alarms= 104  hit_rate=0.928030303030303  FAR=0.06607369758576874  CSI=0.8708530805687204
+
+Warnings: any_hour_35.5 (max of next 24 h >= 35.5), daily: n=441, happened in 93%
+  daily_naive    hits= 390 misses=  20 false_alarms=  20  hit_rate=0.9512195121951219  FAR=0.04878048780487805  CSI=0.9069767441860465
+  fm_llm         hits= 319 misses=  91 false_alarms=   8  hit_rate=0.7780487804878049  FAR=0.024464831804281346  CSI=0.7631578947368421
+  persistence    hits= 173 misses= 237 false_alarms=   6  hit_rate=0.4219512195121951  FAR=0.0335195530726257  CSI=0.41586538461538464
+  weekly_naive   hits= 380 misses=  30 false_alarms=  23  hit_rate=0.926829268292683  FAR=0.05707196029776675  CSI=0.8775981524249422
+
+BOOTSTRAP (resampling test days; diff = FM-LLM minus method, 95% interval):
+                     metric scope       method  estimate   diff  diff_low  diff_high  ref_better
+                    mae_24h   all  daily_naive    10.416 -0.001    -0.845      0.886       0.506
+                    mae_24h   all  persistence    13.559 -3.144    -4.175     -2.144       1.000
+                    mae_24h   all weekly_naive    12.264 -1.848    -2.657     -1.028       1.000
+                    mae_48h   all  daily_naive    10.748 -0.197    -0.989      0.593       0.680
+                    mae_48h   all  persistence    13.993 -3.442    -4.482     -2.443       1.000
+                    mae_48h   all weekly_naive    12.203 -1.652    -2.428     -0.835       1.000
+         ghana_24h_mean:csi   all  daily_naive     0.559 -0.147    -0.222     -0.073       0.000
+         ghana_24h_mean:csi   all  persistence     0.466 -0.054    -0.132      0.021       0.080
+         ghana_24h_mean:csi   all weekly_naive     0.441 -0.030    -0.092      0.030       0.194
+    ghana_24h_mean:hit_rate   all  daily_naive     0.700 -0.125    -0.227     -0.019       0.012
+    ghana_24h_mean:hit_rate   all  persistence     0.620 -0.045    -0.153      0.060       0.201
+    ghana_24h_mean:hit_rate   all weekly_naive     0.584 -0.010    -0.097      0.078       0.425
+         ghana_24h_mean:far   all  daily_naive     0.266  0.143     0.069      0.216       0.000
+         ghana_24h_mean:far   all  persistence     0.348  0.061    -0.018      0.133       0.066
+         ghana_24h_mean:far   all weekly_naive     0.358  0.051    -0.001      0.107       0.029
+         ghana_24h_mean:csi daily  daily_naive     0.562 -0.130    -0.221     -0.036       0.002
+         ghana_24h_mean:csi daily  persistence     0.480 -0.049    -0.145      0.045       0.144
+         ghana_24h_mean:csi daily weekly_naive     0.440 -0.009    -0.083      0.062       0.421
+    ghana_24h_mean:hit_rate daily  daily_naive     0.702 -0.085    -0.206      0.040       0.082
+    ghana_24h_mean:hit_rate daily  persistence     0.644 -0.027    -0.164      0.112       0.323
+    ghana_24h_mean:hit_rate daily weekly_naive     0.590  0.027    -0.073      0.126       0.706
+         ghana_24h_mean:far daily  daily_naive     0.263  0.149     0.052      0.235       0.000
+         ghana_24h_mean:far daily  persistence     0.346  0.065    -0.031      0.165       0.087
+         ghana_24h_mean:far daily weekly_naive     0.366  0.045    -0.019      0.107       0.086
+     unhealthy_24h_mean:csi   all  daily_naive     0.000  0.000     0.000      0.000       0.000
+     unhealthy_24h_mean:csi   all  persistence     0.033 -0.033    -0.061     -0.008       0.000
+     unhealthy_24h_mean:csi   all weekly_naive     0.033 -0.033    -0.069      0.000       0.000
+unhealthy_24h_mean:hit_rate   all  daily_naive     0.000  0.000     0.000      0.000       0.000
+unhealthy_24h_mean:hit_rate   all  persistence     0.167 -0.167    -0.280     -0.069       0.000
+unhealthy_24h_mean:hit_rate   all weekly_naive     0.067 -0.067    -0.167      0.000       0.000
+     unhealthy_24h_mean:far   all  daily_naive     1.000  0.000     0.000      0.000       0.000
+     unhealthy_24h_mean:far   all  persistence     0.960  0.040     0.009      0.078       0.000
+     unhealthy_24h_mean:far   all weekly_naive     0.938  0.062     0.000      0.121       0.000
+     unhealthy_24h_mean:csi daily  daily_naive     0.000  0.000     0.000      0.000       0.000
+     unhealthy_24h_mean:csi daily  persistence     0.030 -0.030    -0.107      0.000       0.000
+     unhealthy_24h_mean:csi daily weekly_naive     0.100 -0.100    -0.333      0.000       0.000
+unhealthy_24h_mean:hit_rate daily  daily_naive     0.000  0.000     0.000      0.000       0.000
+unhealthy_24h_mean:hit_rate daily  persistence     0.200 -0.200    -0.667      0.000       0.000
+unhealthy_24h_mean:hit_rate daily weekly_naive     0.200 -0.200    -0.667      0.000       0.000
+     unhealthy_24h_mean:far daily  daily_naive     1.000    NaN       NaN        NaN       0.000
+     unhealthy_24h_mean:far daily  persistence     0.966    NaN       NaN        NaN       0.000
+     unhealthy_24h_mean:far daily weekly_naive     0.833    NaN       NaN        NaN       0.000
+          any_hour_35.5:csi   all  daily_naive     0.896 -0.154    -0.202     -0.107       0.000
+          any_hour_35.5:csi   all  persistence     0.420  0.322     0.264      0.375       1.000
+          any_hour_35.5:csi   all weekly_naive     0.871 -0.129    -0.173     -0.085       0.000
+     any_hour_35.5:hit_rate   all  daily_naive     0.942 -0.181    -0.227     -0.132       0.000
+     any_hour_35.5:hit_rate   all  persistence     0.422  0.340     0.280      0.397       1.000
+     any_hour_35.5:hit_rate   all weekly_naive     0.928 -0.167    -0.205     -0.128       0.000
+          any_hour_35.5:far   all  daily_naive     0.051 -0.018    -0.035     -0.002       0.988
+          any_hour_35.5:far   all  persistence     0.009  0.025     0.005      0.044       0.005
+          any_hour_35.5:far   all weekly_naive     0.066 -0.032    -0.058     -0.010       0.999
+          any_hour_35.5:csi daily  daily_naive     0.907 -0.144    -0.203     -0.084       0.000
+          any_hour_35.5:csi daily  persistence     0.416  0.347     0.255      0.435       1.000
+          any_hour_35.5:csi daily weekly_naive     0.878 -0.114    -0.167     -0.059       0.000
+     any_hour_35.5:hit_rate daily  daily_naive     0.951 -0.173    -0.231     -0.117       0.000
+     any_hour_35.5:hit_rate daily  persistence     0.422  0.356     0.260      0.448       1.000
+     any_hour_35.5:hit_rate daily weekly_naive     0.927 -0.149    -0.196     -0.099       0.000
+          any_hour_35.5:far daily  daily_naive     0.049 -0.024    -0.048     -0.003       0.994
+          any_hour_35.5:far daily  persistence     0.034 -0.009    -0.055      0.034       0.626
+          any_hour_35.5:far daily weekly_naive     0.057 -0.033    -0.063     -0.006       0.994
+
+=== L56: reads 56 days, gap 0 days ===
+windows  train=10648  val=151  test=1082  sensors train=23
+L56 epoch 1  train=1.3945  val=1.8935  time=2.9min
+L56 epoch 2  train=1.0482  val=1.7813  time=2.9min
+L56 epoch 3  train=1.0053  val=1.7391  time=2.9min
+L56 epoch 4  train=0.9932  val=1.7403  time=2.9min
+L56 epoch 5  train=0.9762  val=1.7144  time=2.9min
+L56 epoch 6  train=0.9628  val=1.7060  time=2.9min
+L56 epoch 7  train=0.9474  val=1.6967  time=2.9min
+L56 epoch 8  train=0.9267  val=1.6841  time=2.9min
+L56 epoch 9  train=0.9100  val=1.6640  time=2.9min
+L56 epoch 10  train=0.8954  val=1.6565  time=2.9min
+L56 epoch 11  train=0.8878  val=1.6538  time=2.9min
+L56 epoch 12  train=0.8800  val=1.6388  time=2.9min
+L56 epoch 13  train=0.8705  val=1.6351  time=2.9min
+L56 epoch 14  train=0.8639  val=1.6228  time=2.9min
+L56 epoch 15  train=0.8585  val=1.6309  time=2.9min
+L56 epoch 16  train=0.8489  val=1.6155  time=2.9min
+L56 epoch 17  train=0.8448  val=1.6356  time=2.9min
+L56 epoch 18  train=0.8430  val=1.6263  time=2.9min
+L56 epoch 19  train=0.8335  val=1.6342  time=2.9min
+L56: early stopping
+
+TEST: MAE in µg/m³, averaged over forecasts:
+              mae_24h  mae_48h
+daily_naive      9.95    10.27
+fm_llm           8.48     8.78
+persistence     12.88    13.29
+weekly_naive    12.26    12.28
+  mae_24h: FM-LLM is the best method at 14/14 sensors
+  mae_48h: FM-LLM is the best method at 13/14 sensors
+
+Warnings: ghana_24h_mean (mean of next 24 h >= 35.0), all: n=1082, happened in 49%
+  daily_naive    hits= 395 misses= 140 false_alarms= 109  hit_rate=0.7383177570093458  FAR=0.21626984126984128  CSI=0.6133540372670807
+  fm_llm         hits= 444 misses=  91 false_alarms= 165  hit_rate=0.8299065420560747  FAR=0.270935960591133  CSI=0.6342857142857142
+  persistence    hits= 348 misses= 187 false_alarms= 152  hit_rate=0.6504672897196262  FAR=0.304  CSI=0.5065502183406113
+  weekly_naive   hits= 308 misses= 227 false_alarms= 158  hit_rate=0.5757009345794393  FAR=0.33905579399141633  CSI=0.4444444444444444
+
+Warnings: ghana_24h_mean (mean of next 24 h >= 35.0), daily: n=278, happened in 50%
+  daily_naive    hits= 101 misses=  37 false_alarms=  28  hit_rate=0.7318840579710145  FAR=0.21705426356589147  CSI=0.608433734939759
+  fm_llm         hits= 117 misses=  21 false_alarms=  40  hit_rate=0.8478260869565217  FAR=0.25477707006369427  CSI=0.6573033707865169
+  persistence    hits=  94 misses=  44 false_alarms=  40  hit_rate=0.6811594202898551  FAR=0.29850746268656714  CSI=0.5280898876404494
+  weekly_naive   hits=  79 misses=  59 false_alarms=  43  hit_rate=0.572463768115942  FAR=0.3524590163934426  CSI=0.43646408839779005
+
+Warnings: unhealthy_24h_mean (mean of next 24 h >= 55.5), all: n=1082, happened in 1%
+  daily_naive    hits=   0 misses=  14 false_alarms=  10  hit_rate=0.0  FAR=1.0  CSI=0.0
+  fm_llm         hits=   0 misses=  14 false_alarms=  19  hit_rate=0.0  FAR=1.0  CSI=0.0
+  persistence    hits=   3 misses=  11 false_alarms=  67  hit_rate=0.21428571428571427  FAR=0.9571428571428572  CSI=0.037037037037037035
+  weekly_naive   hits=   0 misses=  14 false_alarms=   6  hit_rate=0.0  FAR=1.0  CSI=0.0
+
+Warnings: unhealthy_24h_mean (mean of next 24 h >= 55.5), daily: n=278, happened in 1%
+  daily_naive    hits=   0 misses=   2 false_alarms=   1  hit_rate=0.0  FAR=1.0  CSI=0.0
+  fm_llm         hits=   0 misses=   2 false_alarms=   3  hit_rate=0.0  FAR=1.0  CSI=0.0
+  persistence    hits=   0 misses=   2 false_alarms=  17  hit_rate=0.0  FAR=1.0  CSI=0.0
+  weekly_naive   hits=   0 misses=   2 false_alarms=   1  hit_rate=0.0  FAR=1.0  CSI=0.0
+
+Warnings: any_hour_35.5 (max of next 24 h >= 35.5), all: n=1082, happened in 92%
+  daily_naive    hits= 943 misses=  56 false_alarms=  53  hit_rate=0.943943943943944  FAR=0.05321285140562249  CSI=0.8963878326996197
+  fm_llm         hits= 906 misses=  93 false_alarms=  22  hit_rate=0.9069069069069069  FAR=0.023706896551724137  CSI=0.8873653281096964
+  persistence    hits= 478 misses= 521 false_alarms=   3  hit_rate=0.47847847847847846  FAR=0.006237006237006237  CSI=0.47704590818363274
+  weekly_naive   hits= 933 misses=  66 false_alarms=  58  hit_rate=0.933933933933934  FAR=0.05852674066599395  CSI=0.8826868495742668
+
+Warnings: any_hour_35.5 (max of next 24 h >= 35.5), daily: n=278, happened in 93%
+  daily_naive    hits= 248 misses=  11 false_alarms=  13  hit_rate=0.9575289575289575  FAR=0.04980842911877394  CSI=0.9117647058823529
+  fm_llm         hits= 236 misses=  23 false_alarms=   3  hit_rate=0.9111969111969112  FAR=0.012552301255230125  CSI=0.9007633587786259
+  persistence    hits= 127 misses= 132 false_alarms=   3  hit_rate=0.49034749034749037  FAR=0.023076923076923078  CSI=0.4847328244274809
+  weekly_naive   hits= 242 misses=  17 false_alarms=  13  hit_rate=0.9343629343629344  FAR=0.050980392156862744  CSI=0.8897058823529411
+
+BOOTSTRAP (resampling test days; diff = FM-LLM minus method, 95% interval):
+                     metric scope       method  estimate   diff  diff_low  diff_high  ref_better
+                    mae_24h   all  daily_naive     9.949 -1.472    -2.042     -0.969       1.000
+                    mae_24h   all  persistence    12.875 -4.399    -5.433     -3.474       1.000
+                    mae_24h   all weekly_naive    12.264 -3.788    -4.791     -2.844       1.000
+                    mae_48h   all  daily_naive    10.275 -1.498    -1.992     -1.064       1.000
+                    mae_48h   all  persistence    13.288 -4.511    -5.534     -3.570       1.000
+                    mae_48h   all weekly_naive    12.276 -3.499    -4.441     -2.625       1.000
+         ghana_24h_mean:csi   all  daily_naive     0.613  0.021    -0.021      0.065       0.836
+         ghana_24h_mean:csi   all  persistence     0.507  0.128     0.075      0.179       1.000
+         ghana_24h_mean:csi   all weekly_naive     0.444  0.190     0.109      0.277       1.000
+    ghana_24h_mean:hit_rate   all  daily_naive     0.738  0.092     0.050      0.141       1.000
+    ghana_24h_mean:hit_rate   all  persistence     0.650  0.179     0.121      0.242       1.000
+    ghana_24h_mean:hit_rate   all weekly_naive     0.576  0.254     0.145      0.369       1.000
+         ghana_24h_mean:far   all  daily_naive     0.216  0.055     0.016      0.096       0.003
+         ghana_24h_mean:far   all  persistence     0.304 -0.033    -0.082      0.015       0.904
+         ghana_24h_mean:far   all weekly_naive     0.339 -0.068    -0.138     -0.002       0.976
+         ghana_24h_mean:csi daily  daily_naive     0.608  0.049    -0.036      0.140       0.858
+         ghana_24h_mean:csi daily  persistence     0.528  0.129     0.050      0.204       1.000
+         ghana_24h_mean:csi daily weekly_naive     0.436  0.221     0.112      0.328       1.000
+    ghana_24h_mean:hit_rate daily  daily_naive     0.732  0.116     0.023      0.221       0.994
+    ghana_24h_mean:hit_rate daily  persistence     0.681  0.167     0.084      0.252       1.000
+    ghana_24h_mean:hit_rate daily weekly_naive     0.572  0.275     0.137      0.418       1.000
+         ghana_24h_mean:far daily  daily_naive     0.217  0.038    -0.017      0.096       0.088
+         ghana_24h_mean:far daily  persistence     0.299 -0.044    -0.133      0.041       0.812
+         ghana_24h_mean:far daily weekly_naive     0.352 -0.098    -0.185     -0.012       0.986
+     unhealthy_24h_mean:csi   all  daily_naive     0.000  0.000     0.000      0.000       0.000
+     unhealthy_24h_mean:csi   all  persistence     0.037 -0.037    -0.080      0.000       0.000
+     unhealthy_24h_mean:csi   all weekly_naive     0.000  0.000     0.000      0.000       0.000
+unhealthy_24h_mean:hit_rate   all  daily_naive     0.000  0.000     0.000      0.000       0.000
+unhealthy_24h_mean:hit_rate   all  persistence     0.214 -0.214    -0.462      0.000       0.000
+unhealthy_24h_mean:hit_rate   all weekly_naive     0.000  0.000     0.000      0.000       0.000
+     unhealthy_24h_mean:far   all  daily_naive     1.000  0.000     0.000      0.000       0.000
+     unhealthy_24h_mean:far   all  persistence     0.957  0.043     0.000      0.098       0.000
+     unhealthy_24h_mean:far   all weekly_naive     1.000  0.000     0.000      0.000       0.000
+     unhealthy_24h_mean:csi daily  daily_naive     0.000  0.000     0.000      0.000       0.000
+     unhealthy_24h_mean:csi daily  persistence     0.000  0.000     0.000      0.000       0.000
+     unhealthy_24h_mean:csi daily weekly_naive     0.000  0.000     0.000      0.000       0.000
+unhealthy_24h_mean:hit_rate daily  daily_naive     0.000  0.000     0.000      0.000       0.000
+unhealthy_24h_mean:hit_rate daily  persistence     0.000  0.000     0.000      0.000       0.000
+unhealthy_24h_mean:hit_rate daily weekly_naive     0.000  0.000     0.000      0.000       0.000
+     unhealthy_24h_mean:far daily  daily_naive     1.000  0.000     0.000      0.000       0.000
+     unhealthy_24h_mean:far daily  persistence     1.000  0.000     0.000      0.000       0.000
+     unhealthy_24h_mean:far daily weekly_naive     1.000  0.000     0.000      0.000       0.000
+          any_hour_35.5:csi   all  daily_naive     0.896 -0.009    -0.045      0.025       0.318
+          any_hour_35.5:csi   all  persistence     0.477  0.410     0.356      0.462       1.000
+          any_hour_35.5:csi   all weekly_naive     0.883  0.005    -0.049      0.055       0.585
+     any_hour_35.5:hit_rate   all  daily_naive     0.944 -0.037    -0.069     -0.009       0.000
+     any_hour_35.5:hit_rate   all  persistence     0.478  0.428     0.379      0.478       1.000
+     any_hour_35.5:hit_rate   all weekly_naive     0.934 -0.027    -0.082      0.027       0.169
+          any_hour_35.5:far   all  daily_naive     0.053 -0.030    -0.057     -0.008       0.998
+          any_hour_35.5:far   all  persistence     0.006  0.017     0.003      0.034       0.004
+          any_hour_35.5:far   all weekly_naive     0.059 -0.035    -0.061     -0.013       1.000
+          any_hour_35.5:csi daily  daily_naive     0.912 -0.011    -0.059      0.037       0.318
+          any_hour_35.5:csi daily  persistence     0.485  0.416     0.338      0.499       1.000
+          any_hour_35.5:csi daily weekly_naive     0.890  0.011    -0.059      0.078       0.640
+     any_hour_35.5:hit_rate daily  daily_naive     0.958 -0.046    -0.085     -0.015       0.000
+     any_hour_35.5:hit_rate daily  persistence     0.490  0.421     0.343      0.502       1.000
+     any_hour_35.5:hit_rate daily weekly_naive     0.934 -0.023    -0.089      0.037       0.224
+          any_hour_35.5:far daily  daily_naive     0.050 -0.037    -0.071     -0.010       0.998
+          any_hour_35.5:far daily  persistence     0.023 -0.011    -0.061      0.029       0.582
+          any_hour_35.5:far daily weekly_naive     0.051 -0.038    -0.078     -0.005       0.990
+/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+  cells[i][c] = re.sub('\\\\\|', '|', cell)
+/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+  text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[NbConvertApp] Converting notebook __script__.ipynb to html
+[NbConvertApp] Writing 322822 bytes to __results__.html

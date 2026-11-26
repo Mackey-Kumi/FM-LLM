@@ -365,3 +365,34 @@ def replay_payload(forecasts: List[SensorForecast], names: Dict, issued_at, raw:
         entry["today"].update({"actual_mean_24h": _r(actual), "actual_level": level_of(actual)})
     base["mode"] = "replay"
     return base
+
+
+def replay_detail_payload(f: SensorForecast, name: str, issued_at, raw: pd.DataFrame, trained=None,
+                          min_real_hours: int = 18) -> Dict:
+    """
+    GET /v1/replay/{sensor_id}: one sensor's replayed forecast in the detail-screen format,
+    plus what really happened, hour by hour, so the app can draw forecast and reality together.
+
+    Args:
+        f: the sensor's run_forecasts() result, made with as_of = issued_at.
+        name: its place name.
+        issued_at: the replayed issue time (00:00 on the chosen day).
+        raw: hourly readings, including the hours after issued_at (the outcome).
+        trained: ids of the sensors the model was trained on (see forecasts_payload).
+        min_real_hours: a day's actual average is reported only with at least this many real hours.
+
+    Returns:
+        forecast_detail_payload() plus "mode": "replay", "actual" (48 hourly real readings
+        from forecast_start, null where missing), and actual_mean_24h / actual_level in each
+        "daily" entry.
+    """
+    out = forecast_detail_payload(f, name, issued_at, trained)
+    truth = raw[f.inp.sensor_id].reindex(
+        pd.date_range(f.forecast_start, periods=HORIZON, freq="h"))
+    out["mode"] = "replay"
+    out["actual"] = [{"time": iso(t), "pm25": _r(v)} for t, v in truth.items()]
+    for k, day in enumerate(out["daily"]):
+        block = truth.iloc[k * DAY:(k + 1) * DAY]
+        actual = float(block.mean()) if block.notna().sum() >= min_real_hours else float("nan")
+        day.update({"actual_mean_24h": _r(actual), "actual_level": level_of(actual)})
+    return out

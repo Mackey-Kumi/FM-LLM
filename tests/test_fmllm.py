@@ -210,3 +210,16 @@ def test_summarize_ensemble_probability():
     s = summarize_ensemble(samples, limit=35, hours=24)
     assert s["prob_exceed"] == 0.5
     assert s["low"].shape == (48,) and (s["low"] <= s["median"]).all() and (s["median"] <= s["high"]).all()
+
+
+def test_hf_token_found_anywhere_under_kaggle_input(tmp_path, monkeypatch):
+    import dotenv
+    from fmllm.model import hf_token
+    monkeypatch.setattr(dotenv, "load_dotenv", lambda *a, **k: False)   # never read the real .env
+    monkeypatch.delenv("HF_TOKEN", raising=False)
+    mounted = tmp_path / "input" / "datasets" / "someone" / "new-layout"
+    mounted.mkdir(parents=True)
+    (mounted / "hf_token.txt").write_text("hf_test\n", encoding="utf-8")
+    # compare inside, so a failure never prints a token value
+    assert (hf_token(search_root=tmp_path / "input") == "hf_test") is True
+    assert (hf_token(search_root=tmp_path / "missing") is None) is True

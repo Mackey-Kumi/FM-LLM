@@ -52,3 +52,6 @@ docs/superpowers/
 
 # Built by scripts/build_kaggle_bundle.py (code copy + OpenAQ data)
 kaggle/datasets/accra_aq/
+
+# Browser-automation screenshots and logs (local only)
+.playwright-mcp/

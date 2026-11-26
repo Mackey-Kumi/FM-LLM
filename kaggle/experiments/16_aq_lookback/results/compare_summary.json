@@ -1,0 +1,155 @@
+{
+ "test": {
+  "forecasts": 3111,
+  "sensors": 21,
+  "same_as_yesterday": {
+   "mae_24h": 9.537,
+   "mae_48h": 10.044
+  },
+  "models": {
+   "L16": {
+    "mae_24h": 7.625,
+    "mae_48h": 8.047,
+    "beats_yesterday_at": "21/21 sensors",
+    "vs_run2_mae_24h": {
+     "diff": -0.156,
+     "ci95": [
+      -0.27,
+      -0.052
+     ]
+    }
+   },
+   "L16_gap7": {
+    "mae_24h": 10.135,
+    "mae_48h": 10.257,
+    "beats_yesterday_at": "7/21 sensors",
+    "vs_run2_mae_24h": {
+     "diff": 2.354,
+     "ci95": [
+      1.589,
+      3.118
+     ]
+    }
+   },
+   "L28 (run 2)": {
+    "mae_24h": 7.781,
+    "mae_48h": 8.164,
+    "beats_yesterday_at": "21/21 sensors"
+   },
+   "L56": {
+    "mae_24h": 8.29,
+    "mae_48h": 8.689,
+    "beats_yesterday_at": "21/21 sensors",
+    "vs_run2_mae_24h": {
+     "diff": 0.508,
+     "ci95": [
+      0.33,
+      0.693
+     ]
+    }
+   }
+  }
+ },
+ "post_trained": {
+  "forecasts": 4290,
+  "sensors": 21,
+  "same_as_yesterday": {
+   "mae_24h": 10.242,
+   "mae_48h": 10.527
+  },
+  "models": {
+   "L16": {
+    "mae_24h": 8.131,
+    "mae_48h": 8.45,
+    "beats_yesterday_at": "21/21 sensors",
+    "vs_run2_mae_24h": {
+     "diff": -0.062,
+     "ci95": [
+      -0.139,
+      0.008
+     ]
+    }
+   },
+   "L16_gap7": {
+    "mae_24h": 10.046,
+    "mae_48h": 10.192,
+    "beats_yesterday_at": "7/21 sensors",
+    "vs_run2_mae_24h": {
+     "diff": 1.853,
+     "ci95": [
+      1.447,
+      2.287
+     ]
+    }
+   },
+   "L28 (run 2)": {
+    "mae_24h": 8.193,
+    "mae_48h": 8.521,
+    "beats_yesterday_at": "21/21 sensors"
+   },
+   "L56": {
+    "mae_24h": 9.041,
+    "mae_48h": 9.368,
+    "beats_yesterday_at": "20/21 sensors",
+    "vs_run2_mae_24h": {
+     "diff": 0.848,
+     "ci95": [
+      0.667,
+      1.019
+     ]
+    }
+   }
+  }
+ },
+ "post_new": {
+  "forecasts": 447,
+  "sensors": 13,
+  "same_as_yesterday": {
+   "mae_24h": 7.466,
+   "mae_48h": 7.58
+  },
+  "models": {
+   "L16": {
+    "mae_24h": 6.017,
+    "mae_48h": 6.256,
+    "beats_yesterday_at": "13/13 sensors",
+    "vs_run2_mae_24h": {
+     "diff": -0.062,
+     "ci95": [
+      -0.205,
+      0.069
+     ]
+    }
+   },
+   "L16_gap7": {
+    "mae_24h": 7.771,
+    "mae_48h": 7.871,
+    "beats_yesterday_at": "5/13 sensors",
+    "vs_run2_mae_24h": {
+     "diff": 1.693,
+     "ci95": [
+      0.999,
+      2.309
+     ]
+    }
+   },
+   "L28 (run 2)": {
+    "mae_24h": 6.078,
+    "mae_48h": 6.339,
+    "beats_yesterday_at": "13/13 sensors"
+   },
+   "L56": {
+    "mae_24h": 6.788,
+    "mae_48h": 7.01,
+    "beats_yesterday_at": "10/13 sensors",
+    "vs_run2_mae_24h": {
+     "diff": 0.709,
+     "ci95": [
+      0.34,
+      1.09
+     ]
+    }
+   }
+  }
+ }
+}

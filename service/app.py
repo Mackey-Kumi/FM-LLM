@@ -118,6 +118,28 @@ def replay(date: str):
         return error(400, str(e))
 
 
+@router.get("/v1/replay/{sensor_id}")
+def replay_detail(sensor_id: str, date: str):
+    """
+    Args:
+        sensor_id: OpenAQ sensor id.
+        date: "YYYY-MM-DD".
+
+    Returns:
+        GET /v1/replay/{sensor_id}: that day's replayed hourly forecast with the real readings;
+        400 for a bad date, 404 if the sensor had no forecast that day.
+    """
+    if service.raw is None or service.model is None:
+        return error(503, "starting up")
+    try:
+        found = service.replay_detail(date, sensor_id)
+    except ValueError as e:
+        return error(400, str(e))
+    if found is None:
+        return error(404, f"sensor {sensor_id} had no forecast on {date}")
+    return reply(found)
+
+
 @asynccontextmanager
 async def lifespan(_app):
     """Start loading and the hourly loop in the background, so the server answers at once."""

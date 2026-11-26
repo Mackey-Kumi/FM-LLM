@@ -328,9 +328,14 @@ HF_TOKEN_FILES = (
 )
 
 
-def hf_token() -> Optional[str]:
+def hf_token(search_root="/kaggle/input") -> Optional[str]:
     """
     Find the Hugging Face token needed to download Llama (a gated model).
+
+    Args:
+        search_root: folder searched for any hf_token.txt when the known paths miss. Kaggle
+            has changed where it mounts attached datasets before (experiment 16's first run
+            failed on it), so the private token dataset is looked for anywhere under it.
 
     Returns:
         HF_TOKEN from the environment or .env, else the token from the private Kaggle
@@ -346,7 +351,8 @@ def hf_token() -> Optional[str]:
     for path in HF_TOKEN_FILES:
         if os.path.exists(path):
             return Path(path).read_text(encoding="utf-8").strip()
-    return None
+    found = next(Path(search_root).rglob("hf_token.txt"), None) if Path(search_root).exists() else None
+    return found.read_text(encoding="utf-8").strip() if found else None
 
 
 class LlamaBackbone(nn.Module):

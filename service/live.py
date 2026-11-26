@@ -35,8 +35,8 @@ from fmllm.aq import MAX_GAP, SPLIT
 from fmllm.calibration import RatioCalibration
 from fmllm.data import fill_short_gaps, load_hourly, train_scale
 from fmllm.model import LlamaBackbone, load_checkpoint
-from fmllm.payloads import (forecast_detail_payload, forecasts_payload, health_payload, prepare_inputs, replay_payload,
-                            run_forecasts, sensors_payload)
+from fmllm.payloads import (forecast_detail_payload, forecasts_payload, health_payload, prepare_inputs,
+                            replay_detail_payload, replay_payload, run_forecasts, sensors_payload)
 # pylint: enable=wrong-import-position
 
 DATA_DIR = Path(os.environ.get("SERVICE_DATA_DIR", REPO / "data" / "raw" / "openaq_accra"))
@@ -83,6 +83,7 @@ class LiveService:
         self.error: Optional[str] = None
         self.live: Optional[Dict] = None          # {"health", "sensors", "forecasts", "details", "issued_at"}
         self.replays: Dict[str, Dict] = {}
+        self.replay_details: Dict[str, Dict[str, Dict]] = {}   # date -> {sensor id: detail}
         self._model_lock = threading.Lock()       # one forecast at a time (live loop vs replay requests)
         self._data_lock = threading.Lock()
         self._last_discovery = None
@@ -224,8 +225,28 @@ class LiveService:
                              f"{(first + pd.Timedelta(days=29)):%Y-%m-%d} and {(end - pd.Timedelta(hours=24)):%Y-%m-%d}")
         forecasts, raw = self._forecast(when)
         names = dict(zip(self.meta.sensor_id, self.meta.name.astype(str).str.strip()))
+        self.replay_details[date] = {
+            str(f.inp.sensor_id): replay_detail_payload(f, names.get(f.inp.sensor_id, ""), when, raw, self.trained)
+            for f in forecasts}
         self.replays[date] = replay_payload(forecasts, names, when, raw, trained=self.trained)
         return self.replays[date]
+
+    def replay_detail(self, date: str, sensor_id: str) -> Optional[Dict]:
+        """
+        /v1/replay/{sensor_id} for one day (works the day out first if needed).
+
+        Args:
+            date: "YYYY-MM-DD".
+            sensor_id: sensor id as text.
+
+        Returns:
+            The sensor's replay detail, or None if it had no forecast that day.
+
+        Raises:
+            ValueError: as replay().
+        """
+        self.replay(date)
+        return self.replay_details[date].get(sensor_id)
 
     def _warm_replays(self):
         """Work out the demo dates, then every Harmattan day, so replay requests answer instantly."""

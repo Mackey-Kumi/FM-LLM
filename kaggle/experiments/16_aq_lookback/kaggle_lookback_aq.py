@@ -201,6 +201,30 @@ def train_one(name, history_days, gap_days, out_root, backbone, device, num_gpus
         torch.cuda.empty_cache()
 
 
+def preflight_llama_access():
+    """
+    Before loading Llama, check the token and one small gated download, and say which step
+    fails (the first two pushes of this kernel died with a 401 that couldn't be reproduced
+    elsewhere). Prints no secret. The token is also put in HF_TOKEN, so every Hugging Face
+    call in this process uses it, whatever transformers version Kaggle ships.
+
+    Raises:
+        RuntimeError: no token found, or Hugging Face refuses it.
+    """
+    import os  # pylint: disable=import-outside-toplevel
+    import huggingface_hub  # pylint: disable=import-outside-toplevel
+    from fmllm.model import hf_token  # pylint: disable=import-outside-toplevel
+    tok = hf_token()
+    print(f"preflight: token found={tok is not None}, HF env vars={sorted(k for k in os.environ if k.startswith('HF_'))}",
+          flush=True)
+    if not tok:
+        raise RuntimeError("no Hugging Face token: is the fm-llm-hf-token dataset attached?")
+    os.environ["HF_TOKEN"] = tok
+    huggingface_hub.whoami(token=tok)
+    huggingface_hub.hf_hub_download("meta-llama/Llama-3.2-1B", "config.json", token=tok)
+    print("preflight: token valid and Llama download allowed", flush=True)
+
+
 def main():
     """
     Train every variant in RUNS, one after another, sharing one Llama.
@@ -220,6 +244,7 @@ def main():
     else:
         assert torch.cuda.is_available(), "No GPU: check the kernel's accelerator setting"
         device, num_gpus = torch.device("cuda:0"), torch.cuda.device_count()
+        preflight_llama_access()
         backbone = LlamaBackbone(device)
     wanted = set(args.only.split(",")) if args.only else None
     for name, days, gap_days in RUNS:

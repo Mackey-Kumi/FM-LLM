@@ -5,7 +5,7 @@ import pandas as pd
 
 from fmllm.forecast import summarize_ensemble
 from fmllm.payloads import (SensorForecast, SensorInput, day_outlook, forecast_detail_payload, level_of,
-                            prepare_inputs, replay_payload, worst_hours)
+                            prepare_inputs, replay_detail_payload, replay_payload, worst_hours)
 
 
 def test_levels_follow_the_contract():
@@ -102,3 +102,17 @@ def test_run_forecasts_with_ratio_calibration_uses_one_plain_forecast():
     # same forecast twice -> identical (dropout stays off)
     g = run_forecasts(model, [inp], {1: (30.0, 5.0)}, calibration=cal)[0]
     assert np.allclose(f.summary["all"]["median"], g.summary["all"]["median"])
+
+
+def test_replay_detail_adds_the_real_hours_and_daily_actuals():
+    f = fake_forecast()                                    # forecast starts 2026-10-30 13:00
+    idx = pd.date_range("2026-10-30 13:00", periods=48, freq="h")
+    values = np.full(48, 40.0)
+    values[24:40] = np.nan                                 # "tomorrow" has only 8 real hours
+    raw = pd.DataFrame({7: values}, index=idx)
+    p = replay_detail_payload(f, "Test Market", pd.Timestamp("2026-10-30 13:00"), raw, trained={7})
+    assert p["mode"] == "replay" and len(p["actual"]) == 48 and p["actual"][0]["time"] == "2026-10-30T13:00:00Z"
+    assert p["actual"][0]["pm25"] == 40.0 and p["actual"][30]["pm25"] is None
+    assert p["daily"][0]["actual_mean_24h"] == 40.0 and p["daily"][0]["actual_level"] == "unhealthy"
+    assert p["daily"][1]["actual_mean_24h"] is None and p["in_training"] is True
+    json.dumps(p)
